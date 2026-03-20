@@ -3,175 +3,113 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>ForexAI Analyzer</title>
+<title>ForexAI - DeepSeek Analyzer</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
-html,body { height:100%; }
-body { background:#07090f; color:#e0e8f0; font-family:'IBM Plex Mono',monospace; }
+body { background:#07090f; color:#e0e8f0; font-family:'IBM Plex Mono',monospace; min-height:100vh; }
 body::before {
   content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
-  background-image:linear-gradient(rgba(0,220,130,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,220,130,0.04) 1px,transparent 1px);
+  background-image:linear-gradient(rgba(0,180,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,180,255,0.04) 1px,transparent 1px);
   background-size:36px 36px;
 }
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.7)}}
 @keyframes bar{0%,100%{height:6px;opacity:0.3}50%{height:36px;opacity:1}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-.tv-widget { width:100%; height:420px; border-radius:10px; overflow:hidden; border:1px solid #1a2c3e; }
-@media(max-width:600px){ .tv-widget { height:320px; } }
 </style>
 </head>
 <body>
 <div id="root"></div>
 <script type="text/babel">
-const { useState, useRef, useCallback, useEffect } = React;
+const { useState, useRef, useCallback } = React;
 
-const SYMBOLS = [
-  { label:"GOLD", value:"OANDA:XAUUSD" },
-  { label:"EUR/USD", value:"FX:EURUSD" },
-  { label:"GBP/USD", value:"FX:GBPUSD" },
-  { label:"USD/JPY", value:"FX:USDJPY" },
-  { label:"BTC/USD", value:"BINANCE:BTCUSDT" },
-  { label:"ETH/USD", value:"BINANCE:ETHUSDT" },
-  { label:"NAS100", value:"NASDAQ:NDX" },
-  { label:"US30", value:"DJ:DJI" },
-];
-
-const TIMEFRAMES = [
-  {label:"1M", value:"1"},{label:"5M",value:"5"},{label:"15M",value:"15"},
-  {label:"30M",value:"30"},{label:"1H",value:"60"},{label:"4H",value:"240"},
-  {label:"1D",value:"D"},{label:"1W",value:"W"},
+const MODELS = [
+  { id: "deepseek-chat", label: "DeepSeek V3", sub: "Rapid & precis", icon: "⚡" },
+  { id: "deepseek-reasoner", label: "DeepSeek R1", sub: "Gândire profundă", icon: "🧠" },
 ];
 
 const PROMPT = `Ești un trader expert în analiza tehnică Forex/Gold/Crypto cu peste 20 de ani experiență.
 Analizează această imagine de grafic și oferă:
-1. Identifică perechea și timeframe-ul vizibil
+1. Identifică singur perechea (EUR/USD, GOLD, BTC etc.) și timeframe-ul vizibil
 2. DIRECȚIE: BUY sau SELL (sau NEUTRAL dacă e neclar)
 3. ENTRY: zona de intrare optimă
-4. TAKE PROFIT (TP)
-5. STOP LOSS (SL)
+4. TAKE PROFIT (TP): nivel clar
+5. STOP LOSS (SL): nivel de protecție
 6. RISK/REWARD RATIO
 7. FORȚA SEMNALULUI: Slab / Mediu / Puternic / Foarte Puternic
-8. ANALIZĂ: 3-5 propoziții despre trend, formațiuni, suport/rezistență, indicatori
+8. ANALIZĂ DETALIATĂ: 4-6 propoziții despre trend, formațiuni candlestick, suport/rezistență, indicatori vizibili, confluențe
 
-Răspunde STRICT în acest format JSON (fără alt text, fără backticks):
-{"direction":"BUY","pair":"GOLD","timeframe":"H1","entry":"2345","tp":"2380","sl":"2320","rr":"1:2.5","strength":"Puternic","analysis":"Text analiză...","confidence":"78%"}`;
-
-function TradingViewWidget({ symbol, interval }) {
-  const containerRef = useRef(null);
-  useEffect(() => {
-    if (!containerRef.current) return;
-    containerRef.current.innerHTML = "";
-    const script = document.createElement("script");
-    script.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
-    script.async = true;
-    script.innerHTML = JSON.stringify({
-      autosize: true,
-      symbol: symbol,
-      interval: interval,
-      timezone: "Etc/UTC",
-      theme: "dark",
-      style: "1",
-      locale: "en",
-      enable_publishing: false,
-      hide_top_toolbar: false,
-      hide_legend: false,
-      save_image: false,
-      calendar: false,
-      hide_volume: false,
-      support_host: "https://www.tradingview.com"
-    });
-    containerRef.current.appendChild(script);
-  }, [symbol, interval]);
-  return (
-    <div className="tradingview-widget-container" ref={containerRef} style={{width:"100%",height:"100%"}}>
-      <div className="tradingview-widget-container__widget" style={{width:"100%",height:"100%"}}></div>
-    </div>
-  );
-}
+Răspunde STRICT în acest format JSON (fără alt text, fără backticks, fără markdown):
+{"direction":"BUY","pair":"GOLD","timeframe":"H1","entry":"2345","tp":"2380","sl":"2320","rr":"1:2.5","strength":"Puternic","analysis":"Text analiză detaliată...","confidence":"78%"}`;
 
 function App() {
-  const [mode, setMode] = useState("live"); // live | upload
-  const [symbol, setSymbol] = useState("OANDA:XAUUSD");
-  const [interval, setInterval] = useState("60");
-  const [customSymbol, setCustomSymbol] = useState("");
+  const [apiKey, setApiKey] = useState(localStorage.getItem("ds_key") || "");
+  const [showKey, setShowKey] = useState(false);
+  const [keySaved, setKeySaved] = useState(!!localStorage.getItem("ds_key"));
+  const [model, setModel] = useState("deepseek-chat");
   const [image, setImage] = useState(null);
-  const [imageBase64, setImageBase64] = useState(null);
-  const [imageMime, setImageMime] = useState("image/jpeg");
+  const [imageB64, setImageB64] = useState(null);
+  const [mime, setMime] = useState("image/jpeg");
   const [loading, setLoading] = useState(false);
-  const [screenshotting, setScreenshotting] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
-  const chartRef = useRef(null);
-  const fileInputRef = useRef(null);
+  const fileRef = useRef(null);
 
-  const loadFile = useCallback((file) => {
-    if (!file || !file.type.startsWith("image/")) return;
-    setImageMime(file.type || "image/jpeg");
-    setImage(URL.createObjectURL(file));
-    setResult(null); setError(null);
-    const reader = new FileReader();
-    reader.onload = (e) => setImageBase64(e.target.result.split(",")[1]);
-    reader.readAsDataURL(file);
-  }, []);
-
-  const takeScreenshot = async () => {
-    setScreenshotting(true);
-    setError(null);
-    try {
-      await new Promise(r => setTimeout(r, 800));
-      const canvas = await html2canvas(chartRef.current, {
-        useCORS: true, allowTaint: true, scale: 1.5,
-        backgroundColor: "#131722", logging: false
-      });
-      const dataUrl = canvas.toDataURL("image/png");
-      setImage(dataUrl);
-      setImageBase64(dataUrl.split(",")[1]);
-      setImageMime("image/png");
-      setResult(null);
-    } catch(e) {
-      setError("Screenshot eșuat. Încearcă să încarci manual o poză.");
-    }
-    setScreenshotting(false);
+  const saveKey = () => {
+    localStorage.setItem("ds_key", apiKey);
+    setKeySaved(true);
   };
 
+  const loadFile = useCallback((file) => {
+    if (!file?.type.startsWith("image/")) return;
+    setMime(file.type);
+    setResult(null); setError(null);
+    setImage(URL.createObjectURL(file));
+    const r = new FileReader();
+    r.onload = e => setImageB64(e.target.result.split(",")[1]);
+    r.readAsDataURL(file);
+  }, []);
+
   const analyze = async () => {
-    if (!imageBase64) return;
+    if (!imageB64 || !apiKey) return;
     setLoading(true); setError(null); setResult(null);
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
+      const res = await fetch("https://api.deepseek.com/v1/chat/completions", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`
+        },
         body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 1000,
+          model: model,
+          max_tokens: 1500,
           messages: [{
             role: "user",
             content: [
-              { type: "image", source: { type: "base64", media_type: imageMime, data: imageBase64 } },
+              { type: "image_url", image_url: { url: `data:${mime};base64,${imageB64}` } },
               { type: "text", text: PROMPT }
             ]
           }]
         })
       });
       const data = await res.json();
-      const raw = data.content?.map(i => i.text || "").join("") || "";
-      setResult(JSON.parse(raw.replace(/```json|```/g,"").trim()));
+      if (data.error) throw new Error(data.error.message);
+      const raw = data.choices?.[0]?.message?.content || "";
+      const clean = raw.replace(/```json|```/g, "").trim();
+      setResult(JSON.parse(clean));
     } catch(e) {
-      setError("Eroare API. Verifică conexiunea și încearcă din nou.");
+      setError("Eroare: " + (e.message || "Verifică API key-ul și încearcă din nou."));
     }
     setLoading(false);
   };
 
-  const activeSymbol = customSymbol.trim() || symbol;
   const dir = result?.direction?.toUpperCase();
   const isBuy = dir === "BUY", isSell = dir === "SELL";
-  const sigColor = isBuy ? "#00e87a" : isSell ? "#ff3366" : "#ffd700";
+  const sc = isBuy ? "#00e87a" : isSell ? "#ff3366" : "#ffd700";
+  const scRgb = isBuy ? "0,232,122" : isSell ? "255,51,102" : "255,215,0";
 
   return (
     <div style={{position:"relative",zIndex:1,maxWidth:720,margin:"0 auto",padding:"20px 14px 60px"}}>
@@ -180,133 +118,104 @@ function App() {
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:22,borderBottom:"1px solid #162030",paddingBottom:16}}>
         <div>
           <div style={{fontSize:36,fontWeight:900,letterSpacing:3,lineHeight:1,fontFamily:"Bebas Neue,serif"}}>
-            <span style={{color:"#00e87a"}}>FOREX</span><span style={{color:"#ff3366"}}>AI</span>
+            <span style={{color:"#00b4ff"}}>FOREX</span><span style={{color:"#ff3366"}}>AI</span>
           </div>
-          <div style={{fontSize:9,color:"#3a5570",letterSpacing:4,marginTop:2}}>SIGNAL ANALYZER</div>
+          <div style={{fontSize:9,color:"#3a5570",letterSpacing:4,marginTop:2}}>DEEPSEEK ANALYZER</div>
         </div>
-        <div style={{display:"flex",alignItems:"center",gap:7,background:"rgba(0,232,122,0.07)",border:"1px solid rgba(0,232,122,0.2)",borderRadius:20,padding:"5px 14px",fontSize:10,color:"#00e87a",letterSpacing:1}}>
-          <span style={{width:6,height:6,borderRadius:"50%",background:"#00e87a",display:"inline-block",animation:"pulse 2s infinite"}}/>
-          CLAUDE VISION
+        <div style={{display:"flex",alignItems:"center",gap:7,background:"rgba(0,180,255,0.07)",border:"1px solid rgba(0,180,255,0.25)",borderRadius:20,padding:"5px 14px",fontSize:10,color:"#00b4ff",letterSpacing:1}}>
+          <span style={{width:6,height:6,borderRadius:"50%",background:"#00b4ff",display:"inline-block",animation:"pulse 2s infinite"}}/>
+          DEEPSEEK VISION
         </div>
       </div>
 
-      {/* Mode toggle */}
-      <div style={{display:"flex",gap:8,marginBottom:18}}>
-        {[{id:"live",label:"📡 GRAFIC LIVE"},{id:"upload",label:"📂 ÎNCARCĂ POZĂ"}].map(({id,label})=>(
-          <button key={id} onClick={()=>{setMode(id);setResult(null);setError(null);setImage(null);setImageBase64(null);}}
-            style={{flex:1,padding:"10px 8px",background:mode===id?"#00e87a":"#0c1219",color:mode===id?"#07090f":"#3a5570",border:`1px solid ${mode===id?"#00e87a":"#1a2c3e"}`,borderRadius:8,fontFamily:"inherit",fontSize:11,fontWeight:700,letterSpacing:2,cursor:"pointer",transition:"all 0.2s"}}>
-            {label}
+      {/* API Key section */}
+      <div style={{background:"#0c1219",border:`1px solid ${keySaved?"rgba(0,180,255,0.3)":"#1a2c3e"}`,borderRadius:10,padding:"14px 16px",marginBottom:18}}>
+        <div style={{fontSize:9,color:"#3a5570",letterSpacing:3,marginBottom:10}}>🔑 DEEPSEEK API KEY</div>
+        <div style={{display:"flex",gap:8,alignItems:"center"}}>
+          <input
+            type={showKey ? "text" : "password"}
+            placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxx"
+            value={apiKey}
+            onChange={e => { setApiKey(e.target.value); setKeySaved(false); }}
+            style={{flex:1,background:"rgba(255,255,255,0.04)",border:"1px solid #1a2c3e",borderRadius:6,color:"#e0e8f0",fontFamily:"inherit",fontSize:11,padding:"8px 12px",outline:"none"}}
+          />
+          <button onClick={() => setShowKey(!showKey)}
+            style={{padding:"8px 10px",background:"#0c1219",border:"1px solid #1a2c3e",borderRadius:6,color:"#3a5570",cursor:"pointer",fontSize:14}}>
+            {showKey ? "🙈" : "👁"}
           </button>
-        ))}
+          <button onClick={saveKey}
+            style={{padding:"8px 14px",background:keySaved?"rgba(0,180,255,0.15)":"#00b4ff",border:`1px solid ${keySaved?"rgba(0,180,255,0.3)":"#00b4ff"}`,borderRadius:6,color:keySaved?"#00b4ff":"#07090f",fontFamily:"inherit",fontSize:11,fontWeight:700,cursor:"pointer",letterSpacing:1,whiteSpace:"nowrap"}}>
+            {keySaved ? "✓ SALVAT" : "SALVEAZĂ"}
+          </button>
+        </div>
+        {keySaved && <div style={{fontSize:10,color:"rgba(0,180,255,0.5)",marginTop:8}}>✓ API key salvat local pe dispozitivul tău</div>}
       </div>
 
-      {/* LIVE MODE */}
-      {mode === "live" && (
-        <>
-          {/* Symbol picker */}
-          <div style={{display:"flex",flexWrap:"wrap",gap:6,marginBottom:12}}>
-            {SYMBOLS.map(s=>(
-              <button key={s.value} onClick={()=>{setSymbol(s.value);setCustomSymbol("");}}
-                style={{padding:"6px 12px",background:symbol===s.value&&!customSymbol?"#00e87a":"#0c1219",color:symbol===s.value&&!customSymbol?"#07090f":"#3a5570",border:`1px solid ${symbol===s.value&&!customSymbol?"#00e87a":"#1a2c3e"}`,borderRadius:6,fontFamily:"inherit",fontSize:11,fontWeight:700,cursor:"pointer",transition:"all 0.2s"}}>
-                {s.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Custom symbol input */}
-          <div style={{marginBottom:12,display:"flex",gap:8}}>
-            <input
-              placeholder="Alt simbol: ex. AAPL, USDCAD..."
-              value={customSymbol}
-              onChange={e=>setCustomSymbol(e.target.value.toUpperCase())}
-              style={{flex:1,background:"#0c1219",border:"1px solid #1a2c3e",borderRadius:6,color:"#e0e8f0",fontFamily:"inherit",fontSize:12,padding:"8px 12px",outline:"none"}}
-            />
-          </div>
-
-          {/* Timeframe */}
-          <div style={{display:"flex",gap:6,marginBottom:14,flexWrap:"wrap"}}>
-            {TIMEFRAMES.map(t=>(
-              <button key={t.value} onClick={()=>setInterval(t.value)}
-                style={{padding:"5px 12px",background:interval===t.value?"rgba(0,232,122,0.15)":"#0c1219",color:interval===t.value?"#00e87a":"#3a5570",border:`1px solid ${interval===t.value?"rgba(0,232,122,0.4)":"#1a2c3e"}`,borderRadius:5,fontFamily:"inherit",fontSize:11,fontWeight:700,cursor:"pointer",transition:"all 0.2s"}}>
-                {t.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Chart */}
-          <div ref={chartRef} className="tv-widget" style={{marginBottom:12}}>
-            <TradingViewWidget symbol={activeSymbol} interval={interval}/>
-          </div>
-
-          {/* Screenshot button */}
-          <button onClick={takeScreenshot} disabled={screenshotting||loading}
-            style={{width:"100%",padding:"12px",background:"#0c1219",border:"1px solid rgba(0,232,122,0.3)",borderRadius:8,color:"#00e87a",fontFamily:"Bebas Neue,serif",fontSize:18,letterSpacing:3,cursor:screenshotting?"not-allowed":"pointer",marginBottom:10,transition:"all 0.2s"}}>
-            {screenshotting ? "📸 CAPTUREZ..." : "📸 CAPTUREAZĂ GRAFICUL"}
-          </button>
-
-          {/* Preview screenshot */}
-          {image && mode==="live" && (
-            <div style={{marginBottom:12,position:"relative"}}>
-              <div style={{position:"absolute",top:8,left:8,background:"rgba(0,232,122,0.15)",border:"1px solid rgba(0,232,122,0.4)",borderRadius:6,padding:"4px 10px",fontSize:10,color:"#00e87a",letterSpacing:2,zIndex:1}}>✓ CAPTURAT</div>
-              <img src={image} alt="screenshot" style={{width:"100%",borderRadius:8,border:"1px solid rgba(0,232,122,0.2)"}}/>
-            </div>
-          )}
-        </>
-      )}
-
-      {/* UPLOAD MODE */}
-      {mode === "upload" && (
-        <div
-          onDragOver={e=>{e.preventDefault();}}
-          onDrop={e=>{e.preventDefault();const f=e.dataTransfer.files[0];if(f)loadFile(f);}}
-          style={{border:`2px dashed ${image?"rgba(0,232,122,0.35)":"#1a2c3e"}`,borderRadius:12,background:image?"rgba(0,232,122,0.02)":"#0c1219",padding:image?12:"40px 24px",textAlign:"center",marginBottom:14,boxShadow:image?"0 0 24px rgba(0,232,122,0.08)":"none"}}>
-          {!image ? (
-            <>
-              <div style={{fontSize:44,marginBottom:10}}>📊</div>
-              <div style={{fontSize:13,letterSpacing:1,marginBottom:6}}>DROP SCREENSHOT AICI</div>
-              <div style={{fontSize:11,color:"#3a5570",marginBottom:4}}>sau apasă să selectezi</div>
-              <label htmlFor="fi" style={{display:"inline-block",marginTop:16,padding:"11px 30px",background:"#00e87a",borderRadius:6,color:"#07090f",fontFamily:"inherit",fontSize:12,fontWeight:700,letterSpacing:2,cursor:"pointer"}}>
-                📂 SELECTEAZĂ IMAGINE
-              </label>
-            </>
-          ) : (
-            <div style={{position:"relative"}}>
-              <div style={{position:"absolute",top:8,left:8,background:"rgba(0,232,122,0.15)",border:"1px solid rgba(0,232,122,0.4)",borderRadius:6,padding:"4px 10px",fontSize:10,color:"#00e87a",letterSpacing:2}}>✓ GRAFIC ÎNCĂRCAT</div>
-              <img src={image} alt="chart" style={{width:"100%",maxHeight:500,objectFit:"contain",borderRadius:8,border:"1px solid rgba(0,232,122,0.2)"}}/>
-              <br/>
-              <label htmlFor="fi" style={{display:"inline-block",marginTop:12,padding:"6px 18px",background:"transparent",border:"1px solid #2a3f55",borderRadius:4,color:"#3a5570",fontSize:11,cursor:"pointer"}}>
-                ↺ SCHIMBĂ
-              </label>
-            </div>
-          )}
+      {/* Model selector */}
+      <div style={{marginBottom:18}}>
+        <div style={{fontSize:9,color:"#3a5570",letterSpacing:3,marginBottom:10}}>🤖 SELECTEAZĂ MODEL</div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+          {MODELS.map(m => (
+            <button key={m.id} onClick={() => setModel(m.id)}
+              style={{padding:"14px 12px",background:model===m.id?"rgba(0,180,255,0.1)":"#0c1219",border:`2px solid ${model===m.id?"#00b4ff":"#1a2c3e"}`,borderRadius:10,color:model===m.id?"#00b4ff":"#3a5570",fontFamily:"inherit",cursor:"pointer",textAlign:"left",transition:"all 0.2s"}}>
+              <div style={{fontSize:20,marginBottom:6}}>{m.icon}</div>
+              <div style={{fontSize:13,fontWeight:700,letterSpacing:1}}>{m.label}</div>
+              <div style={{fontSize:10,marginTop:3,opacity:0.7}}>{m.sub}</div>
+            </button>
+          ))}
         </div>
-      )}
+      </div>
 
-      <input id="fi" ref={fileInputRef} type="file" accept="image/*"
+      {/* Upload zone */}
+      <div
+        onDragOver={e => e.preventDefault()}
+        onDrop={e => { e.preventDefault(); loadFile(e.dataTransfer.files[0]); }}
+        style={{border:`2px dashed ${image?"rgba(0,180,255,0.4)":"#1a2c3e"}`,borderRadius:12,background:image?"rgba(0,180,255,0.02)":"#0c1219",padding:image?12:"36px 20px",textAlign:"center",marginBottom:14,transition:"all 0.25s",boxShadow:image?"0 0 24px rgba(0,180,255,0.08)":"none"}}>
+        {!image ? (<>
+          <div style={{fontSize:50,marginBottom:12}}>📊</div>
+          <div style={{fontSize:13,letterSpacing:1,marginBottom:6}}>ÎNCARCĂ SCREENSHOT GRAFIC</div>
+          <div style={{fontSize:11,color:"#3a5570",marginBottom:18}}>TradingView, MT4, MT5 sau orice platformă</div>
+          <label htmlFor="fup" style={{display:"inline-block",padding:"12px 32px",background:"#00b4ff",borderRadius:8,color:"#07090f",fontFamily:"inherit",fontSize:12,fontWeight:700,letterSpacing:2,cursor:"pointer"}}>
+            📂 SELECTEAZĂ IMAGINE
+          </label>
+        </>) : (
+          <div style={{position:"relative"}}>
+            <div style={{position:"absolute",top:8,left:8,background:"rgba(0,180,255,0.15)",border:"1px solid rgba(0,180,255,0.4)",borderRadius:6,padding:"4px 10px",fontSize:10,color:"#00b4ff",letterSpacing:2,zIndex:1}}>✓ GRAFIC ÎNCĂRCAT</div>
+            <img src={image} alt="chart" style={{width:"100%",maxHeight:500,objectFit:"contain",borderRadius:8,border:"1px solid rgba(0,180,255,0.2)",boxShadow:"0 0 30px rgba(0,180,255,0.08)"}}/>
+            <br/>
+            <label htmlFor="fup" style={{display:"inline-block",marginTop:12,padding:"7px 20px",background:"transparent",border:"1px solid #2a3f55",borderRadius:6,color:"#3a5570",fontSize:11,cursor:"pointer"}}>
+              ↺ SCHIMBĂ IMAGINEA
+            </label>
+          </div>
+        )}
+      </div>
+      <input id="fup" ref={fileRef} type="file" accept="image/*"
         style={{position:"fixed",left:-9999,top:-9999,width:1,height:1,opacity:0}}
-        onChange={e=>{const f=e.target.files?.[0];if(f)loadFile(f);}}
-      />
+        onChange={e => { const f = e.target.files?.[0]; if(f) loadFile(f); }}/>
 
-      {/* Analyze */}
-      <button onClick={analyze} disabled={!imageBase64||loading}
-        style={{width:"100%",padding:16,background:imageBase64&&!loading?"linear-gradient(135deg,#00cc6a,#00e87a)":"#111c27",border:"none",borderRadius:8,color:imageBase64&&!loading?"#07090f":"#2a3f55",fontFamily:"Bebas Neue,serif",fontSize:22,fontWeight:900,letterSpacing:4,cursor:imageBase64&&!loading?"pointer":"not-allowed",marginBottom:20,transition:"all 0.3s",boxShadow:imageBase64&&!loading?"0 0 24px rgba(0,232,122,0.3)":"none"}}>
-        {loading ? "⏳ ANALIZEZ..." : "⚡ ANALIZEAZĂ GRAFICUL"}
+      {/* Analyze button */}
+      <button onClick={analyze} disabled={!imageB64||!apiKey||loading}
+        style={{width:"100%",padding:17,background:imageB64&&apiKey&&!loading?"linear-gradient(135deg,#0090cc,#00b4ff)":"#111c27",border:"none",borderRadius:10,color:imageB64&&apiKey&&!loading?"#07090f":"#2a3f55",fontFamily:"Bebas Neue,serif",fontSize:22,fontWeight:900,letterSpacing:4,cursor:imageB64&&apiKey&&!loading?"pointer":"not-allowed",marginBottom:20,transition:"all 0.3s",boxShadow:imageB64&&apiKey&&!loading?"0 0 28px rgba(0,180,255,0.35)":"none"}}>
+        {loading ? "⏳ ANALIZEZ..." : `⚡ ANALIZEAZĂ CU ${MODELS.find(m=>m.id===model)?.label.toUpperCase()}`}
       </button>
 
       {/* Loading */}
       {loading && (
-        <div style={{textAlign:"center",marginBottom:20}}>
-          <div style={{display:"flex",alignItems:"flex-end",justifyContent:"center",gap:4,height:36,marginBottom:10}}>
+        <div style={{textAlign:"center",marginBottom:24}}>
+          <div style={{display:"flex",alignItems:"flex-end",justifyContent:"center",gap:5,height:40,marginBottom:12}}>
             {[0,1,2,3,4,5,6].map(i=>(
-              <div key={i} style={{width:5,background:"#00e87a",borderRadius:3,animation:`bar 1.2s ease-in-out ${i*0.15}s infinite`}}/>
+              <div key={i} style={{width:5,background:"#00b4ff",borderRadius:3,animation:`bar 1.2s ease-in-out ${i*0.15}s infinite`}}/>
             ))}
           </div>
-          <div style={{fontSize:11,color:"#00e87a",letterSpacing:3}}>CLAUDE ANALIZEAZĂ...</div>
+          <div style={{fontSize:11,color:"#00b4ff",letterSpacing:3}}>
+            {model==="deepseek-reasoner" ? "DEEPSEEK R1 GÂNDEȘTE PROFUND..." : "DEEPSEEK V3 ANALIZEAZĂ..."}
+          </div>
         </div>
       )}
 
+      {/* Error */}
       {error && (
-        <div style={{background:"rgba(255,51,102,0.08)",border:"1px solid rgba(255,51,102,0.3)",borderRadius:8,padding:"14px 18px",color:"#ff3366",fontSize:13,marginBottom:16}}>
+        <div style={{background:"rgba(255,51,102,0.08)",border:"1px solid rgba(255,51,102,0.3)",borderRadius:8,padding:"14px 18px",color:"#ff3366",fontSize:12,marginBottom:16,lineHeight:1.6}}>
           ⚠️ {error}
         </div>
       )}
@@ -314,23 +223,33 @@ function App() {
       {/* Result */}
       {result && (
         <div style={{animation:"fadeUp 0.4s ease"}}>
-          <div style={{borderRadius:12,padding:"22px 22px 18px",background:`rgba(${isBuy?"0,232,122":isSell?"255,51,102":"255,215,0"},0.06)`,border:`2px solid ${sigColor}`,boxShadow:`0 0 30px rgba(${isBuy?"0,232,122":isSell?"255,51,102":"255,215,0"},0.15)`,marginBottom:14}}>
+
+          {/* Model badge */}
+          <div style={{textAlign:"center",marginBottom:12}}>
+            <span style={{background:"rgba(0,180,255,0.1)",border:"1px solid rgba(0,180,255,0.3)",borderRadius:20,padding:"4px 14px",fontSize:10,color:"#00b4ff",letterSpacing:2}}>
+              {MODELS.find(m=>m.id===model)?.icon} ANALIZAT CU {MODELS.find(m=>m.id===model)?.label.toUpperCase()}
+            </span>
+          </div>
+
+          {/* Signal card */}
+          <div style={{borderRadius:12,padding:"24px 22px 20px",background:`rgba(${scRgb},0.06)`,border:`2px solid ${sc}`,boxShadow:`0 0 30px rgba(${scRgb},0.15)`,marginBottom:14}}>
             <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:10}}>
               <div>
-                <div style={{fontSize:60,fontWeight:900,lineHeight:1,fontFamily:"Bebas Neue,serif",color:sigColor,letterSpacing:4,textShadow:`0 0 20px ${sigColor}88`}}>
+                <div style={{fontSize:62,fontWeight:900,lineHeight:1,fontFamily:"Bebas Neue,serif",color:sc,letterSpacing:4,textShadow:`0 0 24px ${sc}99`}}>
                   {isBuy?"↑":isSell?"↓":"→"} {dir}
                 </div>
-                <div style={{fontSize:11,color:"#3a5570",letterSpacing:2,marginTop:4}}>
+                <div style={{fontSize:11,color:"#3a5570",letterSpacing:2,marginTop:5}}>
                   {result.pair} • {result.timeframe} • {result.confidence}
                 </div>
               </div>
               <div style={{background:"rgba(0,0,0,0.3)",borderRadius:8,padding:"10px 16px",textAlign:"center"}}>
                 <div style={{fontSize:9,color:"#3a5570",letterSpacing:2,marginBottom:4}}>FORȚA</div>
-                <div style={{fontSize:14,color:sigColor,fontWeight:700}}>{result.strength}</div>
+                <div style={{fontSize:14,color:sc,fontWeight:700}}>{result.strength}</div>
               </div>
             </div>
           </div>
 
+          {/* Levels */}
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10,marginBottom:14}}>
             {[{l:"🎯 ENTRY",v:result.entry,c:"#e0e8f0"},{l:"✅ TAKE PROFIT",v:result.tp,c:"#ffd700"},{l:"🛑 STOP LOSS",v:result.sl,c:"#ff6b35"}].map(({l,v,c})=>(
               <div key={l} style={{background:"#0c1219",border:"1px solid #1a2c3e",borderRadius:8,padding:"12px 8px",textAlign:"center"}}>
@@ -340,18 +259,26 @@ function App() {
             ))}
           </div>
 
+          {/* R:R */}
           <div style={{background:"#0c1219",border:"1px solid #1a2c3e",borderRadius:8,padding:"14px 16px",marginBottom:14,display:"flex",alignItems:"center",gap:12}}>
-            <span style={{fontSize:22}}>⚖️</span>
+            <span style={{fontSize:24}}>⚖️</span>
             <div>
               <div style={{fontSize:9,color:"#3a5570",letterSpacing:2}}>RISK / REWARD</div>
               <div style={{fontSize:16,fontWeight:700,marginTop:2}}>{result.rr}</div>
             </div>
           </div>
 
+          {/* Analysis */}
           <div style={{background:"#0c1219",border:"1px solid #1a2c3e",borderRadius:8,padding:"16px 18px",marginBottom:14}}>
-            <div style={{fontSize:9,color:"#3a5570",letterSpacing:3,marginBottom:12}}>▸ ANALIZĂ CLAUDE AI</div>
-            <div style={{fontSize:13,lineHeight:1.85,color:"#8aa8c0"}}>{result.analysis}</div>
+            <div style={{fontSize:9,color:"#3a5570",letterSpacing:3,marginBottom:12}}>▸ ANALIZĂ {MODELS.find(m=>m.id===model)?.label.toUpperCase()}</div>
+            <div style={{fontSize:13,lineHeight:1.9,color:"#8aa8c0"}}>{result.analysis}</div>
           </div>
+
+          {/* New analysis */}
+          <button onClick={()=>{setImage(null);setImageB64(null);setResult(null);}}
+            style={{width:"100%",padding:12,background:"transparent",border:"1px solid rgba(0,180,255,0.3)",borderRadius:8,color:"#00b4ff",fontFamily:"inherit",fontSize:12,letterSpacing:2,cursor:"pointer",marginBottom:14}}>
+            + ANALIZĂ NOUĂ
+          </button>
 
           <div style={{background:"rgba(255,215,0,0.04)",border:"1px solid rgba(255,215,0,0.15)",borderRadius:8,padding:"10px 14px",fontSize:10,color:"rgba(255,215,0,0.5)",lineHeight:1.6}}>
             ⚠️ Analiză AI cu scop educativ. Nu reprezintă sfat financiar. Tranzacționarea implică risc ridicat.
