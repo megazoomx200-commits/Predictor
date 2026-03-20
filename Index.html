@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOREX AI ANALYZER</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080c10;
+    --panel: #0d1117;
+    --border: #1a2332;
+    --accent: #00ff88;
+    --accent2: #ff3366;
+    --accent3: #ffd700;
+    --text: #e0e8f0;
+    --muted: #4a6080;
+    --buy: #00ff88;
+    --sell: #ff3366;
+    --tp: #ffd700;
+    --sl: #ff6b35;
+    --glow: 0 0 20px rgba(0,255,136,0.3);
+    --glow-red: 0 0 20px rgba(255,51,102,0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,255,136,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,136,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Scanline effect */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .logo-main {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    text-shadow: var(--glow);
+    line-height: 1;
+  }
+
+  .logo-sub {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .status-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,255,136,0.08);
+    border: 1px solid rgba(0,255,136,0.2);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 1px;
+  }
+
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  /* Upload Zone */
+  .upload-section {
+    margin-bottom: 30px;
+  }
+
+  .drop-zone {
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    padding: 60px 40px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: var(--panel);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .drop-zone::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,255,136,0.03) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .drop-zone:hover, .drop-zone.drag-over {
+    border-color: var(--accent);
+    background: rgba(0,255,136,0.04);
+    box-shadow: var(--glow), inset 0 0 40px rgba(0,255,136,0.03);
+  }
+
+  .drop-zone.has-image {
+    border-color: rgba(0,255,136,0.4);
+    padding: 20px;
+  }
+
+  .upload-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    display: block;
+    filter: grayscale(0.5);
+  }
+
+  .upload-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    color: var(--text);
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+
+  .upload-sub {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+  }
+
+  .upload-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 14px 36px;
+    background: var(--accent);
+    border: none;
+    border-radius: 6px;
+    color: var(--bg);
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    font-weight: 700;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .upload-btn:hover, .upload-btn:active {
+    background: #00cc6e;
+    box-shadow: var(--glow);
+    transform: scale(0.98);
+  }
+
+  /* File input vizibil dar transparent - fix mobil */
+  #fileInput {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    overflow: hidden;
+    z-index: -1;
+  }
+
+  /* Label wrapper pentru file input - funcționează pe orice mobil */
+  .file-label {
+    display: inline-block;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+
+  .preview-img {
+    max-width: 100%;
+    max-height: 500px;
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto;
+    object-fit: contain;
+  }
+
+  .change-btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 6px 18px;
+    background: transparent;
+    border: 1px solid var(--muted);
+    border-radius: 4px;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 1px;
+  }
+
+  .change-btn:hover {
+    border-color: var(--text);
+    color: var(--text);
+  }
+
+  /* Config Row */
+
+
+  /* Analyze Button */
+  .analyze-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, #00cc6e, #00ff88);
+    border: none;
+    border-radius: 8px;
+    color: #080c10;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 30px;
+  }
+
+  .analyze-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.15) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.5s;
+  }
+
+  .analyze-btn:hover::before {
+    transform: translateX(100%);
+  }
+
+  .analyze-btn:hover {
+    box-shadow: 0 0 30px rgba(0,255,136,0.5);
+    transform: translateY(-1px);
+  }
+
+  .analyze-btn:disabled {
+    background: #1a2332;
+    color: var(--muted);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .analyze-btn:disabled::before { display: none; }
+
+  /* Loading */
+  .loading-section {
+    display: none;
+    text-align: center;
+    padding: 40px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 30px;
+  }
+
+  .loading-section.active { display: block; }
+
+  .loading-bars {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 5px;
+    height: 40px;
+    margin-bottom: 20px;
+  }
+
+  .loading-bar {
+    width: 6px;
+    background: var(--accent);
+    border-radius: 3px;
+    animation: barAnim 1.2s ease-in-out infinite;
+  }
+
+  .loading-bar:nth-child(1) { animation-delay: 0s; }
+  .loading-bar:nth-child(2) { animation-delay: 0.15s; }
+  .loading-bar:nth-child(3) { animation-delay: 0.3s; }
+  .loading-bar:nth-child(4) { animation-delay: 0.45s; }
+  .loading-bar:nth-child(5) { animation-delay: 0.6s; }
+  .loading-bar:nth-child(6) { animation-delay: 0.75s; }
+  .loading-bar:nth-child(7) { animation-delay: 0.9s; }
+
+  @keyframes barAnim {
+    0%, 100% { height: 8px; opacity: 0.3; }
+    50% { height: 40px; opacity: 1; }
+  }
+
+  .loading-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    animation: blink 1.5s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* Result Section */
+  .result-section {
+    display: none;
+    animation: fadeIn 0.5s ease;
+  }
+
+  .result-section.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Signal Card */
+  .signal-card {
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid;
+  }
+
+  .signal-card.buy {
+    background: linear-gradient(135deg, rgba(0,255,136,0.08), rgba(0,255,136,0.02));
+    border-color: var(--buy);
+    box-shadow: var(--glow), inset 0 0 60px rgba(0,255,136,0.03);
+  }
+
+  .signal-card.sell {
+    background: linear-gradient(135deg, rgba(255,51,102,0.08), rgba(255,51,102,0.02));
+    border-color: var(--sell);
+    box-shadow: var(--glow-red), inset 0 0 60px rgba(255,51,102,0.03);
+  }
+
+  .signal-card.neutral {
+    background: rgba(255,215,0,0.04);
+    border-color: var(--accent3);
+  }
+
+  .signal-direction {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    line-height: 1;
+    letter-spacing: 6px;
+    margin-bottom: 10px;
+  }
+
+  .signal-card.buy .signal-direction { color: var(--buy); text-shadow: var(--glow); }
+  .signal-card.sell .signal-direction { color: var(--sell); text-shadow: var(--glow-red); }
+  .signal-card.neutral .signal-direction { color: var(--accent3); }
+
+  .signal-arrow {
+    display: inline-block;
+    font-size: 60px;
+    vertical-align: middle;
+    margin-right: 10px;
+    animation: arrowBounce 1s ease infinite;
+  }
+
+  @keyframes arrowBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .signal-confidence {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    opacity: 0.7;
+    margin-bottom: 20px;
+  }
+
+  /* TP/SL Grid */
+  .levels-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .level-box {
+    background: rgba(0,0,0,0.3);
+    border-radius: 8px;
+    padding: 14px;
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .level-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .level-label.entry { color: var(--muted); }
+  .level-label.tp { color: var(--tp); }
+  .level-label.sl { color: var(--sl); }
+
+  .level-value {
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  .level-box.tp-box { border-color: rgba(255,215,0,0.3); background: rgba(255,215,0,0.05); }
+  .level-box.sl-box { border-color: rgba(255,107,53,0.3); background: rgba(255,107,53,0.05); }
+  .level-box.entry-box { border-color: rgba(255,255,255,0.1); }
+
+  .level-value.tp { color: var(--tp); }
+  .level-value.sl { color: var(--sl); }
+  .level-value.entry { color: var(--text); }
+
+  /* Analysis text */
+  .analysis-box {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+  }
+
+  .analysis-header {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .analysis-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .analysis-text {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #b0c4d8;
+  }
+
+  /* Risk info */
+  .risk-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .risk-box {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .risk-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+
+  .risk-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  .risk-value {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  /* Disclaimer */
+  .disclaimer {
+    background: rgba(255,215,0,0.05);
+    border: 1px solid rgba(255,215,0,0.2);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 11px;
+    color: rgba(255,215,0,0.6);
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+  }
+
+  /* Corner decorations */
+  .corner-deco {
+    position: fixed;
+    width: 100px;
+    height: 100px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.3;
+  }
+
+  .corner-tl {
+    top: 20px; left: 20px;
+    border-top: 2px solid var(--accent);
+    border-left: 2px solid var(--accent);
+  }
+
+  .corner-br {
+    bottom: 20px; right: 20px;
+    border-bottom: 2px solid var(--accent);
+    border-right: 2px solid var(--accent);
+  }
+
+  @media (max-width: 600px) {
+    .logo-main { font-size: 36px; }
+    .config-row { grid-template-columns: 1fr; }
+    .levels-grid { grid-template-columns: 1fr; }
+    .risk-row { grid-template-columns: 1fr; }
+    .signal-direction { font-size: 56px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="corner-deco corner-tl"></div>
+<div class="corner-deco corner-br"></div>
+
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      <div>
+        <div class="logo-main">FOREX<span style="color:#ff3366">AI</span></div>
+        <div class="logo-sub">Signal Analyzer v1.0</div>
+      </div>
+    </div>
+    <div class="status-pill">
+      <div class="status-dot"></div>
+      CLAUDE VISION ONLINE
+    </div>
+  </div>
+
+  <!-- Upload -->
+  <div class="upload-section">
+    <input type="file" id="fileInput" accept="image/*" style="position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;">
+    <div class="drop-zone" id="dropZone">
+      <div id="uploadPlaceholder">
+        <span class="upload-icon">📊</span>
+        <div class="upload-title">DROP CHART SCREENSHOT HERE</div>
+        <div class="upload-sub">sau apasă butonul de mai jos</div>
+        <label for="fileInput" style="display:inline-block;margin-top:20px;cursor:pointer;-webkit-tap-highlight-color:transparent;">
+          <div class="upload-btn">📂 SELECTEAZĂ IMAGINE</div>
+        </label>
+      </div>
+      <div id="previewContainer" style="display:none;">
+        <img id="previewImg" class="preview-img" alt="Chart preview"/>
+        <br>
+        <label for="fileInput" style="display:inline-block;margin-top:12px;cursor:pointer;">
+          <div class="change-btn">↺ SCHIMBĂ IMAGINEA</div>
+        </label>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Analyze Button -->
+  <button class="analyze-btn" id="analyzeBtn" onclick="analyzeChart()" disabled>
+    ⚡ ANALIZEAZĂ GRAFICUL
+  </button>
+
+  <!-- Loading -->
+  <div class="loading-section" id="loadingSection">
+    <div class="loading-bars">
+      <div class="loading-bar"></div>
+      <div class="loading-bar"></div>
+      <div class="loading-bar"></div>
+      <div class="loading-bar"></div>
+      <div class="loading-bar"></div>
+      <div class="loading-bar"></div>
+      <div class="loading-bar"></div>
+    </div>
+    <div class="loading-text">CLAUDE ANALIZEAZĂ GRAFICUL...</div>
+  </div>
+
+  <!-- Result -->
+  <div class="result-section" id="resultSection">
+
+    <div class="signal-card" id="signalCard">
+      <div class="signal-direction" id="signalDirection">
+        <span class="signal-arrow" id="signalArrow"></span>
+        <span id="signalText">—</span>
+      </div>
+      <div class="signal-confidence" id="signalConfidence">ANALIZĂ COMPLETĂ</div>
+    </div>
+
+    <div class="levels-grid">
+      <div class="level-box entry-box">
+        <span class="level-label entry">🎯 ENTRY</span>
+        <div class="level-value entry" id="entryVal">—</div>
+      </div>
+      <div class="level-box tp-box">
+        <span class="level-label tp">✅ TAKE PROFIT</span>
+        <div class="level-value tp" id="tpVal">—</div>
+      </div>
+      <div class="level-box sl-box">
+        <span class="level-label sl">🛑 STOP LOSS</span>
+        <div class="level-value sl" id="slVal">—</div>
+      </div>
+    </div>
+
+    <div class="risk-row">
+      <div class="risk-box">
+        <div class="risk-icon">⚖️</div>
+        <div>
+          <span class="risk-label">Risk/Reward Ratio</span>
+          <div class="risk-value" id="rrVal">—</div>
+        </div>
+      </div>
+      <div class="risk-box">
+        <div class="risk-icon">📊</div>
+        <div>
+          <span class="risk-label">Forța Semnalului</span>
+          <div class="risk-value" id="strengthVal">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-box">
+      <div class="analysis-header">Analiză detaliată Claude AI</div>
+      <div class="analysis-text" id="analysisText">—</div>
+    </div>
+
+    <div class="disclaimer">
+      ⚠️ DISCLAIMER: Această analiză este generată de AI și are scop educativ. Nu reprezintă sfat financiar. Tranzacționarea Forex implică risc ridicat. Folosiți întotdeauna managementul riscului propriu.
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+let imageBase64 = null;
+
+// Drop zone logic
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+
+dropZone.addEventListener('dragover', e => {
+  e.preventDefault();
+  dropZone.classList.add('drag-over');
+});
+
+dropZone.addEventListener('dragleave', () => {
+  dropZone.classList.remove('drag-over');
+});
+
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) loadImage(file);
+});
+
+fileInput.addEventListener('change', () => {
+  if (fileInput.files[0]) loadImage(fileInput.files[0]);
+});
+
+dropZone.addEventListener('click', e => {
+  if (e.target.tagName !== 'BUTTON') {
+    if (!document.getElementById('previewContainer').style.display || document.getElementById('previewContainer').style.display === 'none') {
+      fileInput.click();
+    }
+  }
+});
+
+function loadImage(file) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const result = e.target.result;
+    document.getElementById('previewImg').src = result;
+    document.getElementById('uploadPlaceholder').style.display = 'none';
+    document.getElementById('previewContainer').style.display = 'block';
+    dropZone.classList.add('has-image');
+    // Extract base64 data only
+    imageBase64 = result.split(',')[1];
+    document.getElementById('analyzeBtn').disabled = false;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function analyzeChart() {
+  if (!imageBase64) return;
+
+  // Show loading
+  document.getElementById('loadingSection').classList.add('active');
+  document.getElementById('resultSection').classList.remove('active');
+  document.getElementById('analyzeBtn').disabled = true;
+
+  const prompt = `Ești un trader expert în analiza tehnică Forex cu peste 20 de ani experiență. Uită-te cu atenție la grafic — identifică singur perechea valutară și timeframe-ul dacă sunt vizibile.
+
+Analizează cu atenție această imagine de grafic Forex și oferă:
+(Identifică automat perechea și timeframe-ul din grafic dacă sunt vizibile)
+
+1. DIRECȚIE: BUY sau SELL (sau NEUTRAL dacă semnalul e neclar)
+2. ENTRY: zona de intrare optimă (preț aproximativ sau zona de preț)
+3. TAKE PROFIT (TP): nivelul de profit recomandat
+4. STOP LOSS (SL): nivelul de protecție recomandat
+5. RISK/REWARD RATIO: raportul risc/profit (ex: 1:2, 1:3)
+6. FORȚA SEMNALULUI: Slab / Mediu / Puternic / Foarte Puternic
+7. ANALIZĂ DETALIATĂ: Explică în 3-5 propoziții de ce ai ales această direcție, ce formațiuni, niveluri support/resistance, tendințe sau indicatori observi în grafic.
+
+Răspunde STRICT în acest format JSON (fără alt text, fără markdown):
+{
+  "direction": "BUY" sau "SELL" sau "NEUTRAL",
+  "entry": "valoare sau zonă",
+  "tp": "valoare",
+  "sl": "valoare",
+  "rr": "1:X",
+  "strength": "Slab/Mediu/Puternic/Foarte Puternic",
+  "analysis": "text detaliat al analizei",
+  "confidence": "procentaj sau descriere scurtă"
+}`;
+
+  try {
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 1000,
+        messages: [{
+          role: "user",
+          content: [
+            {
+              type: "image",
+              source: {
+                type: "base64",
+                media_type: "image/jpeg",
+                data: imageBase64
+              }
+            },
+            {
+              type: "text",
+              text: prompt
+            }
+          ]
+        }]
+      })
+    });
+
+    const data = await response.json();
+    const rawText = data.content.map(i => i.text || "").join("");
+
+    // Parse JSON
+    let result;
+    try {
+      const clean = rawText.replace(/```json|```/g, "").trim();
+      result = JSON.parse(clean);
+    } catch {
+      // Fallback if JSON parse fails
+      result = {
+        direction: "NEUTRAL",
+        entry: "—",
+        tp: "—",
+        sl: "—",
+        rr: "—",
+        strength: "—",
+        analysis: rawText || "Nu s-a putut procesa răspunsul. Încearcă din nou.",
+        confidence: "N/A"
+      };
+    }
+
+    displayResult(result);
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById('loadingSection').classList.remove('active');
+    document.getElementById('analyzeBtn').disabled = false;
+    alert("Eroare la conectarea cu API-ul. Verifică conexiunea și încearcă din nou.");
+  }
+}
+
+function displayResult(r) {
+  const dir = (r.direction || "NEUTRAL").toUpperCase();
+
+  // Signal card
+  const card = document.getElementById('signalCard');
+  card.className = 'signal-card';
+  if (dir === 'BUY') {
+    card.classList.add('buy');
+    document.getElementById('signalArrow').textContent = '↑';
+    document.getElementById('signalArrow').style.color = '#00ff88';
+  } else if (dir === 'SELL') {
+    card.classList.add('sell');
+    document.getElementById('signalArrow').textContent = '↓';
+    document.getElementById('signalArrow').style.color = '#ff3366';
+  } else {
+    card.classList.add('neutral');
+    document.getElementById('signalArrow').textContent = '→';
+    document.getElementById('signalArrow').style.color = '#ffd700';
+  }
+
+  document.getElementById('signalText').textContent = dir;
+  document.getElementById('signalConfidence').textContent = r.confidence || '';
+  document.getElementById('entryVal').textContent = r.entry || '—';
+  document.getElementById('tpVal').textContent = r.tp || '—';
+  document.getElementById('slVal').textContent = r.sl || '—';
+  document.getElementById('rrVal').textContent = r.rr || '—';
+  document.getElementById('strengthVal').textContent = r.strength || '—';
+  document.getElementById('analysisText').textContent = r.analysis || '—';
+
+  // Show result
+  document.getElementById('loadingSection').classList.remove('active');
+  document.getElementById('resultSection').classList.add('active');
+  document.getElementById('analyzeBtn').disabled = false;
+
+  // Scroll to result
+  document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
