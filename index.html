@@ -88,7 +88,7 @@ Răspunde STRICT în acest format JSON (fără alt text, fără backticks, făr�
 {"direction":"BUY","pair":"GOLD","timeframe":"H1","entry":"2345","tp":"2380","sl":"2320","rr":"1:2.5","strength":"Puternic","analysis":"Text analiză detaliată...","confidence":"78%"}`;
 
 async function callGemini(apiKey, modelId, mime, b64) {
-  const model = modelId === "gemini-flash" ? "gemini-1.5-flash" : "gemini-1.5-pro";
+  const model = modelId === "gemini-flash" ? "gemini-1.5-flash-latest" : "gemini-1.5-pro-latest";
   const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
