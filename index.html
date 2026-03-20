@@ -25,7 +25,7 @@ const { useState, useRef, useCallback } = React;
 const PROVIDERS = [
   {
     id: "gemini-flash",
-    name: "Gemini 2.0 Flash",
+    name: "Gemini 1.5 Flash",
     provider: "Google",
     icon: "🟦",
     color: "#4285f4",
@@ -88,7 +88,7 @@ Răspunde STRICT în acest format JSON (fără alt text, fără backticks, făr�
 {"direction":"BUY","pair":"GOLD","timeframe":"H1","entry":"2345","tp":"2380","sl":"2320","rr":"1:2.5","strength":"Puternic","analysis":"Text analiză detaliată...","confidence":"78%"}`;
 
 async function callGemini(apiKey, modelId, mime, b64) {
-  const model = modelId === "gemini-flash" ? "gemini-2.0-flash" : "gemini-1.5-pro";
+  const model = modelId === "gemini-flash" ? "gemini-1.5-flash" : "gemini-1.5-pro";
   const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
