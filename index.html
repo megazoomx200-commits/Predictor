@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>ForexAI - DeepSeek Analyzer</title>
+<title>ForexAI Pro - Multi AI Analyzer</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
@@ -11,11 +11,7 @@
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body { background:#07090f; color:#e0e8f0; font-family:'IBM Plex Mono',monospace; min-height:100vh; }
-body::before {
-  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
-  background-image:linear-gradient(rgba(0,180,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,180,255,0.04) 1px,transparent 1px);
-  background-size:36px 36px;
-}
+body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index:0; background-image:linear-gradient(rgba(100,100,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(100,100,255,0.03) 1px,transparent 1px); background-size:36px 36px; }
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.7)}}
 @keyframes bar{0%,100%{height:6px;opacity:0.3}50%{height:36px;opacity:1}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
@@ -26,9 +22,55 @@ body::before {
 <script type="text/babel">
 const { useState, useRef, useCallback } = React;
 
-const MODELS = [
-  { id: "deepseek-chat", label: "DeepSeek V3", sub: "Rapid & precis", icon: "⚡" },
-  { id: "deepseek-reasoner", label: "DeepSeek R1", sub: "Gândire profundă", icon: "🧠" },
+const PROVIDERS = [
+  {
+    id: "gemini-flash",
+    name: "Gemini 2.0 Flash",
+    provider: "Google",
+    icon: "🟦",
+    color: "#4285f4",
+    badge: "GRATUIT",
+    badgeColor: "#00e87a",
+    keyLabel: "Google AI Studio Key",
+    keyLink: "aistudio.google.com",
+    keyPlaceholder: "AIza...",
+  },
+  {
+    id: "gemini-pro",
+    name: "Gemini 1.5 Pro",
+    provider: "Google",
+    icon: "🔷",
+    color: "#4285f4",
+    badge: "GRATUIT",
+    badgeColor: "#00e87a",
+    keyLabel: "Google AI Studio Key",
+    keyLink: "aistudio.google.com",
+    keyPlaceholder: "AIza...",
+  },
+  {
+    id: "deepseek-chat",
+    name: "DeepSeek V3",
+    provider: "DeepSeek",
+    icon: "⚡",
+    color: "#00b4ff",
+    badge: "IEFTIN",
+    badgeColor: "#00b4ff",
+    keyLabel: "DeepSeek API Key",
+    keyLink: "platform.deepseek.com",
+    keyPlaceholder: "sk-...",
+  },
+  {
+    id: "deepseek-reasoner",
+    name: "DeepSeek R1",
+    provider: "DeepSeek",
+    icon: "🧠",
+    color: "#00b4ff",
+    badge: "DEEP THINK",
+    badgeColor: "#ff9900",
+    keyLabel: "DeepSeek API Key",
+    keyLink: "platform.deepseek.com",
+    keyPlaceholder: "sk-...",
+  },
 ];
 
 const PROMPT = `Ești un trader expert în analiza tehnică Forex/Gold/Crypto cu peste 20 de ani experiență.
@@ -45,11 +87,49 @@ Analizează această imagine de grafic și oferă:
 Răspunde STRICT în acest format JSON (fără alt text, fără backticks, fără markdown):
 {"direction":"BUY","pair":"GOLD","timeframe":"H1","entry":"2345","tp":"2380","sl":"2320","rr":"1:2.5","strength":"Puternic","analysis":"Text analiză detaliată...","confidence":"78%"}`;
 
+async function callGemini(apiKey, modelId, mime, b64) {
+  const model = modelId === "gemini-flash" ? "gemini-2.0-flash" : "gemini-1.5-pro";
+  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      contents: [{ parts: [
+        { inline_data: { mime_type: mime, data: b64 } },
+        { text: PROMPT }
+      ]}],
+      generationConfig: { maxOutputTokens: 1500, temperature: 0.3 }
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+}
+
+async function callDeepSeek(apiKey, modelId, mime, b64) {
+  const res = await fetch("https://api.deepseek.com/v1/chat/completions", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Authorization": `Bearer ${apiKey}` },
+    body: JSON.stringify({
+      model: modelId,
+      max_tokens: 1500,
+      messages: [{ role: "user", content: [
+        { type: "image_url", image_url: { url: `data:${mime};base64,${b64}` } },
+        { type: "text", text: PROMPT }
+      ]}]
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.choices?.[0]?.message?.content || "";
+}
+
 function App() {
-  const [apiKey, setApiKey] = useState(localStorage.getItem("ds_key") || "");
+  const [selectedId, setSelectedId] = useState("gemini-flash");
+  const [keys, setKeys] = useState({
+    google: localStorage.getItem("key_google") || "",
+    deepseek: localStorage.getItem("key_deepseek") || "",
+  });
   const [showKey, setShowKey] = useState(false);
-  const [keySaved, setKeySaved] = useState(!!localStorage.getItem("ds_key"));
-  const [model, setModel] = useState("deepseek-chat");
   const [image, setImage] = useState(null);
   const [imageB64, setImageB64] = useState(null);
   const [mime, setMime] = useState("image/jpeg");
@@ -58,15 +138,19 @@ function App() {
   const [error, setError] = useState(null);
   const fileRef = useRef(null);
 
-  const saveKey = () => {
-    localStorage.setItem("ds_key", apiKey);
-    setKeySaved(true);
+  const selected = PROVIDERS.find(p => p.id === selectedId);
+  const keyType = selected.provider === "Google" ? "google" : "deepseek";
+  const currentKey = keys[keyType];
+
+  const saveKey = (val) => {
+    const newKeys = { ...keys, [keyType]: val };
+    setKeys(newKeys);
+    localStorage.setItem(`key_${keyType}`, val);
   };
 
   const loadFile = useCallback((file) => {
     if (!file?.type.startsWith("image/")) return;
-    setMime(file.type);
-    setResult(null); setError(null);
+    setMime(file.type); setResult(null); setError(null);
     setImage(URL.createObjectURL(file));
     const r = new FileReader();
     r.onload = e => setImageB64(e.target.result.split(",")[1]);
@@ -74,32 +158,18 @@ function App() {
   }, []);
 
   const analyze = async () => {
-    if (!imageB64 || !apiKey) return;
+    if (!imageB64 || !currentKey) return;
     setLoading(true); setError(null); setResult(null);
     try {
-      const res = await fetch("https://api.deepseek.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${apiKey}`
-        },
-        body: JSON.stringify({
-          model: model,
-          max_tokens: 1500,
-          messages: [{
-            role: "user",
-            content: [
-              { type: "image_url", image_url: { url: `data:${mime};base64,${imageB64}` } },
-              { type: "text", text: PROMPT }
-            ]
-          }]
-        })
-      });
-      const data = await res.json();
-      if (data.error) throw new Error(data.error.message);
-      const raw = data.choices?.[0]?.message?.content || "";
+      let raw = "";
+      if (selected.provider === "Google") {
+        raw = await callGemini(currentKey, selectedId, mime, imageB64);
+      } else {
+        raw = await callDeepSeek(currentKey, selectedId, mime, imageB64);
+      }
       const clean = raw.replace(/```json|```/g, "").trim();
-      setResult(JSON.parse(clean));
+      const jsonMatch = clean.match(/\{[\s\S]*\}/);
+      setResult(JSON.parse(jsonMatch ? jsonMatch[0] : clean));
     } catch(e) {
       setError("Eroare: " + (e.message || "Verifică API key-ul și încearcă din nou."));
     }
@@ -118,70 +188,73 @@ function App() {
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:22,borderBottom:"1px solid #162030",paddingBottom:16}}>
         <div>
           <div style={{fontSize:36,fontWeight:900,letterSpacing:3,lineHeight:1,fontFamily:"Bebas Neue,serif"}}>
-            <span style={{color:"#00b4ff"}}>FOREX</span><span style={{color:"#ff3366"}}>AI</span>
+            <span style={{color:"#00e87a"}}>FOREX</span><span style={{color:"#ff3366"}}>AI</span>
+            <span style={{fontSize:14,color:"#3a5570",letterSpacing:2,marginLeft:8,fontFamily:"'IBM Plex Mono',monospace"}}>PRO</span>
           </div>
-          <div style={{fontSize:9,color:"#3a5570",letterSpacing:4,marginTop:2}}>DEEPSEEK ANALYZER</div>
+          <div style={{fontSize:9,color:"#3a5570",letterSpacing:4,marginTop:2}}>MULTI-AI SIGNAL ANALYZER</div>
         </div>
-        <div style={{display:"flex",alignItems:"center",gap:7,background:"rgba(0,180,255,0.07)",border:"1px solid rgba(0,180,255,0.25)",borderRadius:20,padding:"5px 14px",fontSize:10,color:"#00b4ff",letterSpacing:1}}>
-          <span style={{width:6,height:6,borderRadius:"50%",background:"#00b4ff",display:"inline-block",animation:"pulse 2s infinite"}}/>
-          DEEPSEEK VISION
+        <div style={{display:"flex",alignItems:"center",gap:7,background:`rgba(${selected.color.replace('#','').match(/.{2}/g).map(x=>parseInt(x,16)).join(',')},0.07)`,border:`1px solid rgba(${selected.color.replace('#','').match(/.{2}/g).map(x=>parseInt(x,16)).join(',')},0.25)`,borderRadius:20,padding:"5px 14px",fontSize:10,color:selected.color,letterSpacing:1}}>
+          <span style={{width:6,height:6,borderRadius:"50%",background:selected.color,display:"inline-block",animation:"pulse 2s infinite"}}/>
+          {selected.provider.toUpperCase()}
         </div>
-      </div>
-
-      {/* API Key section */}
-      <div style={{background:"#0c1219",border:`1px solid ${keySaved?"rgba(0,180,255,0.3)":"#1a2c3e"}`,borderRadius:10,padding:"14px 16px",marginBottom:18}}>
-        <div style={{fontSize:9,color:"#3a5570",letterSpacing:3,marginBottom:10}}>🔑 DEEPSEEK API KEY</div>
-        <div style={{display:"flex",gap:8,alignItems:"center"}}>
-          <input
-            type={showKey ? "text" : "password"}
-            placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxx"
-            value={apiKey}
-            onChange={e => { setApiKey(e.target.value); setKeySaved(false); }}
-            style={{flex:1,background:"rgba(255,255,255,0.04)",border:"1px solid #1a2c3e",borderRadius:6,color:"#e0e8f0",fontFamily:"inherit",fontSize:11,padding:"8px 12px",outline:"none"}}
-          />
-          <button onClick={() => setShowKey(!showKey)}
-            style={{padding:"8px 10px",background:"#0c1219",border:"1px solid #1a2c3e",borderRadius:6,color:"#3a5570",cursor:"pointer",fontSize:14}}>
-            {showKey ? "🙈" : "👁"}
-          </button>
-          <button onClick={saveKey}
-            style={{padding:"8px 14px",background:keySaved?"rgba(0,180,255,0.15)":"#00b4ff",border:`1px solid ${keySaved?"rgba(0,180,255,0.3)":"#00b4ff"}`,borderRadius:6,color:keySaved?"#00b4ff":"#07090f",fontFamily:"inherit",fontSize:11,fontWeight:700,cursor:"pointer",letterSpacing:1,whiteSpace:"nowrap"}}>
-            {keySaved ? "✓ SALVAT" : "SALVEAZĂ"}
-          </button>
-        </div>
-        {keySaved && <div style={{fontSize:10,color:"rgba(0,180,255,0.5)",marginTop:8}}>✓ API key salvat local pe dispozitivul tău</div>}
       </div>
 
       {/* Model selector */}
       <div style={{marginBottom:18}}>
-        <div style={{fontSize:9,color:"#3a5570",letterSpacing:3,marginBottom:10}}>🤖 SELECTEAZĂ MODEL</div>
-        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
-          {MODELS.map(m => (
-            <button key={m.id} onClick={() => setModel(m.id)}
-              style={{padding:"14px 12px",background:model===m.id?"rgba(0,180,255,0.1)":"#0c1219",border:`2px solid ${model===m.id?"#00b4ff":"#1a2c3e"}`,borderRadius:10,color:model===m.id?"#00b4ff":"#3a5570",fontFamily:"inherit",cursor:"pointer",textAlign:"left",transition:"all 0.2s"}}>
-              <div style={{fontSize:20,marginBottom:6}}>{m.icon}</div>
-              <div style={{fontSize:13,fontWeight:700,letterSpacing:1}}>{m.label}</div>
-              <div style={{fontSize:10,marginTop:3,opacity:0.7}}>{m.sub}</div>
+        <div style={{fontSize:9,color:"#3a5570",letterSpacing:3,marginBottom:10}}>🤖 SELECTEAZĂ MODEL AI</div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
+          {PROVIDERS.map(p => (
+            <button key={p.id} onClick={() => { setSelectedId(p.id); setResult(null); setError(null); }}
+              style={{padding:"12px 10px",background:selectedId===p.id?`rgba(${p.color.replace('#','').match(/.{2}/g).map(x=>parseInt(x,16)).join(',')},0.1)`:"#0c1219",border:`2px solid ${selectedId===p.id?p.color:"#1a2c3e"}`,borderRadius:10,color:selectedId===p.id?p.color:"#3a5570",fontFamily:"inherit",cursor:"pointer",textAlign:"left",transition:"all 0.2s",position:"relative"}}>
+              <div style={{position:"absolute",top:6,right:8,fontSize:8,background:p.badgeColor+"22",color:p.badgeColor,border:`1px solid ${p.badgeColor}44`,borderRadius:4,padding:"2px 6px",letterSpacing:1}}>{p.badge}</div>
+              <div style={{fontSize:18,marginBottom:5}}>{p.icon}</div>
+              <div style={{fontSize:12,fontWeight:700,letterSpacing:1}}>{p.name}</div>
+              <div style={{fontSize:9,marginTop:2,opacity:0.6}}>{p.provider}</div>
             </button>
           ))}
         </div>
+      </div>
+
+      {/* API Key */}
+      <div style={{background:"#0c1219",border:`1px solid ${currentKey?"rgba(100,200,100,0.2)":"#1a2c3e"}`,borderRadius:10,padding:"14px 16px",marginBottom:18}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
+          <div style={{fontSize:9,color:"#3a5570",letterSpacing:2}}>🔑 {selected.keyLabel}</div>
+          <a href={`https://${selected.keyLink}`} target="_blank" style={{fontSize:9,color:selected.color,textDecoration:"none",letterSpacing:1}}>
+            Obține gratuit →
+          </a>
+        </div>
+        <div style={{display:"flex",gap:8,alignItems:"center"}}>
+          <input
+            type={showKey ? "text" : "password"}
+            placeholder={selected.keyPlaceholder}
+            value={currentKey}
+            onChange={e => saveKey(e.target.value)}
+            style={{flex:1,background:"rgba(255,255,255,0.04)",border:"1px solid #1a2c3e",borderRadius:6,color:"#e0e8f0",fontFamily:"inherit",fontSize:11,padding:"8px 12px",outline:"none"}}
+          />
+          <button onClick={() => setShowKey(!showKey)}
+            style={{padding:"8px 10px",background:"transparent",border:"1px solid #1a2c3e",borderRadius:6,color:"#3a5570",cursor:"pointer",fontSize:14}}>
+            {showKey ? "🙈" : "👁"}
+          </button>
+        </div>
+        {currentKey && <div style={{fontSize:10,color:"rgba(100,200,100,0.5)",marginTop:6}}>✓ Key salvat local pe dispozitiv</div>}
       </div>
 
       {/* Upload zone */}
       <div
         onDragOver={e => e.preventDefault()}
         onDrop={e => { e.preventDefault(); loadFile(e.dataTransfer.files[0]); }}
-        style={{border:`2px dashed ${image?"rgba(0,180,255,0.4)":"#1a2c3e"}`,borderRadius:12,background:image?"rgba(0,180,255,0.02)":"#0c1219",padding:image?12:"36px 20px",textAlign:"center",marginBottom:14,transition:"all 0.25s",boxShadow:image?"0 0 24px rgba(0,180,255,0.08)":"none"}}>
+        style={{border:`2px dashed ${image?"rgba(100,200,100,0.35)":"#1a2c3e"}`,borderRadius:12,background:image?"rgba(0,232,122,0.02)":"#0c1219",padding:image?12:"36px 20px",textAlign:"center",marginBottom:14,transition:"all 0.25s"}}>
         {!image ? (<>
           <div style={{fontSize:50,marginBottom:12}}>📊</div>
           <div style={{fontSize:13,letterSpacing:1,marginBottom:6}}>ÎNCARCĂ SCREENSHOT GRAFIC</div>
           <div style={{fontSize:11,color:"#3a5570",marginBottom:18}}>TradingView, MT4, MT5 sau orice platformă</div>
-          <label htmlFor="fup" style={{display:"inline-block",padding:"12px 32px",background:"#00b4ff",borderRadius:8,color:"#07090f",fontFamily:"inherit",fontSize:12,fontWeight:700,letterSpacing:2,cursor:"pointer"}}>
+          <label htmlFor="fup" style={{display:"inline-block",padding:"12px 32px",background:selected.color,borderRadius:8,color:"#07090f",fontFamily:"inherit",fontSize:12,fontWeight:700,letterSpacing:2,cursor:"pointer"}}>
             📂 SELECTEAZĂ IMAGINE
           </label>
         </>) : (
           <div style={{position:"relative"}}>
-            <div style={{position:"absolute",top:8,left:8,background:"rgba(0,180,255,0.15)",border:"1px solid rgba(0,180,255,0.4)",borderRadius:6,padding:"4px 10px",fontSize:10,color:"#00b4ff",letterSpacing:2,zIndex:1}}>✓ GRAFIC ÎNCĂRCAT</div>
-            <img src={image} alt="chart" style={{width:"100%",maxHeight:500,objectFit:"contain",borderRadius:8,border:"1px solid rgba(0,180,255,0.2)",boxShadow:"0 0 30px rgba(0,180,255,0.08)"}}/>
+            <div style={{position:"absolute",top:8,left:8,background:"rgba(0,232,122,0.15)",border:"1px solid rgba(0,232,122,0.4)",borderRadius:6,padding:"4px 10px",fontSize:10,color:"#00e87a",letterSpacing:2,zIndex:1}}>✓ GRAFIC ÎNCĂRCAT</div>
+            <img src={image} alt="chart" style={{width:"100%",maxHeight:500,objectFit:"contain",borderRadius:8,border:"1px solid rgba(0,232,122,0.2)"}}/>
             <br/>
             <label htmlFor="fup" style={{display:"inline-block",marginTop:12,padding:"7px 20px",background:"transparent",border:"1px solid #2a3f55",borderRadius:6,color:"#3a5570",fontSize:11,cursor:"pointer"}}>
               ↺ SCHIMBĂ IMAGINEA
@@ -194,9 +267,9 @@ function App() {
         onChange={e => { const f = e.target.files?.[0]; if(f) loadFile(f); }}/>
 
       {/* Analyze button */}
-      <button onClick={analyze} disabled={!imageB64||!apiKey||loading}
-        style={{width:"100%",padding:17,background:imageB64&&apiKey&&!loading?"linear-gradient(135deg,#0090cc,#00b4ff)":"#111c27",border:"none",borderRadius:10,color:imageB64&&apiKey&&!loading?"#07090f":"#2a3f55",fontFamily:"Bebas Neue,serif",fontSize:22,fontWeight:900,letterSpacing:4,cursor:imageB64&&apiKey&&!loading?"pointer":"not-allowed",marginBottom:20,transition:"all 0.3s",boxShadow:imageB64&&apiKey&&!loading?"0 0 28px rgba(0,180,255,0.35)":"none"}}>
-        {loading ? "⏳ ANALIZEZ..." : `⚡ ANALIZEAZĂ CU ${MODELS.find(m=>m.id===model)?.label.toUpperCase()}`}
+      <button onClick={analyze} disabled={!imageB64||!currentKey||loading}
+        style={{width:"100%",padding:17,background:imageB64&&currentKey&&!loading?`linear-gradient(135deg,${selected.color}cc,${selected.color})`:"#111c27",border:"none",borderRadius:10,color:imageB64&&currentKey&&!loading?"#07090f":"#2a3f55",fontFamily:"Bebas Neue,serif",fontSize:22,fontWeight:900,letterSpacing:4,cursor:imageB64&&currentKey&&!loading?"pointer":"not-allowed",marginBottom:20,transition:"all 0.3s"}}>
+        {loading ? "⏳ ANALIZEZ..." : `⚡ ANALIZEAZĂ CU ${selected.name.toUpperCase()}`}
       </button>
 
       {/* Loading */}
@@ -204,16 +277,13 @@ function App() {
         <div style={{textAlign:"center",marginBottom:24}}>
           <div style={{display:"flex",alignItems:"flex-end",justifyContent:"center",gap:5,height:40,marginBottom:12}}>
             {[0,1,2,3,4,5,6].map(i=>(
-              <div key={i} style={{width:5,background:"#00b4ff",borderRadius:3,animation:`bar 1.2s ease-in-out ${i*0.15}s infinite`}}/>
+              <div key={i} style={{width:5,background:selected.color,borderRadius:3,animation:`bar 1.2s ease-in-out ${i*0.15}s infinite`}}/>
             ))}
           </div>
-          <div style={{fontSize:11,color:"#00b4ff",letterSpacing:3}}>
-            {model==="deepseek-reasoner" ? "DEEPSEEK R1 GÂNDEȘTE PROFUND..." : "DEEPSEEK V3 ANALIZEAZĂ..."}
-          </div>
+          <div style={{fontSize:11,color:selected.color,letterSpacing:3}}>{selected.name.toUpperCase()} ANALIZEAZĂ...</div>
         </div>
       )}
 
-      {/* Error */}
       {error && (
         <div style={{background:"rgba(255,51,102,0.08)",border:"1px solid rgba(255,51,102,0.3)",borderRadius:8,padding:"14px 18px",color:"#ff3366",fontSize:12,marginBottom:16,lineHeight:1.6}}>
           ⚠️ {error}
@@ -223,11 +293,9 @@ function App() {
       {/* Result */}
       {result && (
         <div style={{animation:"fadeUp 0.4s ease"}}>
-
-          {/* Model badge */}
           <div style={{textAlign:"center",marginBottom:12}}>
-            <span style={{background:"rgba(0,180,255,0.1)",border:"1px solid rgba(0,180,255,0.3)",borderRadius:20,padding:"4px 14px",fontSize:10,color:"#00b4ff",letterSpacing:2}}>
-              {MODELS.find(m=>m.id===model)?.icon} ANALIZAT CU {MODELS.find(m=>m.id===model)?.label.toUpperCase()}
+            <span style={{background:`${selected.color}18`,border:`1px solid ${selected.color}44`,borderRadius:20,padding:"4px 14px",fontSize:10,color:selected.color,letterSpacing:2}}>
+              {selected.icon} ANALIZAT CU {selected.name.toUpperCase()}
             </span>
           </div>
 
@@ -270,13 +338,12 @@ function App() {
 
           {/* Analysis */}
           <div style={{background:"#0c1219",border:"1px solid #1a2c3e",borderRadius:8,padding:"16px 18px",marginBottom:14}}>
-            <div style={{fontSize:9,color:"#3a5570",letterSpacing:3,marginBottom:12}}>▸ ANALIZĂ {MODELS.find(m=>m.id===model)?.label.toUpperCase()}</div>
+            <div style={{fontSize:9,color:"#3a5570",letterSpacing:3,marginBottom:12}}>▸ ANALIZĂ {selected.name.toUpperCase()}</div>
             <div style={{fontSize:13,lineHeight:1.9,color:"#8aa8c0"}}>{result.analysis}</div>
           </div>
 
-          {/* New analysis */}
           <button onClick={()=>{setImage(null);setImageB64(null);setResult(null);}}
-            style={{width:"100%",padding:12,background:"transparent",border:"1px solid rgba(0,180,255,0.3)",borderRadius:8,color:"#00b4ff",fontFamily:"inherit",fontSize:12,letterSpacing:2,cursor:"pointer",marginBottom:14}}>
+            style={{width:"100%",padding:12,background:"transparent",border:`1px solid ${selected.color}44`,borderRadius:8,color:selected.color,fontFamily:"inherit",fontSize:12,letterSpacing:2,cursor:"pointer",marginBottom:14}}>
             + ANALIZĂ NOUĂ
           </button>
 
