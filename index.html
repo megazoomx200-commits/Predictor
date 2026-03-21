@@ -3,360 +3,424 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>ForexAI Pro - Multi AI Analyzer</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<title>NEXUS TRADER AI</title>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { background:#07090f; color:#e0e8f0; font-family:'IBM Plex Mono',monospace; min-height:100vh; }
-body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index:0; background-image:linear-gradient(rgba(100,100,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(100,100,255,0.03) 1px,transparent 1px); background-size:36px 36px; }
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.7)}}
-@keyframes bar{0%,100%{height:6px;opacity:0.3}50%{height:36px;opacity:1}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap');
+:root{
+  --bg:#050810;--bg2:#080d1a;--p:#0b1220;--b:#1a2a40;
+  --a:#00f5c4;--a2:#0090ff;--a3:#ff6b35;
+  --bull:#00e676;--bear:#ff3d57;
+  --t:#c8d8e8;--t2:#5a7a9a;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;height:100vh;display:flex;flex-direction:column;overflow:hidden;}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--b);background:rgba(8,13,26,.98);flex-shrink:0;z-index:10;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-icon{width:32px;height:32px;border:2px solid var(--a);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;box-shadow:0 0 12px rgba(0,245,196,.4);animation:pulse 3s ease-in-out infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 8px rgba(0,245,196,.3)}50%{box-shadow:0 0 20px rgba(0,245,196,.7)}}
+.logo-t{font-size:16px;font-weight:700;letter-spacing:2px;color:var(--a);}
+.logo-s{font-size:8px;color:var(--t2);letter-spacing:2px;font-family:'Share Tech Mono',monospace;}
+.online{display:flex;align-items:center;gap:4px;font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--t2);}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--bull);animation:blink 1.5s infinite;box-shadow:0 0 5px var(--bull);}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+#clk{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--a);}
+
+/* API BANNER */
+#apibanner{padding:8px 14px;border-bottom:1px solid var(--b);display:flex;align-items:center;gap:8px;flex-shrink:0;background:rgba(0,144,255,.06);}
+#apibanner span{font-size:10px;color:var(--a2);font-family:'Share Tech Mono',monospace;white-space:nowrap;}
+#apikey{flex:1;background:rgba(255,255,255,.07);border:1px solid var(--b);border-radius:6px;padding:6px 10px;color:var(--t);font-family:'Share Tech Mono',monospace;font-size:10px;outline:none;}
+#savebtn{padding:6px 12px;background:var(--a2);border:none;border-radius:6px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;}
+
+/* TICKER */
+.ticker{background:rgba(0,245,196,.03);border-bottom:1px solid var(--b);padding:4px 0;overflow:hidden;white-space:nowrap;font-family:'Share Tech Mono',monospace;font-size:9px;flex-shrink:0;}
+.ticker-in{display:inline-block;animation:scroll 35s linear infinite;}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.tb{color:var(--bull)}.tr{color:var(--bear)}
+
+/* LAYOUT */
+.layout{display:flex;flex:1;overflow:hidden;}
+@media(max-width:650px){.layout{flex-direction:column;}}
+
+/* LEFT */
+.left{width:255px;border-right:1px solid var(--b);background:var(--bg2);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0;}
+@media(max-width:650px){.left{width:100%;border-right:none;border-bottom:1px solid var(--b);max-height:50vh;}}
+
+.upload{margin:10px;border:2px dashed var(--b);border-radius:10px;padding:18px 12px;text-align:center;cursor:pointer;transition:all .3s;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:90px;}
+.upload:hover,.upload.over{border-color:var(--a);background:rgba(0,245,196,.04);}
+.upload.has{padding:8px;min-height:unset;}
+.upload img{width:100%;border-radius:6px;border:1px solid var(--b);}
+.sett{padding:0 10px 10px;display:flex;flex-direction:column;gap:8px;}
+.sec{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--a);letter-spacing:3px;padding:6px 0 3px;border-top:1px solid var(--b);}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4px;}
+.sbtn{padding:7px 4px;border:1px solid var(--b);border-radius:6px;background:var(--p);color:var(--t2);font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:600;cursor:pointer;text-align:center;transition:all .2s;user-select:none;}
+.sbtn.on{border-color:var(--a);color:var(--a);background:rgba(0,245,196,.08);}
+.chips{display:flex;flex-wrap:wrap;gap:4px;}
+.chip{padding:4px 8px;border:1px solid var(--b);border-radius:20px;font-size:10px;font-weight:600;cursor:pointer;color:var(--t2);user-select:none;}
+.chip.on{border-color:var(--a);color:var(--a);background:rgba(0,245,196,.07);}
+.go-btn{margin:0 10px 10px;padding:12px;background:linear-gradient(135deg,var(--a),var(--a2));border:none;border-radius:8px;color:#050810;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:all .3s;}
+.go-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,245,196,.3);}
+.go-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+/* RIGHT */
+.right{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
+.tabs{display:flex;border-bottom:1px solid var(--b);background:var(--bg2);padding:0 14px;flex-shrink:0;}
+.tab{padding:10px 14px;font-size:10px;font-weight:600;letter-spacing:1.5px;color:var(--t2);cursor:pointer;border-bottom:2px solid transparent;font-family:'Share Tech Mono',monospace;transition:all .2s;}
+.tab.on{color:var(--a);border-bottom-color:var(--a);}
+.output{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:12px;}
+
+/* CARDS */
+.card{background:var(--p);border:1px solid var(--b);border-radius:10px;overflow:hidden;}
+.card-h{padding:8px 14px;background:rgba(255,255,255,.03);border-bottom:1px solid var(--b);font-size:10px;font-weight:700;letter-spacing:2px;color:var(--a2);font-family:'Share Tech Mono',monospace;}
+.card-b{padding:14px;font-size:13px;line-height:1.8;color:var(--t);}
+.card-b h3{font-size:11px;font-weight:700;color:var(--a);letter-spacing:1px;margin:14px 0 5px;padding:4px 8px;background:rgba(0,245,196,.06);border-left:2px solid var(--a);font-family:'Share Tech Mono',monospace;}
+.card-b h3:first-child{margin-top:0;}
+.card-b ul{list-style:none;}
+.card-b li{padding:3px 0 3px 14px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;}
+.card-b li:last-child{border:none;}
+.card-b li::before{content:'▸';position:absolute;left:0;color:var(--a);font-size:9px;top:5px;}
+.card-b strong{color:var(--a);}
+.card-b em{color:var(--a2);font-style:normal;}
+.a-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--p);border:1px solid var(--b);border-radius:10px;border-left:3px solid var(--a);}
+.badge{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;}
+.badge.bull{background:rgba(0,230,118,.12);color:var(--bull);border:1px solid var(--bull);}
+.badge.bear{background:rgba(255,61,87,.12);color:var(--bear);border:1px solid var(--bear);}
+.badge.neu{background:rgba(255,107,53,.12);color:var(--a3);border:1px solid var(--a3);}
+
+/* LOADING */
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:16px;}
+.bars{display:flex;gap:4px;align-items:flex-end;height:40px;}
+.bar{width:4px;background:var(--a);border-radius:3px;}
+.bar:nth-child(1){animation:ba 1s 0s ease-in-out infinite;}
+.bar:nth-child(2){animation:ba 1s .1s ease-in-out infinite;}
+.bar:nth-child(3){animation:ba 1s .2s ease-in-out infinite;}
+.bar:nth-child(4){animation:ba 1s .3s ease-in-out infinite;}
+.bar:nth-child(5){animation:ba 1s .4s ease-in-out infinite;}
+.bar:nth-child(6){animation:ba 1s .5s ease-in-out infinite;}
+.bar:nth-child(7){animation:ba 1s .6s ease-in-out infinite;}
+@keyframes ba{0%,100%{height:8px;opacity:.4}50%{height:40px;opacity:1}}
+
+/* CHAT */
+.chat-out{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px;}
+.msg{padding:10px 13px;border-radius:9px;font-size:12px;line-height:1.65;border:1px solid var(--b);}
+.msg.user{background:rgba(0,144,255,.08);border-color:rgba(0,144,255,.3);align-self:flex-end;max-width:85%;}
+.msg.ai{background:var(--p);}
+.msg strong{color:var(--a);}
+.msg em{color:var(--a2);font-style:normal;}
+.mlabel{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:2px;margin-bottom:5px;opacity:.6;}
+.chat-bar{border-top:1px solid var(--b);padding:9px 12px;display:flex;gap:8px;background:var(--bg2);flex-shrink:0;}
+.chat-input{flex:1;background:var(--p);border:1px solid var(--b);border-radius:7px;padding:9px 11px;color:var(--t);font-family:'Rajdhani',sans-serif;font-size:13px;outline:none;}
+.chat-input:focus{border-color:var(--a2);}
+.chat-input::placeholder{color:var(--t2);}
+.send-btn{padding:9px 14px;background:var(--a2);border:none;border-radius:7px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;cursor:pointer;}
+.send-btn:disabled{opacity:.4;cursor:not-allowed;}
+.qbtn{padding:5px 10px;border:1px solid var(--b);border-radius:20px;background:transparent;color:var(--t2);font-size:10px;cursor:pointer;font-family:'Rajdhani',sans-serif;font-weight:600;}
+.qbtn:hover{border-color:var(--a);color:var(--a);}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:12px;opacity:.4;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-thumb{background:var(--b);border-radius:2px;}
 </style>
 </head>
 <body>
-<div id="root"></div>
-<script type="text/babel">
-const { useState, useRef, useCallback } = React;
 
-const PROVIDERS = [
-  {
-    id: "gemini-flash",
-    name: "Gemini 1.5 Flash",
-    provider: "Google",
-    icon: "🟦",
-    color: "#4285f4",
-    badge: "GRATUIT",
-    badgeColor: "#00e87a",
-    keyLabel: "Google AI Studio Key",
-    keyLink: "aistudio.google.com",
-    keyPlaceholder: "AIza...",
-  },
-  {
-    id: "gemini-pro",
-    name: "Gemini 1.5 Pro",
-    provider: "Google",
-    icon: "🔷",
-    color: "#4285f4",
-    badge: "GRATUIT",
-    badgeColor: "#00e87a",
-    keyLabel: "Google AI Studio Key",
-    keyLink: "aistudio.google.com",
-    keyPlaceholder: "AIza...",
-  },
-  {
-    id: "deepseek-chat",
-    name: "DeepSeek V3",
-    provider: "DeepSeek",
-    icon: "⚡",
-    color: "#00b4ff",
-    badge: "IEFTIN",
-    badgeColor: "#00b4ff",
-    keyLabel: "DeepSeek API Key",
-    keyLink: "platform.deepseek.com",
-    keyPlaceholder: "sk-...",
-  },
-  {
-    id: "deepseek-reasoner",
-    name: "DeepSeek R1",
-    provider: "DeepSeek",
-    icon: "🧠",
-    color: "#00b4ff",
-    badge: "DEEP THINK",
-    badgeColor: "#ff9900",
-    keyLabel: "DeepSeek API Key",
-    keyLink: "platform.deepseek.com",
-    keyPlaceholder: "sk-...",
-  },
-];
-
-const PROMPT = `Ești un trader expert în analiza tehnică Forex/Gold/Crypto cu peste 20 de ani experiență.
-Analizează această imagine de grafic și oferă:
-1. Identifică singur perechea (EUR/USD, GOLD, BTC etc.) și timeframe-ul vizibil
-2. DIRECȚIE: BUY sau SELL (sau NEUTRAL dacă e neclar)
-3. ENTRY: zona de intrare optimă
-4. TAKE PROFIT (TP): nivel clar
-5. STOP LOSS (SL): nivel de protecție
-6. RISK/REWARD RATIO
-7. FORȚA SEMNALULUI: Slab / Mediu / Puternic / Foarte Puternic
-8. ANALIZĂ DETALIATĂ: 4-6 propoziții despre trend, formațiuni candlestick, suport/rezistență, indicatori vizibili, confluențe
-
-Răspunde STRICT în acest format JSON (fără alt text, fără backticks, fără markdown):
-{"direction":"BUY","pair":"GOLD","timeframe":"H1","entry":"2345","tp":"2380","sl":"2320","rr":"1:2.5","strength":"Puternic","analysis":"Text analiză detaliată...","confidence":"78%"}`;
-
-async function callGemini(apiKey, modelId, mime, b64) {
-  const model = modelId === "gemini-flash" ? "gemini-1.5-flash-latest" : "gemini-1.5-pro-latest";
-  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      contents: [{ parts: [
-        { inline_data: { mime_type: mime, data: b64 } },
-        { text: PROMPT }
-      ]}],
-      generationConfig: { maxOutputTokens: 1500, temperature: 0.3 }
-    })
-  });
-  const data = await res.json();
-  if (data.error) throw new Error(data.error.message);
-  return data.candidates?.[0]?.content?.parts?.[0]?.text || "";
-}
-
-async function callDeepSeek(apiKey, modelId, mime, b64) {
-  const res = await fetch("https://api.deepseek.com/v1/chat/completions", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "Authorization": `Bearer ${apiKey}` },
-    body: JSON.stringify({
-      model: modelId,
-      max_tokens: 1500,
-      messages: [{ role: "user", content: [
-        { type: "image_url", image_url: { url: `data:${mime};base64,${b64}` } },
-        { type: "text", text: PROMPT }
-      ]}]
-    })
-  });
-  const data = await res.json();
-  if (data.error) throw new Error(data.error.message);
-  return data.choices?.[0]?.message?.content || "";
-}
-
-function App() {
-  const [selectedId, setSelectedId] = useState("gemini-flash");
-  const [keys, setKeys] = useState({
-    google: localStorage.getItem("key_google") || "",
-    deepseek: localStorage.getItem("key_deepseek") || "",
-  });
-  const [showKey, setShowKey] = useState(false);
-  const [image, setImage] = useState(null);
-  const [imageB64, setImageB64] = useState(null);
-  const [mime, setMime] = useState("image/jpeg");
-  const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState(null);
-  const [error, setError] = useState(null);
-  const fileRef = useRef(null);
-
-  const selected = PROVIDERS.find(p => p.id === selectedId);
-  const keyType = selected.provider === "Google" ? "google" : "deepseek";
-  const currentKey = keys[keyType];
-
-  const saveKey = (val) => {
-    const newKeys = { ...keys, [keyType]: val };
-    setKeys(newKeys);
-    localStorage.setItem(`key_${keyType}`, val);
-  };
-
-  const loadFile = useCallback((file) => {
-    if (!file?.type.startsWith("image/")) return;
-    setMime(file.type); setResult(null); setError(null);
-    setImage(URL.createObjectURL(file));
-    const r = new FileReader();
-    r.onload = e => setImageB64(e.target.result.split(",")[1]);
-    r.readAsDataURL(file);
-  }, []);
-
-  const analyze = async () => {
-    if (!imageB64 || !currentKey) return;
-    setLoading(true); setError(null); setResult(null);
-    try {
-      let raw = "";
-      if (selected.provider === "Google") {
-        raw = await callGemini(currentKey, selectedId, mime, imageB64);
-      } else {
-        raw = await callDeepSeek(currentKey, selectedId, mime, imageB64);
-      }
-      const clean = raw.replace(/```json|```/g, "").trim();
-      const jsonMatch = clean.match(/\{[\s\S]*\}/);
-      setResult(JSON.parse(jsonMatch ? jsonMatch[0] : clean));
-    } catch(e) {
-      setError("Eroare: " + (e.message || "Verifică API key-ul și încearcă din nou."));
-    }
-    setLoading(false);
-  };
-
-  const dir = result?.direction?.toUpperCase();
-  const isBuy = dir === "BUY", isSell = dir === "SELL";
-  const sc = isBuy ? "#00e87a" : isSell ? "#ff3366" : "#ffd700";
-  const scRgb = isBuy ? "0,232,122" : isSell ? "255,51,102" : "255,215,0";
-
-  return (
-    <div style={{position:"relative",zIndex:1,maxWidth:720,margin:"0 auto",padding:"20px 14px 60px"}}>
-
-      {/* Header */}
-      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:22,borderBottom:"1px solid #162030",paddingBottom:16}}>
-        <div>
-          <div style={{fontSize:36,fontWeight:900,letterSpacing:3,lineHeight:1,fontFamily:"Bebas Neue,serif"}}>
-            <span style={{color:"#00e87a"}}>FOREX</span><span style={{color:"#ff3366"}}>AI</span>
-            <span style={{fontSize:14,color:"#3a5570",letterSpacing:2,marginLeft:8,fontFamily:"'IBM Plex Mono',monospace"}}>PRO</span>
-          </div>
-          <div style={{fontSize:9,color:"#3a5570",letterSpacing:4,marginTop:2}}>MULTI-AI SIGNAL ANALYZER</div>
-        </div>
-        <div style={{display:"flex",alignItems:"center",gap:7,background:`rgba(${selected.color.replace('#','').match(/.{2}/g).map(x=>parseInt(x,16)).join(',')},0.07)`,border:`1px solid rgba(${selected.color.replace('#','').match(/.{2}/g).map(x=>parseInt(x,16)).join(',')},0.25)`,borderRadius:20,padding:"5px 14px",fontSize:10,color:selected.color,letterSpacing:1}}>
-          <span style={{width:6,height:6,borderRadius:"50%",background:selected.color,display:"inline-block",animation:"pulse 2s infinite"}}/>
-          {selected.provider.toUpperCase()}
-        </div>
-      </div>
-
-      {/* Model selector */}
-      <div style={{marginBottom:18}}>
-        <div style={{fontSize:9,color:"#3a5570",letterSpacing:3,marginBottom:10}}>🤖 SELECTEAZĂ MODEL AI</div>
-        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
-          {PROVIDERS.map(p => (
-            <button key={p.id} onClick={() => { setSelectedId(p.id); setResult(null); setError(null); }}
-              style={{padding:"12px 10px",background:selectedId===p.id?`rgba(${p.color.replace('#','').match(/.{2}/g).map(x=>parseInt(x,16)).join(',')},0.1)`:"#0c1219",border:`2px solid ${selectedId===p.id?p.color:"#1a2c3e"}`,borderRadius:10,color:selectedId===p.id?p.color:"#3a5570",fontFamily:"inherit",cursor:"pointer",textAlign:"left",transition:"all 0.2s",position:"relative"}}>
-              <div style={{position:"absolute",top:6,right:8,fontSize:8,background:p.badgeColor+"22",color:p.badgeColor,border:`1px solid ${p.badgeColor}44`,borderRadius:4,padding:"2px 6px",letterSpacing:1}}>{p.badge}</div>
-              <div style={{fontSize:18,marginBottom:5}}>{p.icon}</div>
-              <div style={{fontSize:12,fontWeight:700,letterSpacing:1}}>{p.name}</div>
-              <div style={{fontSize:9,marginTop:2,opacity:0.6}}>{p.provider}</div>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* API Key */}
-      <div style={{background:"#0c1219",border:`1px solid ${currentKey?"rgba(100,200,100,0.2)":"#1a2c3e"}`,borderRadius:10,padding:"14px 16px",marginBottom:18}}>
-        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
-          <div style={{fontSize:9,color:"#3a5570",letterSpacing:2}}>🔑 {selected.keyLabel}</div>
-          <a href={`https://${selected.keyLink}`} target="_blank" style={{fontSize:9,color:selected.color,textDecoration:"none",letterSpacing:1}}>
-            Obține gratuit →
-          </a>
-        </div>
-        <div style={{display:"flex",gap:8,alignItems:"center"}}>
-          <input
-            type={showKey ? "text" : "password"}
-            placeholder={selected.keyPlaceholder}
-            value={currentKey}
-            onChange={e => saveKey(e.target.value)}
-            style={{flex:1,background:"rgba(255,255,255,0.04)",border:"1px solid #1a2c3e",borderRadius:6,color:"#e0e8f0",fontFamily:"inherit",fontSize:11,padding:"8px 12px",outline:"none"}}
-          />
-          <button onClick={() => setShowKey(!showKey)}
-            style={{padding:"8px 10px",background:"transparent",border:"1px solid #1a2c3e",borderRadius:6,color:"#3a5570",cursor:"pointer",fontSize:14}}>
-            {showKey ? "🙈" : "👁"}
-          </button>
-        </div>
-        {currentKey && <div style={{fontSize:10,color:"rgba(100,200,100,0.5)",marginTop:6}}>✓ Key salvat local pe dispozitiv</div>}
-      </div>
-
-      {/* Upload zone */}
-      <div
-        onDragOver={e => e.preventDefault()}
-        onDrop={e => { e.preventDefault(); loadFile(e.dataTransfer.files[0]); }}
-        style={{border:`2px dashed ${image?"rgba(100,200,100,0.35)":"#1a2c3e"}`,borderRadius:12,background:image?"rgba(0,232,122,0.02)":"#0c1219",padding:image?12:"36px 20px",textAlign:"center",marginBottom:14,transition:"all 0.25s"}}>
-        {!image ? (<>
-          <div style={{fontSize:50,marginBottom:12}}>📊</div>
-          <div style={{fontSize:13,letterSpacing:1,marginBottom:6}}>ÎNCARCĂ SCREENSHOT GRAFIC</div>
-          <div style={{fontSize:11,color:"#3a5570",marginBottom:18}}>TradingView, MT4, MT5 sau orice platformă</div>
-          <label htmlFor="fup" style={{display:"inline-block",padding:"12px 32px",background:selected.color,borderRadius:8,color:"#07090f",fontFamily:"inherit",fontSize:12,fontWeight:700,letterSpacing:2,cursor:"pointer"}}>
-            📂 SELECTEAZĂ IMAGINE
-          </label>
-        </>) : (
-          <div style={{position:"relative"}}>
-            <div style={{position:"absolute",top:8,left:8,background:"rgba(0,232,122,0.15)",border:"1px solid rgba(0,232,122,0.4)",borderRadius:6,padding:"4px 10px",fontSize:10,color:"#00e87a",letterSpacing:2,zIndex:1}}>✓ GRAFIC ÎNCĂRCAT</div>
-            <img src={image} alt="chart" style={{width:"100%",maxHeight:500,objectFit:"contain",borderRadius:8,border:"1px solid rgba(0,232,122,0.2)"}}/>
-            <br/>
-            <label htmlFor="fup" style={{display:"inline-block",marginTop:12,padding:"7px 20px",background:"transparent",border:"1px solid #2a3f55",borderRadius:6,color:"#3a5570",fontSize:11,cursor:"pointer"}}>
-              ↺ SCHIMBĂ IMAGINEA
-            </label>
-          </div>
-        )}
-      </div>
-      <input id="fup" ref={fileRef} type="file" accept="image/*"
-        style={{position:"fixed",left:-9999,top:-9999,width:1,height:1,opacity:0}}
-        onChange={e => { const f = e.target.files?.[0]; if(f) loadFile(f); }}/>
-
-      {/* Analyze button */}
-      <button onClick={analyze} disabled={!imageB64||!currentKey||loading}
-        style={{width:"100%",padding:17,background:imageB64&&currentKey&&!loading?`linear-gradient(135deg,${selected.color}cc,${selected.color})`:"#111c27",border:"none",borderRadius:10,color:imageB64&&currentKey&&!loading?"#07090f":"#2a3f55",fontFamily:"Bebas Neue,serif",fontSize:22,fontWeight:900,letterSpacing:4,cursor:imageB64&&currentKey&&!loading?"pointer":"not-allowed",marginBottom:20,transition:"all 0.3s"}}>
-        {loading ? "⏳ ANALIZEZ..." : `⚡ ANALIZEAZĂ CU ${selected.name.toUpperCase()}`}
-      </button>
-
-      {/* Loading */}
-      {loading && (
-        <div style={{textAlign:"center",marginBottom:24}}>
-          <div style={{display:"flex",alignItems:"flex-end",justifyContent:"center",gap:5,height:40,marginBottom:12}}>
-            {[0,1,2,3,4,5,6].map(i=>(
-              <div key={i} style={{width:5,background:selected.color,borderRadius:3,animation:`bar 1.2s ease-in-out ${i*0.15}s infinite`}}/>
-            ))}
-          </div>
-          <div style={{fontSize:11,color:selected.color,letterSpacing:3}}>{selected.name.toUpperCase()} ANALIZEAZĂ...</div>
-        </div>
-      )}
-
-      {error && (
-        <div style={{background:"rgba(255,51,102,0.08)",border:"1px solid rgba(255,51,102,0.3)",borderRadius:8,padding:"14px 18px",color:"#ff3366",fontSize:12,marginBottom:16,lineHeight:1.6}}>
-          ⚠️ {error}
-        </div>
-      )}
-
-      {/* Result */}
-      {result && (
-        <div style={{animation:"fadeUp 0.4s ease"}}>
-          <div style={{textAlign:"center",marginBottom:12}}>
-            <span style={{background:`${selected.color}18`,border:`1px solid ${selected.color}44`,borderRadius:20,padding:"4px 14px",fontSize:10,color:selected.color,letterSpacing:2}}>
-              {selected.icon} ANALIZAT CU {selected.name.toUpperCase()}
-            </span>
-          </div>
-
-          {/* Signal card */}
-          <div style={{borderRadius:12,padding:"24px 22px 20px",background:`rgba(${scRgb},0.06)`,border:`2px solid ${sc}`,boxShadow:`0 0 30px rgba(${scRgb},0.15)`,marginBottom:14}}>
-            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:10}}>
-              <div>
-                <div style={{fontSize:62,fontWeight:900,lineHeight:1,fontFamily:"Bebas Neue,serif",color:sc,letterSpacing:4,textShadow:`0 0 24px ${sc}99`}}>
-                  {isBuy?"↑":isSell?"↓":"→"} {dir}
-                </div>
-                <div style={{fontSize:11,color:"#3a5570",letterSpacing:2,marginTop:5}}>
-                  {result.pair} • {result.timeframe} • {result.confidence}
-                </div>
-              </div>
-              <div style={{background:"rgba(0,0,0,0.3)",borderRadius:8,padding:"10px 16px",textAlign:"center"}}>
-                <div style={{fontSize:9,color:"#3a5570",letterSpacing:2,marginBottom:4}}>FORȚA</div>
-                <div style={{fontSize:14,color:sc,fontWeight:700}}>{result.strength}</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Levels */}
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10,marginBottom:14}}>
-            {[{l:"🎯 ENTRY",v:result.entry,c:"#e0e8f0"},{l:"✅ TAKE PROFIT",v:result.tp,c:"#ffd700"},{l:"🛑 STOP LOSS",v:result.sl,c:"#ff6b35"}].map(({l,v,c})=>(
-              <div key={l} style={{background:"#0c1219",border:"1px solid #1a2c3e",borderRadius:8,padding:"12px 8px",textAlign:"center"}}>
-                <div style={{fontSize:8,color:"#3a5570",letterSpacing:1,marginBottom:6}}>{l}</div>
-                <div style={{fontSize:14,fontWeight:700,color:c}}>{v}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* R:R */}
-          <div style={{background:"#0c1219",border:"1px solid #1a2c3e",borderRadius:8,padding:"14px 16px",marginBottom:14,display:"flex",alignItems:"center",gap:12}}>
-            <span style={{fontSize:24}}>⚖️</span>
-            <div>
-              <div style={{fontSize:9,color:"#3a5570",letterSpacing:2}}>RISK / REWARD</div>
-              <div style={{fontSize:16,fontWeight:700,marginTop:2}}>{result.rr}</div>
-            </div>
-          </div>
-
-          {/* Analysis */}
-          <div style={{background:"#0c1219",border:"1px solid #1a2c3e",borderRadius:8,padding:"16px 18px",marginBottom:14}}>
-            <div style={{fontSize:9,color:"#3a5570",letterSpacing:3,marginBottom:12}}>▸ ANALIZĂ {selected.name.toUpperCase()}</div>
-            <div style={{fontSize:13,lineHeight:1.9,color:"#8aa8c0"}}>{result.analysis}</div>
-          </div>
-
-          <button onClick={()=>{setImage(null);setImageB64(null);setResult(null);}}
-            style={{width:"100%",padding:12,background:"transparent",border:`1px solid ${selected.color}44`,borderRadius:8,color:selected.color,fontFamily:"inherit",fontSize:12,letterSpacing:2,cursor:"pointer",marginBottom:14}}>
-            + ANALIZĂ NOUĂ
-          </button>
-
-          <div style={{background:"rgba(255,215,0,0.04)",border:"1px solid rgba(255,215,0,0.15)",borderRadius:8,padding:"10px 14px",fontSize:10,color:"rgba(255,215,0,0.5)",lineHeight:1.6}}>
-            ⚠️ Analiză AI cu scop educativ. Nu reprezintă sfat financiar. Tranzacționarea implică risc ridicat.
-          </div>
-        </div>
-      )}
+<div class="hdr">
+  <div class="logo">
+    <div class="logo-icon">📊</div>
+    <div>
+      <div class="logo-t">NEXUS TRADER AI</div>
+      <div class="logo-s">PROFESSIONAL MARKET ANALYST v7.0</div>
     </div>
-  );
+  </div>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div class="online"><div class="dot"></div>ONLINE</div>
+    <div id="clk"></div>
+  </div>
+</div>
+
+<div id="apibanner">
+  <span>🔑 CLAUDE KEY:</span>
+  <input type="password" id="apikey" placeholder="sk-ant-api03-...">
+  <button id="savebtn" onclick="saveKey()">SALVEAZA</button>
+</div>
+
+<div class="ticker">
+  <div class="ticker-in">
+    <span style="margin:0 16px;color:var(--bull)">XAU/USD 2312 ▲</span>
+    <span style="margin:0 16px;color:var(--bear)">GBP/USD 1.2634 ▼</span>
+    <span style="margin:0 16px;color:var(--bull)">BTC/USD 67,240 ▲</span>
+    <span style="margin:0 16px;color:var(--bull)">EUR/USD 1.0842 ▲</span>
+    <span style="margin:0 16px;color:var(--bull)">ETH 3,180 ▲</span>
+    <span style="margin:0 16px;color:var(--bear)">USD/JPY 151.82 ▼</span>
+    <span style="margin:0 16px;color:var(--bull)">S&P500 5,224 ▲</span>
+    <span style="margin:0 16px;color:var(--bear)">OIL 82.14 ▼</span>
+    <span style="margin:0 16px;color:var(--bull)">XAU/USD 2312 ▲</span>
+    <span style="margin:0 16px;color:var(--bear)">GBP/USD 1.2634 ▼</span>
+    <span style="margin:0 16px;color:var(--bull)">BTC/USD 67,240 ▲</span>
+    <span style="margin:0 16px;color:var(--bull)">EUR/USD 1.0842 ▲</span>
+    <span style="margin:0 16px;color:var(--bull)">ETH 3,180 ▲</span>
+    <span style="margin:0 16px;color:var(--bear)">USD/JPY 151.82 ▼</span>
+    <span style="margin:0 16px;color:var(--bull)">S&P500 5,224 ▲</span>
+    <span style="margin:0 16px;color:var(--bear)">OIL 82.14 ▼</span>
+  </div>
+</div>
+
+<div class="layout">
+  <div class="left">
+    <div class="upload" id="uzone" onclick="document.getElementById('fi').click()"
+      ondragover="event.preventDefault();this.classList.add('over')"
+      ondragleave="this.classList.remove('over')"
+      ondrop="event.preventDefault();this.classList.remove('over');loadFile(event.dataTransfer.files[0])">
+      <input type="file" id="fi" accept="image/*" style="display:none" onchange="loadFile(this.files[0])">
+      <div style="font-size:24px;margin-bottom:6px">📈</div>
+      <div style="font-size:12px;font-weight:600;letter-spacing:1px">UPLOAD CHART</div>
+      <div style="font-size:9px;color:var(--t2);font-family:'Share Tech Mono',monospace;margin-top:3px">PNG · JPG · Drop sau Click</div>
+    </div>
+
+    <div class="sett">
+      <div class="sec">// MARKET</div>
+      <div class="grid2" id="mktG">
+        <div class="sbtn on" data-v="Forex" onclick="pick('mktG',this)">FOREX</div>
+        <div class="sbtn" data-v="Crypto" onclick="pick('mktG',this)">CRYPTO</div>
+        <div class="sbtn" data-v="Gold/Oil" onclick="pick('mktG',this)">GOLD/OIL</div>
+        <div class="sbtn" data-v="Indici" onclick="pick('mktG',this)">INDICI</div>
+      </div>
+      <div class="sec">// TIMEFRAME</div>
+      <div class="grid2" id="tfG">
+        <div class="sbtn" data-v="M1-M15" onclick="pick('tfG',this)">M1-M15</div>
+        <div class="sbtn" data-v="M30-H1" onclick="pick('tfG',this)">M30-H1</div>
+        <div class="sbtn on" data-v="H4-D1" onclick="pick('tfG',this)">H4-D1</div>
+        <div class="sbtn" data-v="W1-MN" onclick="pick('tfG',this)">W1-MN</div>
+      </div>
+      <div class="sec">// ANALIZĂ</div>
+      <div class="chips" id="anG">
+        <div class="chip on" data-v="Price Action" onclick="this.classList.toggle('on')">Price Action</div>
+        <div class="chip on" data-v="SMC/ICT" onclick="this.classList.toggle('on')">SMC/ICT</div>
+        <div class="chip on" data-v="Indicatori" onclick="this.classList.toggle('on')">Indicatori</div>
+        <div class="chip on" data-v="Supply & Demand" onclick="this.classList.toggle('on')">S&D</div>
+        <div class="chip on" data-v="Multi-TF" onclick="this.classList.toggle('on')">Multi-TF</div>
+        <div class="chip on" data-v="Risk Mgmt" onclick="this.classList.toggle('on')">Risk</div>
+      </div>
+      <div class="sec">// LIMBĂ</div>
+      <div class="grid2" id="langG">
+        <div class="sbtn on" data-v="romana" onclick="pick('langG',this)">ROMÂNĂ</div>
+        <div class="sbtn" data-v="english" onclick="pick('langG',this)">ENGLISH</div>
+      </div>
+    </div>
+
+    <button class="go-btn" id="goBtn" onclick="doAnalysis()">⚡ ANALIZEAZĂ CHART</button>
+  </div>
+
+  <div class="right">
+    <div class="tabs">
+      <div class="tab on" id="tab-a" onclick="switchTab('a')">📊 ANALIZĂ</div>
+      <div class="tab" id="tab-c" onclick="switchTab('c')">💬 CHAT</div>
+    </div>
+
+    <div class="output" id="out-a">
+      <div class="welcome">
+        <div style="font-size:42px">🎯</div>
+        <div style="font-size:15px;font-weight:600;letter-spacing:2px;color:var(--t2)">NEXUS TRADER AI</div>
+        <div style="font-size:10px;color:var(--t2);font-family:'Share Tech Mono',monospace">UPLOAD CHART → ANALIZEAZĂ</div>
+      </div>
+    </div>
+
+    <div style="display:none;flex-direction:column;flex:1;overflow:hidden;" id="out-c">
+      <div class="chat-out" id="chatOut">
+        <div class="msg ai">
+          <div class="mlabel">◈ NEXUS AI</div>
+          Salut profesionistule! Uploadează un chart sau pune-mi orice întrebare despre trading.<br><br>
+          <em>→ Price Action & SMC/ICT</em><br>
+          <em>→ Supply & Demand</em><br>
+          <em>→ Risk Management</em>
+        </div>
+      </div>
+      <div class="chat-bar">
+        <input class="chat-input" id="cinput" placeholder="Întreabă expertul AI..." onkeydown="if(event.key==='Enter')sendChat()">
+        <button class="send-btn" id="sbtn" onclick="sendChat()">➤</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let b64=null,imgMime='image/jpeg',apiKey='',chatHist=[],analysisCtx=[];
+
+setInterval(()=>{document.getElementById('clk').textContent=new Date().toUTCString().slice(17,25)+' UTC';},1000);
+
+// Load saved key
+const saved=localStorage.getItem('claudekey');
+if(saved){apiKey=saved;document.getElementById('apikey').value=saved;markSaved();}
+
+function saveKey(){
+  apiKey=document.getElementById('apikey').value.trim();
+  if(!apiKey){alert('Introdu cheia!');return;}
+  localStorage.setItem('claudekey',apiKey);
+  markSaved();
 }
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+function markSaved(){
+  const b=document.getElementById('apibanner');
+  b.style.background='rgba(0,230,118,.08)';
+  b.style.borderColor='rgba(0,230,118,.3)';
+  b.querySelector('span').textContent='✅ KEY ACTIV:';
+  document.getElementById('savebtn').textContent='SCHIMBA';
+}
+
+function pick(g,el){document.getElementById(g).querySelectorAll('.sbtn').forEach(b=>b.classList.remove('on'));el.classList.add('on');}
+function getVal(g){return document.querySelector('#'+g+' .sbtn.on')?.dataset.v||'';}
+function getChips(){return [...document.querySelectorAll('#anG .chip.on')].map(c=>c.dataset.v);}
+
+function loadFile(f){
+  if(!f||!f.type.startsWith('image/'))return;
+  imgMime=f.type;
+  const r=new FileReader();
+  r.onload=e=>{
+    b64=e.target.result.split(',')[1];
+    const uz=document.getElementById('uzone');
+    uz.className='upload has';
+    uz.innerHTML=`<img src="${e.target.result}" alt="chart" onclick="document.getElementById('fi2').click()"><input type="file" id="fi2" accept="image/*" style="display:none" onchange="loadFile(this.files[0])">`;
+  };
+  r.readAsDataURL(f);
+}
+
+function switchTab(t){
+  document.getElementById('out-a').style.display=t==='a'?'flex':'none';
+  document.getElementById('out-c').style.display=t==='c'?'flex':'none';
+  document.getElementById('tab-a').classList.toggle('on',t==='a');
+  document.getElementById('tab-c').classList.toggle('on',t==='c');
+}
+
+function fmt(txt){
+  return String(txt)
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g,'<em>$1</em>')
+    .replace(/^#{1,3} (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^[•\-] (.+)$/gm,'<li>$1</li>')
+    .replace(/(<li>.*<\/li>\n?)+/g,m=>'<ul>'+m+'</ul>')
+    .replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
+}
+
+function sysPrompt(){
+  const lang=getVal('langG')==='romana'?'română':'English';
+  return `Esti NEXUS TRADER AI expert trader institutional. Raspunzi in ${lang}.
+Piata: ${getVal('mktG')} | TF: ${getVal('tfG')} | Analize: ${getChips().join(', ')}
+
+Analizeaza COMPLET orice chart:
+## 1. BIAS (Bullish/Bearish/Neutral)
+## 2. STRUCTURA (HH/HL, LH/LL, BOS, CHoCH)
+## 3. SMART MONEY (Order Blocks, FVG, Liquidity BSL/SSL)
+## 4. SUPPLY & DEMAND (zone premium/discount, fresh vs tested)
+## 5. INDICATORI (EMA 20/50/200, RSI divergente, MACD)
+## 6. CONFLUENTE (cele mai tari setup-uri)
+## 7. SETUP-URI (Entry, SL, TP1/TP2/TP3, R:R, invalidare)
+## 8. RISK MANAGEMENT (% risc, sizing)
+## 9. CONCLUZIE (next move, scenarii alternative)
+Fii concret cu niveluri exacte de pret. Nivel institutional.`;
+}
+
+async function callClaude(messages){
+  if(!apiKey){alert('Salveaza API key-ul Claude mai intai!');return null;}
+  const res=await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'x-api-key':apiKey,
+      'anthropic-version':'2023-06-01',
+      'anthropic-dangerous-direct-browser-access':'true'
+    },
+    body:JSON.stringify({
+      model:'claude-sonnet-4-5',
+      max_tokens:2000,
+      system:sysPrompt(),
+      messages
+    })
+  });
+  const d=await res.json();
+  if(!res.ok)throw new Error(d?.error?.message||'HTTP '+res.status);
+  return d.content?.filter(b=>b.type==='text').map(b=>b.text).join('')||'';
+}
+
+async function doAnalysis(){
+  if(!b64){alert('Uploadeaza un chart!');return;}
+  if(!apiKey){alert('Salveaza API key-ul Claude!');return;}
+  const btn=document.getElementById('goBtn');
+  btn.disabled=true;btn.textContent='⏳ ANALIZEZ...';
+  switchTab('a');
+  const out=document.getElementById('out-a');
+  out.innerHTML=`<div class="loading"><div class="bars">${Array(7).fill('<div class="bar"></div>').join('')}</div><div style="font-family:monospace;font-size:11px;color:var(--a);letter-spacing:3px">ANALIZEZ CHART-UL...</div><div id="lstep" style="font-size:10px;color:var(--t2);font-family:monospace">Detectez structura...</div></div>`;
+  const steps=['Detectez structura...','Identific OB & FVG...','Analizez S&D zones...','Calculez confluente...','Evaluez indicatorii...','Compun analiza...'];
+  let si=0;
+  const iv=setInterval(()=>{si=(si+1)%steps.length;const el=document.getElementById('lstep');if(el)el.textContent=steps[si];},1800);
+  try{
+    const txt=await callClaude([{role:'user',content:[
+      {type:'image',source:{type:'base64',media_type:imgMime,data:b64}},
+      {type:'text',text:`Analizeaza complet acest chart de ${getVal('mktG')} pe ${getVal('tfG')}. Aplica: ${getChips().join(', ')}. Entry, SL, TP exacte.`}
+    ]}]);
+    clearInterval(iv);
+    analysisCtx=[
+      {role:'user',content:[{type:'image',source:{type:'base64',media_type:imgMime,data:b64}},{type:'text',text:'Analizeaza.'}]},
+      {role:'assistant',content:txt}
+    ];
+    const lt=txt.toLowerCase();
+    const bu=(lt.match(/bullish/g)||[]).length,be=(lt.match(/bearish/g)||[]).length;
+    const bias=bu>be?'bull':be>bu?'bear':'neu';
+    const bl=bias==='bull'?'▲ BULLISH':bias==='bear'?'▼ BEARISH':'— NEUTRAL';
+    out.innerHTML=`
+      <div class="a-hdr">
+        <div>
+          <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:var(--a);font-family:monospace">◈ NEXUS AI — ANALIZA COMPLETA</div>
+          <div style="font-size:9px;color:var(--t2);font-family:monospace;margin-top:2px">${getVal('mktG')} · ${getVal('tfG')} · ${new Date().toLocaleTimeString()}</div>
+        </div>
+        <div class="badge ${bias}">${bl}</div>
+      </div>
+      <div class="card">
+        <div class="card-h">📊 ANALIZA DETALIATA</div>
+        <div class="card-b">${fmt(txt)}</div>
+      </div>
+      <div class="card">
+        <div class="card-h">⚡ INTREBARI RAPIDE</div>
+        <div class="card-b" style="display:flex;flex-wrap:wrap;gap:6px;padding:10px">
+          ${['Care e entry-ul?','Unde e SL-ul?','Explica OB-ul','RSI divergente?','Sizing?','Scenariu alternativ?'].map(q=>`<button class="qbtn" onclick="quickChat('${q}')">${q}</button>`).join('')}
+        </div>
+      </div>`;
+  }catch(e){
+    clearInterval(iv);
+    out.innerHTML=`<div style="background:var(--p);border:1px solid var(--bear);border-radius:10px;padding:16px"><div style="color:var(--bear);font-family:monospace;font-size:11px;font-weight:700;margin-bottom:8px">⚠ EROARE</div><div style="font-size:12px;color:var(--t2)">${e.message}</div></div>`;
+  }
+  btn.disabled=false;btn.textContent='⚡ ANALIZEAZĂ DIN NOU';
+}
+
+async function sendChat(){
+  const inp=document.getElementById('cinput');
+  const m=inp.value.trim();if(!m)return;
+  inp.value='';addMsg(m,'user');await doChat(m);
+}
+
+function quickChat(q){switchTab('c');setTimeout(()=>{addMsg(q,'user');doChat(q);},50);}
+
+function addMsg(t,r){
+  const co=document.getElementById('chatOut');
+  const d=document.createElement('div');
+  d.className='msg '+r;
+  d.innerHTML=`<div class="mlabel">${r==='user'?'◉ TU':'◈ NEXUS AI'}</div>${fmt(t)}`;
+  co.appendChild(d);co.scrollTop=co.scrollHeight;
+}
+
+async function doChat(msg){
+  const sb=document.getElementById('sbtn');sb.disabled=true;
+  const ld=document.createElement('div');
+  ld.className='msg ai';
+  ld.innerHTML='<div class="mlabel">◈ NEXUS AI</div><span style="color:var(--a);font-family:monospace;font-size:10px">Analizez...</span>';
+  const co=document.getElementById('chatOut');
+  co.appendChild(ld);co.scrollTop=co.scrollHeight;
+  const h=[...analysisCtx,{role:'user',content:msg}];
+  try{
+    const reply=await callClaude(h);
+    analysisCtx=[...h,{role:'assistant',content:reply}];
+    ld.innerHTML=`<div class="mlabel">◈ NEXUS AI</div>${fmt(reply)}`;
+  }catch(e){
+    ld.innerHTML=`<div class="mlabel">◈ NEXUS AI</div><span style="color:var(--bear)">Eroare: ${e.message}</span>`;
+  }
+  sb.disabled=false;co.scrollTop=co.scrollHeight;
+}
 </script>
 </body>
 </html>
