@@ -15,85 +15,98 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;min-height:100vh;display:flex;flex-direction:column;}
 
+/* LOCK */
+#lock{position:fixed;inset:0;background:#050810;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;}
+.lock-icon{width:70px;height:70px;border:2px solid var(--a);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 0 25px rgba(0,245,196,.4);animation:pulse 3s ease-in-out infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 10px rgba(0,245,196,.3)}50%{box-shadow:0 0 28px rgba(0,245,196,.7)}}
+.lock-title{font-size:24px;font-weight:700;letter-spacing:3px;color:var(--a);font-family:'Rajdhani',sans-serif;text-align:center;}
+.lock-sub{font-size:10px;color:var(--t2);letter-spacing:3px;font-family:'Share Tech Mono',monospace;text-align:center;}
+#pwInput{width:280px;padding:15px 18px;background:#0b1220;border:1px solid #1a2a40;border-radius:12px;color:var(--t);font-family:'Share Tech Mono',monospace;font-size:16px;outline:none;text-align:center;letter-spacing:4px;transition:border-color .3s;}
+#pwInput:focus{border-color:var(--a);}
+#pwBtn{width:280px;padding:15px;background:linear-gradient(135deg,var(--a),var(--a2));border:none;border-radius:12px;color:#050810;font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;letter-spacing:3px;cursor:pointer;}
+#pwErr{color:var(--bear);font-size:11px;font-family:'Share Tech Mono',monospace;display:none;text-align:center;}
+
 /* HEADER */
 .hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--b);background:rgba(8,13,26,.98);position:sticky;top:0;z-index:100;}
 .logo{display:flex;align-items:center;gap:10px;}
-.logo-icon{width:36px;height:36px;border:2px solid var(--a);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 14px rgba(0,245,196,.4);animation:pulse 3s ease-in-out infinite;}
-@keyframes pulse{0%,100%{box-shadow:0 0 8px rgba(0,245,196,.3)}50%{box-shadow:0 0 22px rgba(0,245,196,.7)}}
-.logo-t{font-size:18px;font-weight:700;letter-spacing:2px;color:var(--a);}
+.logo-icon{width:34px;height:34px;border:2px solid var(--a);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 0 12px rgba(0,245,196,.4);}
+.logo-t{font-size:17px;font-weight:700;letter-spacing:2px;color:var(--a);}
 .logo-s{font-size:8px;color:var(--t2);letter-spacing:2px;font-family:'Share Tech Mono',monospace;}
 .online{display:flex;align-items:center;gap:5px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--t2);}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--bull);animation:blink 1.5s infinite;box-shadow:0 0 6px var(--bull);}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 
-/* API BANNER */
-#apibanner{padding:10px 16px;border-bottom:1px solid var(--b);display:flex;align-items:center;gap:8px;background:rgba(0,144,255,.06);flex-shrink:0;}
+/* API */
+#apibanner{padding:9px 16px;border-bottom:1px solid var(--b);display:flex;align-items:center;gap:8px;background:rgba(0,144,255,.05);}
 #apibanner span{font-size:11px;color:var(--a2);font-family:'Share Tech Mono',monospace;white-space:nowrap;}
-#apikey{flex:1;background:rgba(255,255,255,.07);border:1px solid var(--b);border-radius:7px;padding:8px 12px;color:var(--t);font-family:'Share Tech Mono',monospace;font-size:11px;outline:none;}
-#savebtn{padding:8px 16px;background:var(--a2);border:none;border-radius:7px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;}
+#apikey{flex:1;background:rgba(255,255,255,.06);border:1px solid var(--b);border-radius:7px;padding:7px 11px;color:var(--t);font-family:'Share Tech Mono',monospace;font-size:10px;outline:none;}
+#savebtn{padding:7px 14px;background:var(--a2);border:none;border-radius:7px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;cursor:pointer;}
 
 /* TICKER */
-.ticker{background:rgba(0,245,196,.03);border-bottom:1px solid var(--b);padding:5px 0;overflow:hidden;white-space:nowrap;font-family:'Share Tech Mono',monospace;font-size:10px;}
+.ticker{background:rgba(0,245,196,.02);border-bottom:1px solid var(--b);padding:4px 0;overflow:hidden;white-space:nowrap;font-family:'Share Tech Mono',monospace;font-size:9px;}
 .ticker-in{display:inline-block;animation:scroll 35s linear infinite;}
 @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* MAIN */
-.main{flex:1;padding:16px;display:flex;flex-direction:column;gap:14px;max-width:700px;width:100%;margin:0 auto;}
+.main{flex:1;padding:14px;display:flex;flex-direction:column;gap:12px;max-width:680px;width:100%;margin:0 auto;}
 
-/* UPLOAD BIG */
-.upload-big{border:2px dashed var(--b);border-radius:16px;padding:28px 20px;text-align:center;cursor:pointer;transition:all .3s;background:rgba(255,255,255,.02);}
-.upload-big:hover,.upload-big.over{border-color:var(--a);background:rgba(0,245,196,.05);}
-.upload-big.has{padding:10px;border-color:var(--a);}
-.upload-big img{width:100%;max-height:300px;object-fit:contain;border-radius:10px;}
-.upload-big .ui{font-size:40px;margin-bottom:10px;}
-.upload-big .ut{font-size:16px;font-weight:700;letter-spacing:1px;color:var(--t);margin-bottom:4px;}
-.upload-big .us{font-size:11px;color:var(--t2);font-family:'Share Tech Mono',monospace;}
+/* UPLOAD */
+.upload-zone{border:2px dashed var(--b);border-radius:14px;padding:24px 16px;text-align:center;cursor:pointer;transition:all .3s;}
+.upload-zone:hover,.upload-zone.over{border-color:var(--a);background:rgba(0,245,196,.04);}
+.upload-zone.has{padding:8px;border-color:var(--a);}
+.upload-zone img{width:100%;max-height:240px;object-fit:contain;border-radius:8px;display:block;}
+.upload-hint{margin-top:8px;font-size:11px;color:var(--a);font-family:'Share Tech Mono',monospace;text-align:center;}
 
-/* GO BUTTON */
-.go{width:100%;padding:18px;background:linear-gradient(135deg,var(--a),var(--a2));border:none;border-radius:12px;color:#050810;font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;letter-spacing:3px;cursor:pointer;transition:all .3s;box-shadow:0 4px 20px rgba(0,245,196,.25);}
-.go:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,245,196,.4);}
+/* GO */
+.go{width:100%;padding:17px;background:linear-gradient(135deg,var(--a),var(--a2));border:none;border-radius:12px;color:#050810;font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;letter-spacing:3px;cursor:pointer;transition:all .3s;box-shadow:0 4px 18px rgba(0,245,196,.2);}
+.go:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,245,196,.35);}
 .go:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
 
-/* RESULT */
-.result-box{background:var(--p);border:1px solid var(--b);border-radius:14px;overflow:hidden;}
-.result-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--b);background:rgba(255,255,255,.03);}
-.result-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--a);font-family:'Share Tech Mono',monospace;}
-.result-sub{font-size:9px;color:var(--t2);font-family:'Share Tech Mono',monospace;margin-top:2px;}
-.badge{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700;}
-.badge.bull{background:rgba(0,230,118,.15);color:var(--bull);border:1px solid var(--bull);}
-.badge.bear{background:rgba(255,61,87,.15);color:var(--bear);border:1px solid var(--bear);}
-.badge.neu{background:rgba(255,107,53,.15);color:var(--a3);border:1px solid var(--a3);}
+/* BIAS BANNER */
+.bias-banner{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-radius:14px;border:1px solid;}
+.bias-banner.bull{background:rgba(0,230,118,.07);border-color:rgba(0,230,118,.4);}
+.bias-banner.bear{background:rgba(255,61,87,.07);border-color:rgba(255,61,87,.4);}
+.bias-banner.neu{background:rgba(255,107,53,.07);border-color:rgba(255,107,53,.4);}
+.bias-left{}
+.bias-instrument{font-size:18px;font-weight:700;letter-spacing:1px;color:var(--t);}
+.bias-tf{font-size:11px;color:var(--t2);font-family:'Share Tech Mono',monospace;margin-top:2px;}
+.bias-right{text-align:right;}
+.bias-label{font-size:22px;font-weight:700;letter-spacing:2px;}
+.bias-label.bull{color:var(--bull);}
+.bias-label.bear{color:var(--bear);}
+.bias-label.neu{color:var(--a3);}
+.bias-conf{font-size:10px;font-family:'Share Tech Mono',monospace;margin-top:3px;}
+.bias-conf.bull{color:var(--bull);}
+.bias-conf.bear{color:var(--bear);}
+.bias-conf.neu{color:var(--a3);}
 
 /* SETUP CARDS */
-.setup-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px;}
-.setup-card{padding:14px;border-radius:10px;border:1px solid var(--b);background:rgba(255,255,255,.02);}
-.setup-card.long{border-color:rgba(0,230,118,.3);background:rgba(0,230,118,.05);}
-.setup-card.short{border-color:rgba(255,61,87,.3);background:rgba(255,61,87,.05);}
-.sc-title{font-size:10px;font-weight:700;letter-spacing:2px;font-family:'Share Tech Mono',monospace;margin-bottom:10px;}
-.sc-title.long{color:var(--bull);}
-.sc-title.short{color:var(--bear);}
-.sc-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:12px;}
-.sc-row:last-child{border:none;}
-.sc-label{color:var(--t2);font-size:10px;font-family:'Share Tech Mono',monospace;}
-.sc-val{font-weight:700;font-family:'Share Tech Mono',monospace;font-size:12px;}
-.sc-val.entry{color:var(--a2);}
-.sc-val.sl{color:var(--bear);}
-.sc-val.tp{color:var(--bull);}
-.sc-val.rr{color:var(--a);}
+.setups{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.setup{border-radius:14px;border:1px solid;overflow:hidden;}
+.setup.long{border-color:rgba(0,230,118,.4);background:rgba(0,230,118,.05);}
+.setup.short{border-color:rgba(255,61,87,.4);background:rgba(255,61,87,.05);}
+.setup-head{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.06);}
+.setup-name{font-size:13px;font-weight:700;letter-spacing:2px;font-family:'Share Tech Mono',monospace;}
+.setup-name.long{color:var(--bull);}
+.setup-name.short{color:var(--bear);}
+.setup-rr{font-size:13px;font-weight:700;font-family:'Share Tech Mono',monospace;color:var(--a);}
+.setup-body{padding:12px 14px;display:flex;flex-direction:column;gap:8px;}
+.srow{display:flex;flex-direction:column;gap:2px;}
+.srow-label{font-size:9px;color:var(--t2);font-family:'Share Tech Mono',monospace;letter-spacing:2px;}
+.srow-val{font-size:16px;font-weight:700;font-family:'Share Tech Mono',monospace;}
+.srow-val.entry{color:var(--a2);}
+.srow-val.sl{color:var(--bear);}
+.srow-val.tp{color:var(--bull);}
+.setup-cond{padding:10px 14px;border-top:1px solid rgba(255,255,255,.06);font-size:11px;color:var(--t2);line-height:1.5;}
 
-/* ANALYSIS TEXT */
-.analysis-body{padding:16px 18px;font-size:13px;line-height:1.85;color:var(--t);}
-.analysis-body h3{font-size:11px;font-weight:700;color:var(--a);letter-spacing:1px;margin:16px 0 6px;padding:5px 10px;background:rgba(0,245,196,.07);border-left:2px solid var(--a);font-family:'Share Tech Mono',monospace;}
-.analysis-body h3:first-child{margin-top:0;}
-.analysis-body ul{list-style:none;margin:4px 0;}
-.analysis-body li{padding:4px 0 4px 16px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;}
-.analysis-body li:last-child{border:none;}
-.analysis-body li::before{content:'▸';position:absolute;left:0;color:var(--a);font-size:9px;top:6px;}
-.analysis-body strong{color:var(--a);}
-.analysis-body em{color:var(--a2);font-style:normal;}
+/* PRIORITY */
+.priority-box{padding:14px 18px;border-radius:14px;border:1px solid rgba(0,245,196,.3);background:rgba(0,245,196,.05);}
+.priority-label{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--a);font-family:'Share Tech Mono',monospace;margin-bottom:6px;}
+.priority-text{font-size:13px;color:var(--t);line-height:1.6;}
+.priority-text strong{color:var(--a);}
 
 /* LOADING */
-.loading{display:flex;flex-direction:column;align-items:center;padding:40px 20px;gap:16px;}
+.loading-box{padding:40px 20px;display:flex;flex-direction:column;align-items:center;gap:16px;background:var(--p);border:1px solid var(--b);border-radius:14px;}
 .bars{display:flex;gap:4px;align-items:flex-end;height:44px;}
 .bar{width:5px;background:var(--a);border-radius:3px;}
 .bar:nth-child(1){animation:ba 1s 0s ease-in-out infinite;}
@@ -108,116 +121,111 @@ body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;min-h
 .l-step{font-size:10px;color:var(--t2);font-family:'Share Tech Mono',monospace;}
 
 /* CHAT */
-.chat-section{background:var(--p);border:1px solid var(--b);border-radius:14px;overflow:hidden;}
-.chat-msgs{padding:14px;display:flex;flex-direction:column;gap:10px;max-height:350px;overflow-y:auto;}
-.msg{padding:10px 14px;border-radius:10px;font-size:13px;line-height:1.65;border:1px solid var(--b);}
-.msg.user{background:rgba(0,144,255,.08);border-color:rgba(0,144,255,.3);align-self:flex-end;max-width:85%;}
+.chat-box{background:var(--p);border:1px solid var(--b);border-radius:14px;overflow:hidden;}
+.chat-hdr{padding:12px 16px;border-bottom:1px solid var(--b);font-size:10px;font-weight:700;letter-spacing:2px;color:var(--a2);font-family:'Share Tech Mono',monospace;}
+.chat-msgs{padding:12px;display:flex;flex-direction:column;gap:9px;max-height:320px;overflow-y:auto;}
+.msg{padding:10px 13px;border-radius:10px;font-size:13px;line-height:1.6;border:1px solid var(--b);}
+.msg.user{background:rgba(0,144,255,.08);border-color:rgba(0,144,255,.3);align-self:flex-end;max-width:88%;}
 .msg.ai{background:rgba(255,255,255,.03);}
 .msg strong{color:var(--a);}
 .msg em{color:var(--a2);font-style:normal;}
-.mlabel{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:2px;margin-bottom:5px;opacity:.6;}
-.chat-bar{padding:10px 14px;display:flex;gap:8px;border-top:1px solid var(--b);background:rgba(255,255,255,.02);}
-.chat-input{flex:1;background:rgba(255,255,255,.06);border:1px solid var(--b);border-radius:8px;padding:10px 13px;color:var(--t);font-family:'Rajdhani',sans-serif;font-size:14px;outline:none;}
-.chat-input:focus{border-color:var(--a2);}
-.chat-input::placeholder{color:var(--t2);}
-.send-btn{padding:10px 18px;background:var(--a2);border:none;border-radius:8px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;cursor:pointer;}
-.send-btn:disabled{opacity:.4;cursor:not-allowed;}
-
-/* QUICK */
-.quick-wrap{display:flex;flex-wrap:wrap;gap:7px;padding:12px 14px;border-top:1px solid var(--b);}
+.mlabel{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:2px;margin-bottom:4px;opacity:.55;}
+.quick{display:flex;flex-wrap:wrap;gap:6px;padding:10px 12px;border-top:1px solid var(--b);}
 .qbtn{padding:6px 12px;border:1px solid var(--b);border-radius:20px;background:transparent;color:var(--t2);font-size:11px;cursor:pointer;font-family:'Rajdhani',sans-serif;font-weight:600;transition:all .2s;}
 .qbtn:hover{border-color:var(--a);color:var(--a);}
+.chat-bar{padding:10px 12px;display:flex;gap:8px;border-top:1px solid var(--b);}
+.chat-input{flex:1;background:rgba(255,255,255,.05);border:1px solid var(--b);border-radius:8px;padding:10px 13px;color:var(--t);font-family:'Rajdhani',sans-serif;font-size:14px;outline:none;}
+.chat-input:focus{border-color:var(--a2);}
+.chat-input::placeholder{color:var(--t2);}
+.send-btn{padding:10px 16px;background:var(--a2);border:none;border-radius:8px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;cursor:pointer;}
+.send-btn:disabled{opacity:.4;}
 
 ::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-thumb{background:var(--b);border-radius:2px;}
 </style>
 </head>
 <body>
 
-<!-- PASSWORD SCREEN -->
-<div id="lockScreen" style="position:fixed;inset:0;background:#050810;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;">
-  <div style="width:60px;height:60px;border:2px solid #00f5c4;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 0 20px rgba(0,245,196,.4)">📊</div>
-  <div style="text-align:center">
-    <div style="font-size:22px;font-weight:700;letter-spacing:3px;color:#00f5c4;font-family:Rajdhani,sans-serif">NEXUS TRADER AI</div>
-    <div style="font-size:10px;color:#5a7a9a;letter-spacing:2px;font-family:monospace;margin-top:4px">PROFESSIONAL MARKET ANALYST</div>
+<!-- LOCK SCREEN -->
+<div id="lock">
+  <div class="lock-icon">📊</div>
+  <div>
+    <div class="lock-title">NEXUS TRADER AI</div>
+    <div class="lock-sub" style="margin-top:6px">PROFESSIONAL MARKET ANALYST</div>
   </div>
-  <div style="display:flex;flex-direction:column;gap:10px;width:280px">
-    <input type="password" id="pwInput" placeholder="Introdu parola..." onkeydown="if(event.key==='Enter')checkPw()" style="padding:14px 16px;background:#0b1220;border:1px solid #1a2a40;border-radius:10px;color:#c8d8e8;font-family:monospace;font-size:14px;outline:none;text-align:center;letter-spacing:3px;width:100%">
-    <button onclick="checkPw()" style="padding:14px;background:linear-gradient(135deg,#00f5c4,#0090ff);border:none;border-radius:10px;color:#050810;font-family:Rajdhani,sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;cursor:pointer">ACCES</button>
-    <div id="pwErr" style="text-align:center;color:#ff3d57;font-size:11px;font-family:monospace;display:none">⚠ Parola incorecta</div>
-  </div>
+  <input type="password" id="pwInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPw()">
+  <button id="pwBtn" onclick="checkPw()">ACCES →</button>
+  <div id="pwErr">⚠ Parola incorecta — incearca din nou</div>
 </div>
 
+<!-- HEADER -->
 <div class="hdr">
   <div class="logo">
     <div class="logo-icon">📊</div>
     <div>
       <div class="logo-t">NEXUS TRADER AI</div>
-      <div class="logo-s">PROFESSIONAL MARKET ANALYST v8.0</div>
+      <div class="logo-s">PROFESSIONAL MARKET ANALYST v9.0</div>
     </div>
   </div>
   <div class="online"><div class="dot"></div>ONLINE</div>
 </div>
 
+<!-- API -->
 <div id="apibanner">
-  <span>🔑 API KEY:</span>
+  <span>🔑 API:</span>
   <input type="password" id="apikey" placeholder="sk-ant-api03-...">
   <button id="savebtn" onclick="saveKey()">SALVEAZA</button>
 </div>
 
+<!-- TICKER -->
 <div class="ticker">
   <div class="ticker-in">
-    <span style="margin:0 18px;color:var(--bull)">XAU/USD 2312 ▲</span>
-    <span style="margin:0 18px;color:var(--bear)">GBP/USD 1.2634 ▼</span>
-    <span style="margin:0 18px;color:var(--bull)">BTC/USD 67,240 ▲</span>
-    <span style="margin:0 18px;color:var(--bull)">EUR/USD 1.0842 ▲</span>
-    <span style="margin:0 18px;color:var(--bull)">ETH 3,180 ▲</span>
-    <span style="margin:0 18px;color:var(--bear)">USD/JPY 151.82 ▼</span>
-    <span style="margin:0 18px;color:var(--bull)">S&P500 5,224 ▲</span>
-    <span style="margin:0 18px;color:var(--bear)">OIL 82.14 ▼</span>
-    <span style="margin:0 18px;color:var(--bull)">XAU/USD 2312 ▲</span>
-    <span style="margin:0 18px;color:var(--bear)">GBP/USD 1.2634 ▼</span>
-    <span style="margin:0 18px;color:var(--bull)">BTC/USD 67,240 ▲</span>
-    <span style="margin:0 18px;color:var(--bull)">EUR/USD 1.0842 ▲</span>
-    <span style="margin:0 18px;color:var(--bull)">ETH 3,180 ▲</span>
-    <span style="margin:0 18px;color:var(--bear)">USD/JPY 151.82 ▼</span>
-    <span style="margin:0 18px;color:var(--bull)">S&P500 5,224 ▲</span>
-    <span style="margin:0 18px;color:var(--bear)">OIL 82.14 ▼</span>
+    <span style="margin:0 16px;color:var(--bull)">XAU/USD 2312 ▲</span>
+    <span style="margin:0 16px;color:var(--bear)">GBP/USD 1.2634 ▼</span>
+    <span style="margin:0 16px;color:var(--bull)">BTC/USD 67,240 ▲</span>
+    <span style="margin:0 16px;color:var(--bull)">EUR/USD 1.0842 ▲</span>
+    <span style="margin:0 16px;color:var(--bull)">ETH 3,180 ▲</span>
+    <span style="margin:0 16px;color:var(--bear)">USD/JPY 151.82 ▼</span>
+    <span style="margin:0 16px;color:var(--bull)">S&P500 5,224 ▲</span>
+    <span style="margin:0 16px;color:var(--bear)">OIL 82.14 ▼</span>
+    <span style="margin:0 16px;color:var(--bull)">XAU/USD 2312 ▲</span>
+    <span style="margin:0 16px;color:var(--bear)">GBP/USD 1.2634 ▼</span>
+    <span style="margin:0 16px;color:var(--bull)">BTC/USD 67,240 ▲</span>
+    <span style="margin:0 16px;color:var(--bull)">EUR/USD 1.0842 ▲</span>
+    <span style="margin:0 16px;color:var(--bull)">ETH 3,180 ▲</span>
+    <span style="margin:0 16px;color:var(--bear)">USD/JPY 151.82 ▼</span>
+    <span style="margin:0 16px;color:var(--bull)">S&P500 5,224 ▲</span>
+    <span style="margin:0 16px;color:var(--bear)">OIL 82.14 ▼</span>
   </div>
 </div>
 
+<!-- MAIN -->
 <div class="main">
 
   <!-- UPLOAD -->
-  <div class="upload-big" id="uzone"
+  <div class="upload-zone" id="uzone"
     onclick="document.getElementById('fi').click()"
     ondragover="event.preventDefault();this.classList.add('over')"
     ondragleave="this.classList.remove('over')"
     ondrop="event.preventDefault();this.classList.remove('over');loadFile(event.dataTransfer.files[0])">
     <input type="file" id="fi" accept="image/*" style="display:none" onchange="loadFile(this.files[0])">
-    <div class="ui">📈</div>
-    <div class="ut">UPLOAD CHART</div>
-    <div class="us">Apasă sau trage imaginea aici • PNG · JPG</div>
-    <div class="us" style="margin-top:6px;color:var(--a);opacity:.7">AI detectează automat: pereche, timeframe, setup</div>
+    <div style="font-size:38px;margin-bottom:10px">📈</div>
+    <div style="font-size:15px;font-weight:700;letter-spacing:1px">UPLOAD CHART</div>
+    <div style="font-size:11px;color:var(--t2);font-family:'Share Tech Mono',monospace;margin-top:5px">Apasă sau trage imaginea</div>
   </div>
 
-  <!-- GO BUTTON -->
-  <button class="go" id="goBtn" onclick="doAnalysis()">⚡ ANALIZEAZĂ AUTOMAT</button>
+  <!-- GO -->
+  <button class="go" id="goBtn" onclick="doAnalysis()">⚡ ANALIZEAZĂ</button>
 
-  <!-- RESULT -->
-  <div id="resultSection" style="display:none;flex-direction:column;gap:14px;"></div>
+  <!-- RESULTS -->
+  <div id="results" style="display:none;flex-direction:column;gap:12px;"></div>
 
   <!-- CHAT -->
-  <div class="chat-section" id="chatSection" style="display:none;">
-    <div style="padding:10px 16px;border-bottom:1px solid var(--b);font-size:10px;font-weight:700;letter-spacing:2px;color:var(--a2);font-family:'Share Tech Mono',monospace;">💬 CHAT EXPERT</div>
-    <div class="chat-msgs" id="chatOut">
-      <div class="msg ai">
-        <div class="mlabel">◈ NEXUS AI</div>
-        Analiza e gata! Pune-mi orice întrebare despre setup-urile identificate.
-      </div>
-    </div>
-    <div class="quick-wrap" id="quickWrap"></div>
+  <div class="chat-box" id="chatBox" style="display:none;">
+    <div class="chat-hdr">💬 ÎNTREABĂ AI-UL</div>
+    <div class="chat-msgs" id="chatOut"></div>
+    <div class="quick" id="quickWrap"></div>
     <div class="chat-bar">
-      <input class="chat-input" id="cinput" placeholder="Ex: Mai detaliază TP2..." onkeydown="if(event.key==='Enter')sendChat()">
+      <input class="chat-input" id="cinput" placeholder="Ex: Mai detaliază entry-ul..." onkeydown="if(event.key==='Enter')sendChat()">
       <button class="send-btn" id="sbtn" onclick="sendChat()">➤</button>
     </div>
   </div>
@@ -225,40 +233,40 @@ body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;min-h
 </div>
 
 <script>
+// PASSWORD
 function checkPw(){
-  const pw=document.getElementById("pwInput").value;
-  if(pw==="superai"){
-    document.getElementById("lockScreen").style.display="none";
-    document.getElementById("pwErr").style.display="none";
+  const pw = document.getElementById('pwInput').value;
+  if(pw === 'superai'){
+    document.getElementById('lock').style.display = 'none';
   } else {
-    document.getElementById("pwErr").style.display="block";
-    document.getElementById("pwInput").value="";
-    document.getElementById("pwInput").style.borderColor="#ff3d57";
-    setTimeout(()=>document.getElementById("pwInput").style.borderColor="#1a2a40",1000);
+    document.getElementById('pwErr').style.display = 'block';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').style.borderColor = '#ff3d57';
+    setTimeout(()=>{ document.getElementById('pwInput').style.borderColor='#1a2a40'; }, 1200);
   }
 }
 
-let b64=null, imgMime='image/jpeg', apiKey='', analysisCtx=[], fullAnalysis='';
+// STATE
+let b64=null, imgMime='image/jpeg', apiKey='', analysisCtx=[];
 
-// Load saved key
+// KEY
 const saved = localStorage.getItem('nxkey');
 if(saved){ apiKey=saved; document.getElementById('apikey').value=saved; markSaved(); }
 
 function saveKey(){
   apiKey = document.getElementById('apikey').value.trim();
-  if(!apiKey){ alert('Introdu cheia!'); return; }
+  if(!apiKey) return;
   localStorage.setItem('nxkey', apiKey);
   markSaved();
 }
-
 function markSaved(){
   const b = document.getElementById('apibanner');
-  b.style.background = 'rgba(0,230,118,.08)';
-  b.style.borderColor = 'rgba(0,230,118,.25)';
-  b.querySelector('span').textContent = '✅ KEY ACTIV:';
-  document.getElementById('savebtn').textContent = 'SCHIMBA';
+  b.style.background = 'rgba(0,230,118,.07)';
+  b.querySelector('span').textContent = '✅ KEY:';
+  document.getElementById('savebtn').textContent = 'OK';
 }
 
+// FILE
 function loadFile(f){
   if(!f || !f.type.startsWith('image/')) return;
   imgMime = f.type;
@@ -266,22 +274,20 @@ function loadFile(f){
   r.onload = e => {
     b64 = e.target.result.split(',')[1];
     const uz = document.getElementById('uzone');
-    uz.className = 'upload-big has';
-    uz.innerHTML = `<img src="${e.target.result}" alt="chart" style="width:100%;max-height:280px;object-fit:contain;border-radius:10px"><input type="file" id="fi" accept="image/*" style="display:none" onchange="loadFile(this.files[0])"><div style="text-align:center;margin-top:8px;font-size:11px;color:var(--a);font-family:monospace">✅ CHART INCARCAT — APASA ANALIZEAZA</div>`;
+    uz.className = 'upload-zone has';
+    uz.innerHTML = `<img src="${e.target.result}" alt="chart"><div class="upload-hint">✅ CHART INCARCAT — APASA ANALIZEAZA</div><input type="file" id="fi" accept="image/*" style="display:none" onchange="loadFile(this.files[0])">`;
   };
   r.readAsDataURL(f);
 }
 
-function fmt(txt){
-  return String(txt)
+function fmt(t){
+  return String(t)
     .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
     .replace(/\*(.+?)\*/g,'<em>$1</em>')
-    .replace(/^#{1,3} (.+)$/gm,'<h3>$1</h3>')
-    .replace(/^[•\-] (.+)$/gm,'<li>$1</li>')
-    .replace(/(<li>.*?<\/li>\n?)+/gs, m=>'<ul>'+m+'</ul>')
-    .replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
+    .replace(/\n/g,'<br>');
 }
 
+// CLAUDE API
 async function callClaude(messages, system){
   const res = await fetch('https://api.anthropic.com/v1/messages',{
     method:'POST',
@@ -291,215 +297,200 @@ async function callClaude(messages, system){
       'anthropic-version':'2023-06-01',
       'anthropic-dangerous-direct-browser-access':'true'
     },
-    body: JSON.stringify({ model:'claude-sonnet-4-5', max_tokens:2500, system, messages })
+    body: JSON.stringify({ model:'claude-sonnet-4-5', max_tokens:1500, system, messages })
   });
   const d = await res.json();
   if(!res.ok) throw new Error(d?.error?.message || 'HTTP '+res.status);
   return d.content?.filter(b=>b.type==='text').map(b=>b.text).join('') || '';
 }
 
+// MAIN ANALYSIS
 async function doAnalysis(){
-  if(!b64){ alert('Uploadeaza un chart mai intai!'); return; }
+  if(!b64){ alert('Uploadeaza un chart!'); return; }
   if(!apiKey){ alert('Salveaza API key-ul Claude!'); return; }
 
   const btn = document.getElementById('goBtn');
   btn.disabled = true; btn.textContent = '⏳ ANALIZEZ...';
-  document.getElementById('resultSection').style.display = 'none';
-  document.getElementById('chatSection').style.display = 'none';
 
-  // Show loading
-  const rs = document.getElementById('resultSection');
+  const rs = document.getElementById('results');
   rs.style.display = 'flex';
-  rs.innerHTML = `<div class="result-box"><div class="loading">
+  rs.innerHTML = `<div class="loading-box">
     <div class="bars">${Array(7).fill('<div class="bar"></div>').join('')}</div>
     <div class="l-txt">ANALIZEZ CHART-UL...</div>
-    <div class="l-step" id="lstep">AI detecteaza piata si timeframe-ul...</div>
-  </div></div>`;
+    <div class="l-step" id="lstep">Scanez structura si confluente...</div>
+  </div>`;
 
   const steps = [
-    'AI detecteaza piata si timeframe-ul...',
+    'Detectez instrumentul si timeframe-ul...',
     'Identific structura: HH/HL, BOS, CHoCH...',
-    'Scanez Order Blocks si FVG-uri...',
-    'Analizez Supply & Demand zones...',
-    'Calculez RSI, EMA, MACD...',
-    'Construiesc setup-urile cu Entry/SL/TP...',
-    'Calculez Risk:Reward ratio...',
-    'Finalizez analiza institutionala...'
+    'Scanez Order Blocks si Fair Value Gaps...',
+    'Calculez Supply & Demand zones...',
+    'Analizez RSI, EMA, MACD, volume...',
+    'Calculez confluente si probabilitati...',
+    'Construiesc setup-urile optime...',
+    'Validez Risk:Reward si invalidarile...'
   ];
-  let si = 0;
-  const iv = setInterval(()=>{ si=(si+1)%steps.length; const el=document.getElementById('lstep'); if(el) el.textContent=steps[si]; }, 1500);
+  let si=0;
+  const iv = setInterval(()=>{ si=(si+1)%steps.length; const el=document.getElementById('lstep'); if(el) el.textContent=steps[si]; }, 1400);
 
-  const system = `Esti NEXUS TRADER AI — analist trader de nivel institutional. 
+  const system = `Esti NEXUS TRADER AI — sistem de analiza tehnica de nivel INSTITUTIONAL, specializat in Smart Money Concepts (ICT/SMC).
 
-IMPORTANT: Detectezi AUTOMAT din imagine:
-- Ce pereche/instrument este (EUR/USD, BTC, GOLD, etc)
-- Ce timeframe este (M1, M5, M15, H1, H4, D1, etc)
-- Ce indicatori sunt vizibili
+DETECTEZI AUTOMAT din imagine: perechea/instrumentul, timeframe-ul, indicatorii vizibili, sesiunea de trading.
 
-Raspunzi DOAR in limba romana.
+Raspunzi EXCLUSIV in limba romana, CONCIS si PRECIS.
 
-Structura raspunsului OBLIGATORIE — foloseste exact aceste headere:
+Raspunsul tau trebuie sa fie STRICT in acest format JSON, fara nimic altceva in afara de JSON:
 
-## DETECTIE AUTOMATA
-- Instrument: [ce ai detectat]
-- Timeframe: [ce ai detectat]  
-- Sesiune: [London/NY/Asia/Overlap]
+{
+  "instrument": "BTCUSD",
+  "timeframe": "M15",
+  "sesiune": "London",
+  "bias": "BEARISH",
+  "confidenta": 78,
+  "ratiune_bias": "Structura LH/LL confirmata, BOS bearish la 69800, pretul sub EMA50",
+  "setup_prioritar": "SHORT",
+  "setup_long": {
+    "valid": true,
+    "entry": "69200",
+    "sl": "69650",
+    "tp": "68400",
+    "rr": "1:1.8",
+    "conditie": "Bullish engulfing + BOS bullish pe M5 la demand zone",
+    "invalidare": "Close sub 69100"
+  },
+  "setup_short": {
+    "valid": true,
+    "entry": "69800",
+    "sl": "70100",
+    "tp": "68800",
+    "rr": "1:3.3",
+    "conditie": "Retrace la OB bearish 69750-69850, rejection candle confirmat",
+    "invalidare": "Close peste 70150"
+  },
+  "concluzie": "Short prioritar cu confluenta OB + FVG + structura bearish. Astept retrace la 69800 pentru entry.",
+  "nivel_risc": "MEDIU"
+}
 
-## BIAS DE PIATA
-[Bullish/Bearish/Neutral cu justificare clara]
-
-## STRUCTURA PIETEI
-[HH/HL sau LH/LL, BOS, CHoCH identificate]
-
-## SMART MONEY (ICT/SMC)
-[Order Blocks, Fair Value Gaps, Liquidity sweeps]
-
-## SUPPLY & DEMAND
-[Zone cheie, premium vs discount, fresh vs tested]
-
-## INDICATORI
-[EMA-uri, RSI cu nivel exact, MACD - doar ce e vizibil]
-
-## SETUP LONG 🟢
-- Entry: [pret exact sau zona]
-- Stop Loss: [pret exact] ([X] pips/puncte)
-- TP1: [pret] | TP2: [pret] | TP3: [pret]
-- Risk:Reward: [X:X]
-- Conditie: [ce trebuie sa se intample pentru a intra]
-- Invalidare: [cand setup-ul nu mai e valid]
-
-## SETUP SHORT 🔴
-- Entry: [pret exact sau zona]
-- Stop Loss: [pret exact] ([X] pips/puncte)
-- TP1: [pret] | TP2: [pret] | TP3: [pret]
-- Risk:Reward: [X:X]
-- Conditie: [ce trebuie sa se intample pentru a intra]
-- Invalidare: [cand setup-ul nu mai e valid]
-
-## PRIORITATE & CONCLUZIE
-[Care setup e prioritar, probabilitate, next move asteptat]
-
-Fii CONCRET cu niveluri de pret exacte. Gândeste ca un trader institutional SMC/ICT.`;
+Regulile tale:
+- Fii EXTREM de precis cu nivelurile de pret
+- Calculeaza R:R real bazat pe entry, SL, TP
+- Daca un setup nu e valid, pune valid:false
+- confidenta intre 50-95% bazat pe numarul de confluente
+- nivel_risc: SCAZUT / MEDIU / RIDICAT`;
 
   try {
-    const txt = await callClaude([{
+    const raw = await callClaude([{
       role:'user',
       content:[
         { type:'image', source:{ type:'base64', media_type:imgMime, data:b64 } },
-        { type:'text', text:'Analizeaza complet acest chart. Detecteaza automat instrumentul si timeframe-ul. Ofera setup-uri precise cu entry, SL si TP-uri exacte.' }
+        { type:'text', text:'Analizeaza acest chart si returneaza DOAR JSON-ul cerut, fara text suplimentar.' }
       ]
     }], system);
 
     clearInterval(iv);
-    fullAnalysis = txt;
 
-    // Save context for chat
+    // Parse JSON
+    let data;
+    try {
+      const clean = raw.replace(/```json|```/g,'').trim();
+      data = JSON.parse(clean);
+    } catch(e) {
+      throw new Error('AI nu a returnat format valid. Incearca din nou.');
+    }
+
+    // Save context
     analysisCtx = [
       { role:'user', content:[
         { type:'image', source:{ type:'base64', media_type:imgMime, data:b64 } },
         { type:'text', text:'Analizeaza acest chart.' }
       ]},
-      { role:'assistant', content: txt }
+      { role:'assistant', content: JSON.stringify(data) }
     ];
 
-    // Detect bias
-    const lt = txt.toLowerCase();
-    const bu = (lt.match(/bullish/g)||[]).length;
-    const be = (lt.match(/bearish/g)||[]).length;
-    const bias = bu>be?'bull':be>bu?'bear':'neu';
-    const biasLabel = bias==='bull'?'▲ BULLISH':bias==='bear'?'▼ BEARISH':'— NEUTRAL';
+    const bias = data.bias?.toLowerCase().includes('bull') ? 'bull' : data.bias?.toLowerCase().includes('bear') ? 'bear' : 'neu';
+    const biasIcon = bias==='bull'?'▲':bias==='bear'?'▼':'—';
+    const riskColor = data.nivel_risc==='SCAZUT'?'var(--bull)':data.nivel_risc==='RIDICAT'?'var(--bear)':'var(--a3)';
 
-    // Extract setups from text
-    const setupLong = extractSetup(txt, 'LONG');
-    const setupShort = extractSetup(txt, 'SHORT');
-
-    // Detect instrument
-    const instrMatch = txt.match(/Instrument:\s*([^\n]+)/i);
-    const tfMatch = txt.match(/Timeframe:\s*([^\n]+)/i);
-    const instr = instrMatch ? instrMatch[1].trim() : 'Auto-detectat';
-    const tf = tfMatch ? tfMatch[1].trim() : 'Auto-detectat';
+    const renderSetup = (s, type) => {
+      if(!s || !s.valid) return `<div class="setup ${type}"><div class="setup-head"><span class="setup-name ${type}">${type==='long'?'🟢 LONG':'🔴 SHORT'}</span><span style="font-size:11px;color:var(--t2);font-family:monospace">Nu e valid</span></div></div>`;
+      return `
+        <div class="setup ${type}">
+          <div class="setup-head">
+            <span class="setup-name ${type}">${type==='long'?'🟢 LONG':'🔴 SHORT'}</span>
+            <span class="setup-rr">${s.rr || '—'}</span>
+          </div>
+          <div class="setup-body">
+            <div class="srow"><div class="srow-label">ENTRY</div><div class="srow-val entry">${s.entry || '—'}</div></div>
+            <div class="srow"><div class="srow-label">STOP LOSS</div><div class="srow-val sl">${s.sl || '—'}</div></div>
+            <div class="srow"><div class="srow-label">TAKE PROFIT</div><div class="srow-val tp">${s.tp || '—'}</div></div>
+          </div>
+          <div class="setup-cond">
+            <span style="color:var(--a);font-family:monospace;font-size:9px;letter-spacing:1px">CONDITIE: </span>${s.conditie || '—'}<br>
+            <span style="color:var(--bear);font-family:monospace;font-size:9px;letter-spacing:1px">INVALIDARE: </span>${s.invalidare || '—'}
+          </div>
+        </div>`;
+    };
 
     rs.innerHTML = `
-      <!-- HEADER -->
-      <div class="result-box">
-        <div class="result-hdr">
-          <div>
-            <div class="result-title">◈ NEXUS AI — ANALIZA COMPLETA</div>
-            <div class="result-sub">${instr} · ${tf} · ${new Date().toLocaleTimeString()}</div>
-          </div>
-          <div class="badge ${bias}">${biasLabel}</div>
+      <!-- BIAS -->
+      <div class="bias-banner ${bias}">
+        <div class="bias-left">
+          <div class="bias-instrument">${data.instrument || '—'}</div>
+          <div class="bias-tf">${data.timeframe || '—'} · ${data.sesiune || '—'}</div>
+          <div style="margin-top:6px;font-size:11px;color:var(--t2);font-family:monospace">RISC: <span style="color:${riskColor};font-weight:700">${data.nivel_risc || '—'}</span></div>
         </div>
+        <div class="bias-right">
+          <div class="bias-label ${bias}">${biasIcon} ${data.bias || '—'}</div>
+          <div class="bias-conf ${bias}">${data.confidenta || '—'}% CONFIDENTA</div>
+          <div style="margin-top:4px;font-size:10px;color:var(--a);font-family:monospace">PRIORITAR: ${data.setup_prioritar || '—'}</div>
+        </div>
+      </div>
 
-        <!-- SETUP CARDS -->
-        <div class="setup-grid">
-          <div class="setup-card long">
-            <div class="sc-title long">🟢 SETUP LONG</div>
-            ${setupLong.entry ? `
-            <div class="sc-row"><span class="sc-label">ENTRY</span><span class="sc-val entry">${setupLong.entry}</span></div>
-            <div class="sc-row"><span class="sc-label">STOP LOSS</span><span class="sc-val sl">${setupLong.sl}</span></div>
-            <div class="sc-row"><span class="sc-label">TP1</span><span class="sc-val tp">${setupLong.tp1}</span></div>
-            <div class="sc-row"><span class="sc-label">TP2</span><span class="sc-val tp">${setupLong.tp2}</span></div>
-            <div class="sc-row"><span class="sc-label">TP3</span><span class="sc-val tp">${setupLong.tp3}</span></div>
-            <div class="sc-row"><span class="sc-label">R:R</span><span class="sc-val rr">${setupLong.rr}</span></div>
-            ` : '<div style="font-size:11px;color:var(--t2);text-align:center;padding:10px">Nu există setup long valid</div>'}
-          </div>
-          <div class="setup-card short">
-            <div class="sc-title short">🔴 SETUP SHORT</div>
-            ${setupShort.entry ? `
-            <div class="sc-row"><span class="sc-label">ENTRY</span><span class="sc-val entry">${setupShort.entry}</span></div>
-            <div class="sc-row"><span class="sc-label">STOP LOSS</span><span class="sc-val sl">${setupShort.sl}</span></div>
-            <div class="sc-row"><span class="sc-label">TP1</span><span class="sc-val tp">${setupShort.tp1}</span></div>
-            <div class="sc-row"><span class="sc-label">TP2</span><span class="sc-val tp">${setupShort.tp2}</span></div>
-            <div class="sc-row"><span class="sc-label">TP3</span><span class="sc-val tp">${setupShort.tp3}</span></div>
-            <div class="sc-row"><span class="sc-label">R:R</span><span class="sc-val rr">${setupShort.rr}</span></div>
-            ` : '<div style="font-size:11px;color:var(--t2);text-align:center;padding:10px">Nu există setup short valid</div>'}
-          </div>
-        </div>
+      <!-- SETUPS -->
+      <div class="setups">
+        ${renderSetup(data.setup_long, 'long')}
+        ${renderSetup(data.setup_short, 'short')}
+      </div>
 
-        <!-- FULL ANALYSIS -->
-        <div style="padding:0 14px 6px;border-top:1px solid var(--b);">
-          <div style="padding:10px 0;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--a2);font-family:'Share Tech Mono',monospace;">📊 ANALIZA COMPLETA</div>
-          <div class="analysis-body">${fmt(txt)}</div>
-        </div>
+      <!-- PRIORITY -->
+      <div class="priority-box">
+        <div class="priority-label">◈ CONCLUZIE AI</div>
+        <div class="priority-text">${data.concluzie || '—'}</div>
+        <div style="margin-top:8px;font-size:11px;color:var(--t2);">Ratiune bias: <em style="color:var(--t)">${data.ratiune_bias || '—'}</em></div>
       </div>
     `;
 
-    // Show chat
-    const cs = document.getElementById('chatSection');
-    cs.style.display = 'block';
-    document.getElementById('chatOut').innerHTML = `<div class="msg ai"><div class="mlabel">◈ NEXUS AI</div>Analiza e gata! Am detectat <strong>${instr}</strong> pe <strong>${tf}</strong>. Bias: <strong>${biasLabel}</strong>.<br>Pune-mi orice întrebare despre setup-uri!</div>`;
+    // CHAT
+    const cb = document.getElementById('chatBox');
+    cb.style.display = 'block';
+    const co = document.getElementById('chatOut');
+    co.innerHTML = `<div class="msg ai"><div class="mlabel">◈ NEXUS AI</div>
+      Analiza gata! <strong>${data.instrument}</strong> ${data.timeframe} — bias <strong>${data.bias}</strong> cu <strong>${data.confidenta}%</strong> confidenta.<br>
+      Setup prioritar: <strong>${data.setup_prioritar}</strong>. Pune orice întrebare!
+    </div>`;
 
-    // Quick questions
     document.getElementById('quickWrap').innerHTML = [
-      'Mai detaliaza entry-ul','Care setup e prioritar?','Explica OB-ul principal','Cum sizing-uiesc pozitia?','Scenariu alternativ?','Ce se intampla la TP1?'
+      'De ce este bias-ul ' + data.bias + '?',
+      'Explica entry-ul pentru ' + data.setup_prioritar,
+      'Ce confluente ai identificat?',
+      'Care e riscul exact in $ pentru 1% cont?',
+      'Ce se intampla daca se invalideaza?',
+      'Cel mai bun moment de intrare?'
     ].map(q=>`<button class="qbtn" onclick="quickChat('${q}')">${q}</button>`).join('');
 
   } catch(e) {
     clearInterval(iv);
-    rs.innerHTML = `<div class="result-box"><div style="padding:20px"><div style="color:var(--bear);font-family:monospace;font-size:12px;font-weight:700;margin-bottom:8px">⚠ EROARE API</div><div style="font-size:12px;color:var(--t2)">${e.message}</div><button onclick="doAnalysis()" style="margin-top:14px;padding:8px 18px;background:var(--a2);border:none;border-radius:7px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;cursor:pointer">INCEARCA DIN NOU</button></div></div>`;
+    rs.innerHTML = `<div style="padding:20px;background:var(--p);border:1px solid var(--bear);border-radius:14px">
+      <div style="color:var(--bear);font-family:monospace;font-size:12px;font-weight:700;margin-bottom:8px">⚠ EROARE</div>
+      <div style="font-size:12px;color:var(--t2)">${e.message}</div>
+      <button onclick="doAnalysis()" style="margin-top:14px;padding:9px 20px;background:var(--a2);border:none;border-radius:8px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;cursor:pointer">INCEARCA DIN NOU</button>
+    </div>`;
   }
 
   btn.disabled = false; btn.textContent = '⚡ ANALIZA NOUA';
 }
 
-function extractSetup(txt, type){
-  const section = txt.match(new RegExp(`SETUP ${type}[\\s\\S]*?(?=##|$)`, 'i'));
-  if(!section) return {};
-  const s = section[0];
-  const get = (pattern) => {
-    const m = s.match(pattern);
-    return m ? m[1].trim() : '—';
-  };
-  return {
-    entry: get(/Entry:\s*([^\n]+)/i),
-    sl: get(/Stop Loss:\s*([^\n]+)/i),
-    tp1: get(/TP1:\s*([^||\n]+)/i),
-    tp2: get(/TP2:\s*([^||\n]+)/i),
-    tp3: get(/TP3:\s*([^\n]+)/i),
-    rr: get(/Risk:Reward:\s*([^\n]+)/i)
-  };
-}
-
+// CHAT
 async function sendChat(){
   const inp = document.getElementById('cinput');
   const m = inp.value.trim(); if(!m) return;
@@ -507,9 +498,7 @@ async function sendChat(){
   addMsg(m,'user');
   await doChat(m);
 }
-
 function quickChat(q){ addMsg(q,'user'); doChat(q); }
-
 function addMsg(t,r){
   const co = document.getElementById('chatOut');
   const d = document.createElement('div');
@@ -517,7 +506,6 @@ function addMsg(t,r){
   d.innerHTML = `<div class="mlabel">${r==='user'?'◉ TU':'◈ NEXUS AI'}</div>${fmt(t)}`;
   co.appendChild(d); co.scrollTop = co.scrollHeight;
 }
-
 async function doChat(msg){
   const sb = document.getElementById('sbtn'); sb.disabled = true;
   const ld = document.createElement('div');
@@ -525,9 +513,8 @@ async function doChat(msg){
   ld.innerHTML = '<div class="mlabel">◈ NEXUS AI</div><span style="color:var(--a);font-family:monospace;font-size:10px">Analizez...</span>';
   const co = document.getElementById('chatOut');
   co.appendChild(ld); co.scrollTop = co.scrollHeight;
-
   const h = [...analysisCtx, { role:'user', content: msg }];
-  const sys = `Esti NEXUS TRADER AI expert trader institutional. Raspunzi in romana, concis si profesional. Ai deja analiza chartului — raspunde la intrebari despre ea.`;
+  const sys = `Esti NEXUS TRADER AI expert institutional. Raspunzi in romana, concis, direct si profesional. Ai deja analiza completa a chartului. Raspunde la intrebari specific si cu niveluri exacte.`;
   try {
     const reply = await callClaude(h, sys);
     analysisCtx = [...h, { role:'assistant', content: reply }];
