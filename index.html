@@ -13,83 +13,89 @@
   --t:#c8d8e8;--t2:#5a7a9a;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;height:100vh;display:flex;flex-direction:column;overflow:hidden;}
-.hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--b);background:rgba(8,13,26,.98);flex-shrink:0;z-index:10;}
+body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;min-height:100vh;display:flex;flex-direction:column;}
+
+/* HEADER */
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--b);background:rgba(8,13,26,.98);position:sticky;top:0;z-index:100;}
 .logo{display:flex;align-items:center;gap:10px;}
-.logo-icon{width:32px;height:32px;border:2px solid var(--a);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;box-shadow:0 0 12px rgba(0,245,196,.4);animation:pulse 3s ease-in-out infinite;}
-@keyframes pulse{0%,100%{box-shadow:0 0 8px rgba(0,245,196,.3)}50%{box-shadow:0 0 20px rgba(0,245,196,.7)}}
-.logo-t{font-size:16px;font-weight:700;letter-spacing:2px;color:var(--a);}
+.logo-icon{width:36px;height:36px;border:2px solid var(--a);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 14px rgba(0,245,196,.4);animation:pulse 3s ease-in-out infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 8px rgba(0,245,196,.3)}50%{box-shadow:0 0 22px rgba(0,245,196,.7)}}
+.logo-t{font-size:18px;font-weight:700;letter-spacing:2px;color:var(--a);}
 .logo-s{font-size:8px;color:var(--t2);letter-spacing:2px;font-family:'Share Tech Mono',monospace;}
-.online{display:flex;align-items:center;gap:4px;font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--t2);}
-.dot{width:6px;height:6px;border-radius:50%;background:var(--bull);animation:blink 1.5s infinite;box-shadow:0 0 5px var(--bull);}
+.online{display:flex;align-items:center;gap:5px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--t2);}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--bull);animation:blink 1.5s infinite;box-shadow:0 0 6px var(--bull);}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-#clk{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--a);}
 
 /* API BANNER */
-#apibanner{padding:8px 14px;border-bottom:1px solid var(--b);display:flex;align-items:center;gap:8px;flex-shrink:0;background:rgba(0,144,255,.06);}
-#apibanner span{font-size:10px;color:var(--a2);font-family:'Share Tech Mono',monospace;white-space:nowrap;}
-#apikey{flex:1;background:rgba(255,255,255,.07);border:1px solid var(--b);border-radius:6px;padding:6px 10px;color:var(--t);font-family:'Share Tech Mono',monospace;font-size:10px;outline:none;}
-#savebtn{padding:6px 12px;background:var(--a2);border:none;border-radius:6px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;}
+#apibanner{padding:10px 16px;border-bottom:1px solid var(--b);display:flex;align-items:center;gap:8px;background:rgba(0,144,255,.06);flex-shrink:0;}
+#apibanner span{font-size:11px;color:var(--a2);font-family:'Share Tech Mono',monospace;white-space:nowrap;}
+#apikey{flex:1;background:rgba(255,255,255,.07);border:1px solid var(--b);border-radius:7px;padding:8px 12px;color:var(--t);font-family:'Share Tech Mono',monospace;font-size:11px;outline:none;}
+#savebtn{padding:8px 16px;background:var(--a2);border:none;border-radius:7px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;}
 
 /* TICKER */
-.ticker{background:rgba(0,245,196,.03);border-bottom:1px solid var(--b);padding:4px 0;overflow:hidden;white-space:nowrap;font-family:'Share Tech Mono',monospace;font-size:9px;flex-shrink:0;}
+.ticker{background:rgba(0,245,196,.03);border-bottom:1px solid var(--b);padding:5px 0;overflow:hidden;white-space:nowrap;font-family:'Share Tech Mono',monospace;font-size:10px;}
 .ticker-in{display:inline-block;animation:scroll 35s linear infinite;}
 @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.tb{color:var(--bull)}.tr{color:var(--bear)}
 
-/* LAYOUT */
-.layout{display:flex;flex:1;overflow:hidden;}
-@media(max-width:650px){.layout{flex-direction:column;}}
+/* MAIN */
+.main{flex:1;padding:16px;display:flex;flex-direction:column;gap:14px;max-width:700px;width:100%;margin:0 auto;}
 
-/* LEFT */
-.left{width:255px;border-right:1px solid var(--b);background:var(--bg2);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0;}
-@media(max-width:650px){.left{width:100%;border-right:none;border-bottom:1px solid var(--b);max-height:50vh;}}
+/* UPLOAD BIG */
+.upload-big{border:2px dashed var(--b);border-radius:16px;padding:28px 20px;text-align:center;cursor:pointer;transition:all .3s;background:rgba(255,255,255,.02);}
+.upload-big:hover,.upload-big.over{border-color:var(--a);background:rgba(0,245,196,.05);}
+.upload-big.has{padding:10px;border-color:var(--a);}
+.upload-big img{width:100%;max-height:300px;object-fit:contain;border-radius:10px;}
+.upload-big .ui{font-size:40px;margin-bottom:10px;}
+.upload-big .ut{font-size:16px;font-weight:700;letter-spacing:1px;color:var(--t);margin-bottom:4px;}
+.upload-big .us{font-size:11px;color:var(--t2);font-family:'Share Tech Mono',monospace;}
 
-.upload{margin:10px;border:2px dashed var(--b);border-radius:10px;padding:18px 12px;text-align:center;cursor:pointer;transition:all .3s;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:90px;}
-.upload:hover,.upload.over{border-color:var(--a);background:rgba(0,245,196,.04);}
-.upload.has{padding:8px;min-height:unset;}
-.upload img{width:100%;border-radius:6px;border:1px solid var(--b);}
-.sett{padding:0 10px 10px;display:flex;flex-direction:column;gap:8px;}
-.sec{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--a);letter-spacing:3px;padding:6px 0 3px;border-top:1px solid var(--b);}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4px;}
-.sbtn{padding:7px 4px;border:1px solid var(--b);border-radius:6px;background:var(--p);color:var(--t2);font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:600;cursor:pointer;text-align:center;transition:all .2s;user-select:none;}
-.sbtn.on{border-color:var(--a);color:var(--a);background:rgba(0,245,196,.08);}
-.chips{display:flex;flex-wrap:wrap;gap:4px;}
-.chip{padding:4px 8px;border:1px solid var(--b);border-radius:20px;font-size:10px;font-weight:600;cursor:pointer;color:var(--t2);user-select:none;}
-.chip.on{border-color:var(--a);color:var(--a);background:rgba(0,245,196,.07);}
-.go-btn{margin:0 10px 10px;padding:12px;background:linear-gradient(135deg,var(--a),var(--a2));border:none;border-radius:8px;color:#050810;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:all .3s;}
-.go-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,245,196,.3);}
-.go-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+/* GO BUTTON */
+.go{width:100%;padding:18px;background:linear-gradient(135deg,var(--a),var(--a2));border:none;border-radius:12px;color:#050810;font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;letter-spacing:3px;cursor:pointer;transition:all .3s;box-shadow:0 4px 20px rgba(0,245,196,.25);}
+.go:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,245,196,.4);}
+.go:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
 
-/* RIGHT */
-.right{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
-.tabs{display:flex;border-bottom:1px solid var(--b);background:var(--bg2);padding:0 14px;flex-shrink:0;}
-.tab{padding:10px 14px;font-size:10px;font-weight:600;letter-spacing:1.5px;color:var(--t2);cursor:pointer;border-bottom:2px solid transparent;font-family:'Share Tech Mono',monospace;transition:all .2s;}
-.tab.on{color:var(--a);border-bottom-color:var(--a);}
-.output{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:12px;}
+/* RESULT */
+.result-box{background:var(--p);border:1px solid var(--b);border-radius:14px;overflow:hidden;}
+.result-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--b);background:rgba(255,255,255,.03);}
+.result-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--a);font-family:'Share Tech Mono',monospace;}
+.result-sub{font-size:9px;color:var(--t2);font-family:'Share Tech Mono',monospace;margin-top:2px;}
+.badge{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700;}
+.badge.bull{background:rgba(0,230,118,.15);color:var(--bull);border:1px solid var(--bull);}
+.badge.bear{background:rgba(255,61,87,.15);color:var(--bear);border:1px solid var(--bear);}
+.badge.neu{background:rgba(255,107,53,.15);color:var(--a3);border:1px solid var(--a3);}
 
-/* CARDS */
-.card{background:var(--p);border:1px solid var(--b);border-radius:10px;overflow:hidden;}
-.card-h{padding:8px 14px;background:rgba(255,255,255,.03);border-bottom:1px solid var(--b);font-size:10px;font-weight:700;letter-spacing:2px;color:var(--a2);font-family:'Share Tech Mono',monospace;}
-.card-b{padding:14px;font-size:13px;line-height:1.8;color:var(--t);}
-.card-b h3{font-size:11px;font-weight:700;color:var(--a);letter-spacing:1px;margin:14px 0 5px;padding:4px 8px;background:rgba(0,245,196,.06);border-left:2px solid var(--a);font-family:'Share Tech Mono',monospace;}
-.card-b h3:first-child{margin-top:0;}
-.card-b ul{list-style:none;}
-.card-b li{padding:3px 0 3px 14px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;}
-.card-b li:last-child{border:none;}
-.card-b li::before{content:'▸';position:absolute;left:0;color:var(--a);font-size:9px;top:5px;}
-.card-b strong{color:var(--a);}
-.card-b em{color:var(--a2);font-style:normal;}
-.a-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--p);border:1px solid var(--b);border-radius:10px;border-left:3px solid var(--a);}
-.badge{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;}
-.badge.bull{background:rgba(0,230,118,.12);color:var(--bull);border:1px solid var(--bull);}
-.badge.bear{background:rgba(255,61,87,.12);color:var(--bear);border:1px solid var(--bear);}
-.badge.neu{background:rgba(255,107,53,.12);color:var(--a3);border:1px solid var(--a3);}
+/* SETUP CARDS */
+.setup-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px;}
+.setup-card{padding:14px;border-radius:10px;border:1px solid var(--b);background:rgba(255,255,255,.02);}
+.setup-card.long{border-color:rgba(0,230,118,.3);background:rgba(0,230,118,.05);}
+.setup-card.short{border-color:rgba(255,61,87,.3);background:rgba(255,61,87,.05);}
+.sc-title{font-size:10px;font-weight:700;letter-spacing:2px;font-family:'Share Tech Mono',monospace;margin-bottom:10px;}
+.sc-title.long{color:var(--bull);}
+.sc-title.short{color:var(--bear);}
+.sc-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:12px;}
+.sc-row:last-child{border:none;}
+.sc-label{color:var(--t2);font-size:10px;font-family:'Share Tech Mono',monospace;}
+.sc-val{font-weight:700;font-family:'Share Tech Mono',monospace;font-size:12px;}
+.sc-val.entry{color:var(--a2);}
+.sc-val.sl{color:var(--bear);}
+.sc-val.tp{color:var(--bull);}
+.sc-val.rr{color:var(--a);}
+
+/* ANALYSIS TEXT */
+.analysis-body{padding:16px 18px;font-size:13px;line-height:1.85;color:var(--t);}
+.analysis-body h3{font-size:11px;font-weight:700;color:var(--a);letter-spacing:1px;margin:16px 0 6px;padding:5px 10px;background:rgba(0,245,196,.07);border-left:2px solid var(--a);font-family:'Share Tech Mono',monospace;}
+.analysis-body h3:first-child{margin-top:0;}
+.analysis-body ul{list-style:none;margin:4px 0;}
+.analysis-body li{padding:4px 0 4px 16px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;}
+.analysis-body li:last-child{border:none;}
+.analysis-body li::before{content:'▸';position:absolute;left:0;color:var(--a);font-size:9px;top:6px;}
+.analysis-body strong{color:var(--a);}
+.analysis-body em{color:var(--a2);font-style:normal;}
 
 /* LOADING */
-.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:16px;}
-.bars{display:flex;gap:4px;align-items:flex-end;height:40px;}
-.bar{width:4px;background:var(--a);border-radius:3px;}
+.loading{display:flex;flex-direction:column;align-items:center;padding:40px 20px;gap:16px;}
+.bars{display:flex;gap:4px;align-items:flex-end;height:44px;}
+.bar{width:5px;background:var(--a);border-radius:3px;}
 .bar:nth-child(1){animation:ba 1s 0s ease-in-out infinite;}
 .bar:nth-child(2){animation:ba 1s .1s ease-in-out infinite;}
 .bar:nth-child(3){animation:ba 1s .2s ease-in-out infinite;}
@@ -97,25 +103,31 @@ body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;heigh
 .bar:nth-child(5){animation:ba 1s .4s ease-in-out infinite;}
 .bar:nth-child(6){animation:ba 1s .5s ease-in-out infinite;}
 .bar:nth-child(7){animation:ba 1s .6s ease-in-out infinite;}
-@keyframes ba{0%,100%{height:8px;opacity:.4}50%{height:40px;opacity:1}}
+@keyframes ba{0%,100%{height:8px;opacity:.4}50%{height:44px;opacity:1}}
+.l-txt{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--a);letter-spacing:3px;}
+.l-step{font-size:10px;color:var(--t2);font-family:'Share Tech Mono',monospace;}
 
 /* CHAT */
-.chat-out{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px;}
-.msg{padding:10px 13px;border-radius:9px;font-size:12px;line-height:1.65;border:1px solid var(--b);}
+.chat-section{background:var(--p);border:1px solid var(--b);border-radius:14px;overflow:hidden;}
+.chat-msgs{padding:14px;display:flex;flex-direction:column;gap:10px;max-height:350px;overflow-y:auto;}
+.msg{padding:10px 14px;border-radius:10px;font-size:13px;line-height:1.65;border:1px solid var(--b);}
 .msg.user{background:rgba(0,144,255,.08);border-color:rgba(0,144,255,.3);align-self:flex-end;max-width:85%;}
-.msg.ai{background:var(--p);}
+.msg.ai{background:rgba(255,255,255,.03);}
 .msg strong{color:var(--a);}
 .msg em{color:var(--a2);font-style:normal;}
 .mlabel{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:2px;margin-bottom:5px;opacity:.6;}
-.chat-bar{border-top:1px solid var(--b);padding:9px 12px;display:flex;gap:8px;background:var(--bg2);flex-shrink:0;}
-.chat-input{flex:1;background:var(--p);border:1px solid var(--b);border-radius:7px;padding:9px 11px;color:var(--t);font-family:'Rajdhani',sans-serif;font-size:13px;outline:none;}
+.chat-bar{padding:10px 14px;display:flex;gap:8px;border-top:1px solid var(--b);background:rgba(255,255,255,.02);}
+.chat-input{flex:1;background:rgba(255,255,255,.06);border:1px solid var(--b);border-radius:8px;padding:10px 13px;color:var(--t);font-family:'Rajdhani',sans-serif;font-size:14px;outline:none;}
 .chat-input:focus{border-color:var(--a2);}
 .chat-input::placeholder{color:var(--t2);}
-.send-btn{padding:9px 14px;background:var(--a2);border:none;border-radius:7px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;cursor:pointer;}
+.send-btn{padding:10px 18px;background:var(--a2);border:none;border-radius:8px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;cursor:pointer;}
 .send-btn:disabled{opacity:.4;cursor:not-allowed;}
-.qbtn{padding:5px 10px;border:1px solid var(--b);border-radius:20px;background:transparent;color:var(--t2);font-size:10px;cursor:pointer;font-family:'Rajdhani',sans-serif;font-weight:600;}
+
+/* QUICK */
+.quick-wrap{display:flex;flex-wrap:wrap;gap:7px;padding:12px 14px;border-top:1px solid var(--b);}
+.qbtn{padding:6px 12px;border:1px solid var(--b);border-radius:20px;background:transparent;color:var(--t2);font-size:11px;cursor:pointer;font-family:'Rajdhani',sans-serif;font-weight:600;transition:all .2s;}
 .qbtn:hover{border-color:var(--a);color:var(--a);}
-.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:12px;opacity:.4;}
+
 ::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-thumb{background:var(--b);border-radius:2px;}
 </style>
 </head>
@@ -126,166 +138,111 @@ body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;heigh
     <div class="logo-icon">📊</div>
     <div>
       <div class="logo-t">NEXUS TRADER AI</div>
-      <div class="logo-s">PROFESSIONAL MARKET ANALYST v7.0</div>
+      <div class="logo-s">PROFESSIONAL MARKET ANALYST v8.0</div>
     </div>
   </div>
-  <div style="display:flex;align-items:center;gap:10px;">
-    <div class="online"><div class="dot"></div>ONLINE</div>
-    <div id="clk"></div>
-  </div>
+  <div class="online"><div class="dot"></div>ONLINE</div>
 </div>
 
 <div id="apibanner">
-  <span>🔑 CLAUDE KEY:</span>
+  <span>🔑 API KEY:</span>
   <input type="password" id="apikey" placeholder="sk-ant-api03-...">
   <button id="savebtn" onclick="saveKey()">SALVEAZA</button>
 </div>
 
 <div class="ticker">
   <div class="ticker-in">
-    <span style="margin:0 16px;color:var(--bull)">XAU/USD 2312 ▲</span>
-    <span style="margin:0 16px;color:var(--bear)">GBP/USD 1.2634 ▼</span>
-    <span style="margin:0 16px;color:var(--bull)">BTC/USD 67,240 ▲</span>
-    <span style="margin:0 16px;color:var(--bull)">EUR/USD 1.0842 ▲</span>
-    <span style="margin:0 16px;color:var(--bull)">ETH 3,180 ▲</span>
-    <span style="margin:0 16px;color:var(--bear)">USD/JPY 151.82 ▼</span>
-    <span style="margin:0 16px;color:var(--bull)">S&P500 5,224 ▲</span>
-    <span style="margin:0 16px;color:var(--bear)">OIL 82.14 ▼</span>
-    <span style="margin:0 16px;color:var(--bull)">XAU/USD 2312 ▲</span>
-    <span style="margin:0 16px;color:var(--bear)">GBP/USD 1.2634 ▼</span>
-    <span style="margin:0 16px;color:var(--bull)">BTC/USD 67,240 ▲</span>
-    <span style="margin:0 16px;color:var(--bull)">EUR/USD 1.0842 ▲</span>
-    <span style="margin:0 16px;color:var(--bull)">ETH 3,180 ▲</span>
-    <span style="margin:0 16px;color:var(--bear)">USD/JPY 151.82 ▼</span>
-    <span style="margin:0 16px;color:var(--bull)">S&P500 5,224 ▲</span>
-    <span style="margin:0 16px;color:var(--bear)">OIL 82.14 ▼</span>
+    <span style="margin:0 18px;color:var(--bull)">XAU/USD 2312 ▲</span>
+    <span style="margin:0 18px;color:var(--bear)">GBP/USD 1.2634 ▼</span>
+    <span style="margin:0 18px;color:var(--bull)">BTC/USD 67,240 ▲</span>
+    <span style="margin:0 18px;color:var(--bull)">EUR/USD 1.0842 ▲</span>
+    <span style="margin:0 18px;color:var(--bull)">ETH 3,180 ▲</span>
+    <span style="margin:0 18px;color:var(--bear)">USD/JPY 151.82 ▼</span>
+    <span style="margin:0 18px;color:var(--bull)">S&P500 5,224 ▲</span>
+    <span style="margin:0 18px;color:var(--bear)">OIL 82.14 ▼</span>
+    <span style="margin:0 18px;color:var(--bull)">XAU/USD 2312 ▲</span>
+    <span style="margin:0 18px;color:var(--bear)">GBP/USD 1.2634 ▼</span>
+    <span style="margin:0 18px;color:var(--bull)">BTC/USD 67,240 ▲</span>
+    <span style="margin:0 18px;color:var(--bull)">EUR/USD 1.0842 ▲</span>
+    <span style="margin:0 18px;color:var(--bull)">ETH 3,180 ▲</span>
+    <span style="margin:0 18px;color:var(--bear)">USD/JPY 151.82 ▼</span>
+    <span style="margin:0 18px;color:var(--bull)">S&P500 5,224 ▲</span>
+    <span style="margin:0 18px;color:var(--bear)">OIL 82.14 ▼</span>
   </div>
 </div>
 
-<div class="layout">
-  <div class="left">
-    <div class="upload" id="uzone" onclick="document.getElementById('fi').click()"
-      ondragover="event.preventDefault();this.classList.add('over')"
-      ondragleave="this.classList.remove('over')"
-      ondrop="event.preventDefault();this.classList.remove('over');loadFile(event.dataTransfer.files[0])">
-      <input type="file" id="fi" accept="image/*" style="display:none" onchange="loadFile(this.files[0])">
-      <div style="font-size:24px;margin-bottom:6px">📈</div>
-      <div style="font-size:12px;font-weight:600;letter-spacing:1px">UPLOAD CHART</div>
-      <div style="font-size:9px;color:var(--t2);font-family:'Share Tech Mono',monospace;margin-top:3px">PNG · JPG · Drop sau Click</div>
-    </div>
+<div class="main">
 
-    <div class="sett">
-      <div class="sec">// MARKET</div>
-      <div class="grid2" id="mktG">
-        <div class="sbtn on" data-v="Forex" onclick="pick('mktG',this)">FOREX</div>
-        <div class="sbtn" data-v="Crypto" onclick="pick('mktG',this)">CRYPTO</div>
-        <div class="sbtn" data-v="Gold/Oil" onclick="pick('mktG',this)">GOLD/OIL</div>
-        <div class="sbtn" data-v="Indici" onclick="pick('mktG',this)">INDICI</div>
-      </div>
-      <div class="sec">// TIMEFRAME</div>
-      <div class="grid2" id="tfG">
-        <div class="sbtn" data-v="M1-M15" onclick="pick('tfG',this)">M1-M15</div>
-        <div class="sbtn" data-v="M30-H1" onclick="pick('tfG',this)">M30-H1</div>
-        <div class="sbtn on" data-v="H4-D1" onclick="pick('tfG',this)">H4-D1</div>
-        <div class="sbtn" data-v="W1-MN" onclick="pick('tfG',this)">W1-MN</div>
-      </div>
-      <div class="sec">// ANALIZĂ</div>
-      <div class="chips" id="anG">
-        <div class="chip on" data-v="Price Action" onclick="this.classList.toggle('on')">Price Action</div>
-        <div class="chip on" data-v="SMC/ICT" onclick="this.classList.toggle('on')">SMC/ICT</div>
-        <div class="chip on" data-v="Indicatori" onclick="this.classList.toggle('on')">Indicatori</div>
-        <div class="chip on" data-v="Supply & Demand" onclick="this.classList.toggle('on')">S&D</div>
-        <div class="chip on" data-v="Multi-TF" onclick="this.classList.toggle('on')">Multi-TF</div>
-        <div class="chip on" data-v="Risk Mgmt" onclick="this.classList.toggle('on')">Risk</div>
-      </div>
-      <div class="sec">// LIMBĂ</div>
-      <div class="grid2" id="langG">
-        <div class="sbtn on" data-v="romana" onclick="pick('langG',this)">ROMÂNĂ</div>
-        <div class="sbtn" data-v="english" onclick="pick('langG',this)">ENGLISH</div>
-      </div>
-    </div>
-
-    <button class="go-btn" id="goBtn" onclick="doAnalysis()">⚡ ANALIZEAZĂ CHART</button>
+  <!-- UPLOAD -->
+  <div class="upload-big" id="uzone"
+    onclick="document.getElementById('fi').click()"
+    ondragover="event.preventDefault();this.classList.add('over')"
+    ondragleave="this.classList.remove('over')"
+    ondrop="event.preventDefault();this.classList.remove('over');loadFile(event.dataTransfer.files[0])">
+    <input type="file" id="fi" accept="image/*" style="display:none" onchange="loadFile(this.files[0])">
+    <div class="ui">📈</div>
+    <div class="ut">UPLOAD CHART</div>
+    <div class="us">Apasă sau trage imaginea aici • PNG · JPG</div>
+    <div class="us" style="margin-top:6px;color:var(--a);opacity:.7">AI detectează automat: pereche, timeframe, setup</div>
   </div>
 
-  <div class="right">
-    <div class="tabs">
-      <div class="tab on" id="tab-a" onclick="switchTab('a')">📊 ANALIZĂ</div>
-      <div class="tab" id="tab-c" onclick="switchTab('c')">💬 CHAT</div>
-    </div>
+  <!-- GO BUTTON -->
+  <button class="go" id="goBtn" onclick="doAnalysis()">⚡ ANALIZEAZĂ AUTOMAT</button>
 
-    <div class="output" id="out-a">
-      <div class="welcome">
-        <div style="font-size:42px">🎯</div>
-        <div style="font-size:15px;font-weight:600;letter-spacing:2px;color:var(--t2)">NEXUS TRADER AI</div>
-        <div style="font-size:10px;color:var(--t2);font-family:'Share Tech Mono',monospace">UPLOAD CHART → ANALIZEAZĂ</div>
+  <!-- RESULT -->
+  <div id="resultSection" style="display:none;flex-direction:column;gap:14px;"></div>
+
+  <!-- CHAT -->
+  <div class="chat-section" id="chatSection" style="display:none;">
+    <div style="padding:10px 16px;border-bottom:1px solid var(--b);font-size:10px;font-weight:700;letter-spacing:2px;color:var(--a2);font-family:'Share Tech Mono',monospace;">💬 CHAT EXPERT</div>
+    <div class="chat-msgs" id="chatOut">
+      <div class="msg ai">
+        <div class="mlabel">◈ NEXUS AI</div>
+        Analiza e gata! Pune-mi orice întrebare despre setup-urile identificate.
       </div>
     </div>
-
-    <div style="display:none;flex-direction:column;flex:1;overflow:hidden;" id="out-c">
-      <div class="chat-out" id="chatOut">
-        <div class="msg ai">
-          <div class="mlabel">◈ NEXUS AI</div>
-          Salut profesionistule! Uploadează un chart sau pune-mi orice întrebare despre trading.<br><br>
-          <em>→ Price Action & SMC/ICT</em><br>
-          <em>→ Supply & Demand</em><br>
-          <em>→ Risk Management</em>
-        </div>
-      </div>
-      <div class="chat-bar">
-        <input class="chat-input" id="cinput" placeholder="Întreabă expertul AI..." onkeydown="if(event.key==='Enter')sendChat()">
-        <button class="send-btn" id="sbtn" onclick="sendChat()">➤</button>
-      </div>
+    <div class="quick-wrap" id="quickWrap"></div>
+    <div class="chat-bar">
+      <input class="chat-input" id="cinput" placeholder="Ex: Mai detaliază TP2..." onkeydown="if(event.key==='Enter')sendChat()">
+      <button class="send-btn" id="sbtn" onclick="sendChat()">➤</button>
     </div>
   </div>
+
 </div>
 
 <script>
-let b64=null,imgMime='image/jpeg',apiKey='',chatHist=[],analysisCtx=[];
-
-setInterval(()=>{document.getElementById('clk').textContent=new Date().toUTCString().slice(17,25)+' UTC';},1000);
+let b64=null, imgMime='image/jpeg', apiKey='', analysisCtx=[], fullAnalysis='';
 
 // Load saved key
-const saved=localStorage.getItem('claudekey');
-if(saved){apiKey=saved;document.getElementById('apikey').value=saved;markSaved();}
+const saved = localStorage.getItem('nxkey');
+if(saved){ apiKey=saved; document.getElementById('apikey').value=saved; markSaved(); }
 
 function saveKey(){
-  apiKey=document.getElementById('apikey').value.trim();
-  if(!apiKey){alert('Introdu cheia!');return;}
-  localStorage.setItem('claudekey',apiKey);
+  apiKey = document.getElementById('apikey').value.trim();
+  if(!apiKey){ alert('Introdu cheia!'); return; }
+  localStorage.setItem('nxkey', apiKey);
   markSaved();
 }
 
 function markSaved(){
-  const b=document.getElementById('apibanner');
-  b.style.background='rgba(0,230,118,.08)';
-  b.style.borderColor='rgba(0,230,118,.3)';
-  b.querySelector('span').textContent='✅ KEY ACTIV:';
-  document.getElementById('savebtn').textContent='SCHIMBA';
+  const b = document.getElementById('apibanner');
+  b.style.background = 'rgba(0,230,118,.08)';
+  b.style.borderColor = 'rgba(0,230,118,.25)';
+  b.querySelector('span').textContent = '✅ KEY ACTIV:';
+  document.getElementById('savebtn').textContent = 'SCHIMBA';
 }
-
-function pick(g,el){document.getElementById(g).querySelectorAll('.sbtn').forEach(b=>b.classList.remove('on'));el.classList.add('on');}
-function getVal(g){return document.querySelector('#'+g+' .sbtn.on')?.dataset.v||'';}
-function getChips(){return [...document.querySelectorAll('#anG .chip.on')].map(c=>c.dataset.v);}
 
 function loadFile(f){
-  if(!f||!f.type.startsWith('image/'))return;
-  imgMime=f.type;
-  const r=new FileReader();
-  r.onload=e=>{
-    b64=e.target.result.split(',')[1];
-    const uz=document.getElementById('uzone');
-    uz.className='upload has';
-    uz.innerHTML=`<img src="${e.target.result}" alt="chart" onclick="document.getElementById('fi2').click()"><input type="file" id="fi2" accept="image/*" style="display:none" onchange="loadFile(this.files[0])">`;
+  if(!f || !f.type.startsWith('image/')) return;
+  imgMime = f.type;
+  const r = new FileReader();
+  r.onload = e => {
+    b64 = e.target.result.split(',')[1];
+    const uz = document.getElementById('uzone');
+    uz.className = 'upload-big has';
+    uz.innerHTML = `<img src="${e.target.result}" alt="chart" style="width:100%;max-height:280px;object-fit:contain;border-radius:10px"><input type="file" id="fi" accept="image/*" style="display:none" onchange="loadFile(this.files[0])"><div style="text-align:center;margin-top:8px;font-size:11px;color:var(--a);font-family:monospace">✅ CHART INCARCAT — APASA ANALIZEAZA</div>`;
   };
   r.readAsDataURL(f);
-}
-
-function switchTab(t){
-  document.getElementById('out-a').style.display=t==='a'?'flex':'none';
-  document.getElementById('out-c').style.display=t==='c'?'flex':'none';
-  document.getElementById('tab-a').classList.toggle('on',t==='a');
-  document.getElementById('tab-c').classList.toggle('on',t==='c');
 }
 
 function fmt(txt){
@@ -294,132 +251,264 @@ function fmt(txt){
     .replace(/\*(.+?)\*/g,'<em>$1</em>')
     .replace(/^#{1,3} (.+)$/gm,'<h3>$1</h3>')
     .replace(/^[•\-] (.+)$/gm,'<li>$1</li>')
-    .replace(/(<li>.*<\/li>\n?)+/g,m=>'<ul>'+m+'</ul>')
+    .replace(/(<li>.*?<\/li>\n?)+/gs, m=>'<ul>'+m+'</ul>')
     .replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
 }
 
-function sysPrompt(){
-  const lang=getVal('langG')==='romana'?'română':'English';
-  return `Esti NEXUS TRADER AI expert trader institutional. Raspunzi in ${lang}.
-Piata: ${getVal('mktG')} | TF: ${getVal('tfG')} | Analize: ${getChips().join(', ')}
-
-Analizeaza COMPLET orice chart:
-## 1. BIAS (Bullish/Bearish/Neutral)
-## 2. STRUCTURA (HH/HL, LH/LL, BOS, CHoCH)
-## 3. SMART MONEY (Order Blocks, FVG, Liquidity BSL/SSL)
-## 4. SUPPLY & DEMAND (zone premium/discount, fresh vs tested)
-## 5. INDICATORI (EMA 20/50/200, RSI divergente, MACD)
-## 6. CONFLUENTE (cele mai tari setup-uri)
-## 7. SETUP-URI (Entry, SL, TP1/TP2/TP3, R:R, invalidare)
-## 8. RISK MANAGEMENT (% risc, sizing)
-## 9. CONCLUZIE (next move, scenarii alternative)
-Fii concret cu niveluri exacte de pret. Nivel institutional.`;
-}
-
-async function callClaude(messages){
-  if(!apiKey){alert('Salveaza API key-ul Claude mai intai!');return null;}
-  const res=await fetch('https://api.anthropic.com/v1/messages',{
+async function callClaude(messages, system){
+  const res = await fetch('https://api.anthropic.com/v1/messages',{
     method:'POST',
     headers:{
       'Content-Type':'application/json',
-      'x-api-key':apiKey,
+      'x-api-key': apiKey,
       'anthropic-version':'2023-06-01',
       'anthropic-dangerous-direct-browser-access':'true'
     },
-    body:JSON.stringify({
-      model:'claude-sonnet-4-5',
-      max_tokens:2000,
-      system:sysPrompt(),
-      messages
-    })
+    body: JSON.stringify({ model:'claude-sonnet-4-5', max_tokens:2500, system, messages })
   });
-  const d=await res.json();
-  if(!res.ok)throw new Error(d?.error?.message||'HTTP '+res.status);
-  return d.content?.filter(b=>b.type==='text').map(b=>b.text).join('')||'';
+  const d = await res.json();
+  if(!res.ok) throw new Error(d?.error?.message || 'HTTP '+res.status);
+  return d.content?.filter(b=>b.type==='text').map(b=>b.text).join('') || '';
 }
 
 async function doAnalysis(){
-  if(!b64){alert('Uploadeaza un chart!');return;}
-  if(!apiKey){alert('Salveaza API key-ul Claude!');return;}
-  const btn=document.getElementById('goBtn');
-  btn.disabled=true;btn.textContent='⏳ ANALIZEZ...';
-  switchTab('a');
-  const out=document.getElementById('out-a');
-  out.innerHTML=`<div class="loading"><div class="bars">${Array(7).fill('<div class="bar"></div>').join('')}</div><div style="font-family:monospace;font-size:11px;color:var(--a);letter-spacing:3px">ANALIZEZ CHART-UL...</div><div id="lstep" style="font-size:10px;color:var(--t2);font-family:monospace">Detectez structura...</div></div>`;
-  const steps=['Detectez structura...','Identific OB & FVG...','Analizez S&D zones...','Calculez confluente...','Evaluez indicatorii...','Compun analiza...'];
-  let si=0;
-  const iv=setInterval(()=>{si=(si+1)%steps.length;const el=document.getElementById('lstep');if(el)el.textContent=steps[si];},1800);
-  try{
-    const txt=await callClaude([{role:'user',content:[
-      {type:'image',source:{type:'base64',media_type:imgMime,data:b64}},
-      {type:'text',text:`Analizeaza complet acest chart de ${getVal('mktG')} pe ${getVal('tfG')}. Aplica: ${getChips().join(', ')}. Entry, SL, TP exacte.`}
-    ]}]);
+  if(!b64){ alert('Uploadeaza un chart mai intai!'); return; }
+  if(!apiKey){ alert('Salveaza API key-ul Claude!'); return; }
+
+  const btn = document.getElementById('goBtn');
+  btn.disabled = true; btn.textContent = '⏳ ANALIZEZ...';
+  document.getElementById('resultSection').style.display = 'none';
+  document.getElementById('chatSection').style.display = 'none';
+
+  // Show loading
+  const rs = document.getElementById('resultSection');
+  rs.style.display = 'flex';
+  rs.innerHTML = `<div class="result-box"><div class="loading">
+    <div class="bars">${Array(7).fill('<div class="bar"></div>').join('')}</div>
+    <div class="l-txt">ANALIZEZ CHART-UL...</div>
+    <div class="l-step" id="lstep">AI detecteaza piata si timeframe-ul...</div>
+  </div></div>`;
+
+  const steps = [
+    'AI detecteaza piata si timeframe-ul...',
+    'Identific structura: HH/HL, BOS, CHoCH...',
+    'Scanez Order Blocks si FVG-uri...',
+    'Analizez Supply & Demand zones...',
+    'Calculez RSI, EMA, MACD...',
+    'Construiesc setup-urile cu Entry/SL/TP...',
+    'Calculez Risk:Reward ratio...',
+    'Finalizez analiza institutionala...'
+  ];
+  let si = 0;
+  const iv = setInterval(()=>{ si=(si+1)%steps.length; const el=document.getElementById('lstep'); if(el) el.textContent=steps[si]; }, 1500);
+
+  const system = `Esti NEXUS TRADER AI — analist trader de nivel institutional. 
+
+IMPORTANT: Detectezi AUTOMAT din imagine:
+- Ce pereche/instrument este (EUR/USD, BTC, GOLD, etc)
+- Ce timeframe este (M1, M5, M15, H1, H4, D1, etc)
+- Ce indicatori sunt vizibili
+
+Raspunzi DOAR in limba romana.
+
+Structura raspunsului OBLIGATORIE — foloseste exact aceste headere:
+
+## DETECTIE AUTOMATA
+- Instrument: [ce ai detectat]
+- Timeframe: [ce ai detectat]  
+- Sesiune: [London/NY/Asia/Overlap]
+
+## BIAS DE PIATA
+[Bullish/Bearish/Neutral cu justificare clara]
+
+## STRUCTURA PIETEI
+[HH/HL sau LH/LL, BOS, CHoCH identificate]
+
+## SMART MONEY (ICT/SMC)
+[Order Blocks, Fair Value Gaps, Liquidity sweeps]
+
+## SUPPLY & DEMAND
+[Zone cheie, premium vs discount, fresh vs tested]
+
+## INDICATORI
+[EMA-uri, RSI cu nivel exact, MACD - doar ce e vizibil]
+
+## SETUP LONG 🟢
+- Entry: [pret exact sau zona]
+- Stop Loss: [pret exact] ([X] pips/puncte)
+- TP1: [pret] | TP2: [pret] | TP3: [pret]
+- Risk:Reward: [X:X]
+- Conditie: [ce trebuie sa se intample pentru a intra]
+- Invalidare: [cand setup-ul nu mai e valid]
+
+## SETUP SHORT 🔴
+- Entry: [pret exact sau zona]
+- Stop Loss: [pret exact] ([X] pips/puncte)
+- TP1: [pret] | TP2: [pret] | TP3: [pret]
+- Risk:Reward: [X:X]
+- Conditie: [ce trebuie sa se intample pentru a intra]
+- Invalidare: [cand setup-ul nu mai e valid]
+
+## PRIORITATE & CONCLUZIE
+[Care setup e prioritar, probabilitate, next move asteptat]
+
+Fii CONCRET cu niveluri de pret exacte. Gândeste ca un trader institutional SMC/ICT.`;
+
+  try {
+    const txt = await callClaude([{
+      role:'user',
+      content:[
+        { type:'image', source:{ type:'base64', media_type:imgMime, data:b64 } },
+        { type:'text', text:'Analizeaza complet acest chart. Detecteaza automat instrumentul si timeframe-ul. Ofera setup-uri precise cu entry, SL si TP-uri exacte.' }
+      ]
+    }], system);
+
     clearInterval(iv);
-    analysisCtx=[
-      {role:'user',content:[{type:'image',source:{type:'base64',media_type:imgMime,data:b64}},{type:'text',text:'Analizeaza.'}]},
-      {role:'assistant',content:txt}
+    fullAnalysis = txt;
+
+    // Save context for chat
+    analysisCtx = [
+      { role:'user', content:[
+        { type:'image', source:{ type:'base64', media_type:imgMime, data:b64 } },
+        { type:'text', text:'Analizeaza acest chart.' }
+      ]},
+      { role:'assistant', content: txt }
     ];
-    const lt=txt.toLowerCase();
-    const bu=(lt.match(/bullish/g)||[]).length,be=(lt.match(/bearish/g)||[]).length;
-    const bias=bu>be?'bull':be>bu?'bear':'neu';
-    const bl=bias==='bull'?'▲ BULLISH':bias==='bear'?'▼ BEARISH':'— NEUTRAL';
-    out.innerHTML=`
-      <div class="a-hdr">
-        <div>
-          <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:var(--a);font-family:monospace">◈ NEXUS AI — ANALIZA COMPLETA</div>
-          <div style="font-size:9px;color:var(--t2);font-family:monospace;margin-top:2px">${getVal('mktG')} · ${getVal('tfG')} · ${new Date().toLocaleTimeString()}</div>
+
+    // Detect bias
+    const lt = txt.toLowerCase();
+    const bu = (lt.match(/bullish/g)||[]).length;
+    const be = (lt.match(/bearish/g)||[]).length;
+    const bias = bu>be?'bull':be>bu?'bear':'neu';
+    const biasLabel = bias==='bull'?'▲ BULLISH':bias==='bear'?'▼ BEARISH':'— NEUTRAL';
+
+    // Extract setups from text
+    const setupLong = extractSetup(txt, 'LONG');
+    const setupShort = extractSetup(txt, 'SHORT');
+
+    // Detect instrument
+    const instrMatch = txt.match(/Instrument:\s*([^\n]+)/i);
+    const tfMatch = txt.match(/Timeframe:\s*([^\n]+)/i);
+    const instr = instrMatch ? instrMatch[1].trim() : 'Auto-detectat';
+    const tf = tfMatch ? tfMatch[1].trim() : 'Auto-detectat';
+
+    rs.innerHTML = `
+      <!-- HEADER -->
+      <div class="result-box">
+        <div class="result-hdr">
+          <div>
+            <div class="result-title">◈ NEXUS AI — ANALIZA COMPLETA</div>
+            <div class="result-sub">${instr} · ${tf} · ${new Date().toLocaleTimeString()}</div>
+          </div>
+          <div class="badge ${bias}">${biasLabel}</div>
         </div>
-        <div class="badge ${bias}">${bl}</div>
-      </div>
-      <div class="card">
-        <div class="card-h">📊 ANALIZA DETALIATA</div>
-        <div class="card-b">${fmt(txt)}</div>
-      </div>
-      <div class="card">
-        <div class="card-h">⚡ INTREBARI RAPIDE</div>
-        <div class="card-b" style="display:flex;flex-wrap:wrap;gap:6px;padding:10px">
-          ${['Care e entry-ul?','Unde e SL-ul?','Explica OB-ul','RSI divergente?','Sizing?','Scenariu alternativ?'].map(q=>`<button class="qbtn" onclick="quickChat('${q}')">${q}</button>`).join('')}
+
+        <!-- SETUP CARDS -->
+        <div class="setup-grid">
+          <div class="setup-card long">
+            <div class="sc-title long">🟢 SETUP LONG</div>
+            ${setupLong.entry ? `
+            <div class="sc-row"><span class="sc-label">ENTRY</span><span class="sc-val entry">${setupLong.entry}</span></div>
+            <div class="sc-row"><span class="sc-label">STOP LOSS</span><span class="sc-val sl">${setupLong.sl}</span></div>
+            <div class="sc-row"><span class="sc-label">TP1</span><span class="sc-val tp">${setupLong.tp1}</span></div>
+            <div class="sc-row"><span class="sc-label">TP2</span><span class="sc-val tp">${setupLong.tp2}</span></div>
+            <div class="sc-row"><span class="sc-label">TP3</span><span class="sc-val tp">${setupLong.tp3}</span></div>
+            <div class="sc-row"><span class="sc-label">R:R</span><span class="sc-val rr">${setupLong.rr}</span></div>
+            ` : '<div style="font-size:11px;color:var(--t2);text-align:center;padding:10px">Nu există setup long valid</div>'}
+          </div>
+          <div class="setup-card short">
+            <div class="sc-title short">🔴 SETUP SHORT</div>
+            ${setupShort.entry ? `
+            <div class="sc-row"><span class="sc-label">ENTRY</span><span class="sc-val entry">${setupShort.entry}</span></div>
+            <div class="sc-row"><span class="sc-label">STOP LOSS</span><span class="sc-val sl">${setupShort.sl}</span></div>
+            <div class="sc-row"><span class="sc-label">TP1</span><span class="sc-val tp">${setupShort.tp1}</span></div>
+            <div class="sc-row"><span class="sc-label">TP2</span><span class="sc-val tp">${setupShort.tp2}</span></div>
+            <div class="sc-row"><span class="sc-label">TP3</span><span class="sc-val tp">${setupShort.tp3}</span></div>
+            <div class="sc-row"><span class="sc-label">R:R</span><span class="sc-val rr">${setupShort.rr}</span></div>
+            ` : '<div style="font-size:11px;color:var(--t2);text-align:center;padding:10px">Nu există setup short valid</div>'}
+          </div>
         </div>
-      </div>`;
-  }catch(e){
+
+        <!-- FULL ANALYSIS -->
+        <div style="padding:0 14px 6px;border-top:1px solid var(--b);">
+          <div style="padding:10px 0;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--a2);font-family:'Share Tech Mono',monospace;">📊 ANALIZA COMPLETA</div>
+          <div class="analysis-body">${fmt(txt)}</div>
+        </div>
+      </div>
+    `;
+
+    // Show chat
+    const cs = document.getElementById('chatSection');
+    cs.style.display = 'block';
+    document.getElementById('chatOut').innerHTML = `<div class="msg ai"><div class="mlabel">◈ NEXUS AI</div>Analiza e gata! Am detectat <strong>${instr}</strong> pe <strong>${tf}</strong>. Bias: <strong>${biasLabel}</strong>.<br>Pune-mi orice întrebare despre setup-uri!</div>`;
+
+    // Quick questions
+    document.getElementById('quickWrap').innerHTML = [
+      'Mai detaliaza entry-ul','Care setup e prioritar?','Explica OB-ul principal','Cum sizing-uiesc pozitia?','Scenariu alternativ?','Ce se intampla la TP1?'
+    ].map(q=>`<button class="qbtn" onclick="quickChat('${q}')">${q}</button>`).join('');
+
+  } catch(e) {
     clearInterval(iv);
-    out.innerHTML=`<div style="background:var(--p);border:1px solid var(--bear);border-radius:10px;padding:16px"><div style="color:var(--bear);font-family:monospace;font-size:11px;font-weight:700;margin-bottom:8px">⚠ EROARE</div><div style="font-size:12px;color:var(--t2)">${e.message}</div></div>`;
+    rs.innerHTML = `<div class="result-box"><div style="padding:20px"><div style="color:var(--bear);font-family:monospace;font-size:12px;font-weight:700;margin-bottom:8px">⚠ EROARE API</div><div style="font-size:12px;color:var(--t2)">${e.message}</div><button onclick="doAnalysis()" style="margin-top:14px;padding:8px 18px;background:var(--a2);border:none;border-radius:7px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;cursor:pointer">INCEARCA DIN NOU</button></div></div>`;
   }
-  btn.disabled=false;btn.textContent='⚡ ANALIZEAZĂ DIN NOU';
+
+  btn.disabled = false; btn.textContent = '⚡ ANALIZA NOUA';
+}
+
+function extractSetup(txt, type){
+  const section = txt.match(new RegExp(`SETUP ${type}[\\s\\S]*?(?=##|$)`, 'i'));
+  if(!section) return {};
+  const s = section[0];
+  const get = (pattern) => {
+    const m = s.match(pattern);
+    return m ? m[1].trim() : '—';
+  };
+  return {
+    entry: get(/Entry:\s*([^\n]+)/i),
+    sl: get(/Stop Loss:\s*([^\n]+)/i),
+    tp1: get(/TP1:\s*([^||\n]+)/i),
+    tp2: get(/TP2:\s*([^||\n]+)/i),
+    tp3: get(/TP3:\s*([^\n]+)/i),
+    rr: get(/Risk:Reward:\s*([^\n]+)/i)
+  };
 }
 
 async function sendChat(){
-  const inp=document.getElementById('cinput');
-  const m=inp.value.trim();if(!m)return;
-  inp.value='';addMsg(m,'user');await doChat(m);
+  const inp = document.getElementById('cinput');
+  const m = inp.value.trim(); if(!m) return;
+  inp.value = '';
+  addMsg(m,'user');
+  await doChat(m);
 }
 
-function quickChat(q){switchTab('c');setTimeout(()=>{addMsg(q,'user');doChat(q);},50);}
+function quickChat(q){ addMsg(q,'user'); doChat(q); }
 
 function addMsg(t,r){
-  const co=document.getElementById('chatOut');
-  const d=document.createElement('div');
-  d.className='msg '+r;
-  d.innerHTML=`<div class="mlabel">${r==='user'?'◉ TU':'◈ NEXUS AI'}</div>${fmt(t)}`;
-  co.appendChild(d);co.scrollTop=co.scrollHeight;
+  const co = document.getElementById('chatOut');
+  const d = document.createElement('div');
+  d.className = 'msg '+r;
+  d.innerHTML = `<div class="mlabel">${r==='user'?'◉ TU':'◈ NEXUS AI'}</div>${fmt(t)}`;
+  co.appendChild(d); co.scrollTop = co.scrollHeight;
 }
 
 async function doChat(msg){
-  const sb=document.getElementById('sbtn');sb.disabled=true;
-  const ld=document.createElement('div');
-  ld.className='msg ai';
-  ld.innerHTML='<div class="mlabel">◈ NEXUS AI</div><span style="color:var(--a);font-family:monospace;font-size:10px">Analizez...</span>';
-  const co=document.getElementById('chatOut');
-  co.appendChild(ld);co.scrollTop=co.scrollHeight;
-  const h=[...analysisCtx,{role:'user',content:msg}];
-  try{
-    const reply=await callClaude(h);
-    analysisCtx=[...h,{role:'assistant',content:reply}];
-    ld.innerHTML=`<div class="mlabel">◈ NEXUS AI</div>${fmt(reply)}`;
-  }catch(e){
-    ld.innerHTML=`<div class="mlabel">◈ NEXUS AI</div><span style="color:var(--bear)">Eroare: ${e.message}</span>`;
+  const sb = document.getElementById('sbtn'); sb.disabled = true;
+  const ld = document.createElement('div');
+  ld.className = 'msg ai';
+  ld.innerHTML = '<div class="mlabel">◈ NEXUS AI</div><span style="color:var(--a);font-family:monospace;font-size:10px">Analizez...</span>';
+  const co = document.getElementById('chatOut');
+  co.appendChild(ld); co.scrollTop = co.scrollHeight;
+
+  const h = [...analysisCtx, { role:'user', content: msg }];
+  const sys = `Esti NEXUS TRADER AI expert trader institutional. Raspunzi in romana, concis si profesional. Ai deja analiza chartului — raspunde la intrebari despre ea.`;
+  try {
+    const reply = await callClaude(h, sys);
+    analysisCtx = [...h, { role:'assistant', content: reply }];
+    ld.innerHTML = `<div class="mlabel">◈ NEXUS AI</div>${fmt(reply)}`;
+  } catch(e) {
+    ld.innerHTML = `<div class="mlabel">◈ NEXUS AI</div><span style="color:var(--bear)">Eroare: ${e.message}</span>`;
   }
-  sb.disabled=false;co.scrollTop=co.scrollHeight;
+  sb.disabled = false; co.scrollTop = co.scrollHeight;
 }
 </script>
 </body>
