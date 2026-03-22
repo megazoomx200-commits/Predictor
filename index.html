@@ -7,7 +7,7 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap');
 :root{
-  --bg:#050810;--bg2:#080d1a;--p:#0b1220;--b:#1a2a40;
+  --bg:#050810;--p:#0b1220;--b:#1a2a40;
   --a:#00f5c4;--a2:#0090ff;--a3:#ff6b35;
   --bull:#00e676;--bear:#ff3d57;
   --t:#c8d8e8;--t2:#5a7a9a;
@@ -16,15 +16,13 @@
 body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;min-height:100vh;display:flex;flex-direction:column;}
 
 /* LOCK */
-#lock{position:fixed;inset:0;background:#050810;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;}
-.lock-icon{width:70px;height:70px;border:2px solid var(--a);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 0 25px rgba(0,245,196,.4);animation:pulse 3s ease-in-out infinite;}
-@keyframes pulse{0%,100%{box-shadow:0 0 10px rgba(0,245,196,.3)}50%{box-shadow:0 0 28px rgba(0,245,196,.7)}}
-.lock-title{font-size:24px;font-weight:700;letter-spacing:3px;color:var(--a);font-family:'Rajdhani',sans-serif;text-align:center;}
-.lock-sub{font-size:10px;color:var(--t2);letter-spacing:3px;font-family:'Share Tech Mono',monospace;text-align:center;}
-#pwInput{width:280px;padding:15px 18px;background:#0b1220;border:1px solid #1a2a40;border-radius:12px;color:var(--t);font-family:'Share Tech Mono',monospace;font-size:16px;outline:none;text-align:center;letter-spacing:4px;transition:border-color .3s;}
+#lock{position:fixed;inset:0;background:#050810;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;}
+.lock-icon{width:72px;height:72px;border:2px solid var(--a);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:34px;box-shadow:0 0 30px rgba(0,245,196,.4);animation:pulse 3s ease-in-out infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 10px rgba(0,245,196,.3)}50%{box-shadow:0 0 30px rgba(0,245,196,.7)}}
+#pwInput{width:290px;padding:16px 18px;background:#0b1220;border:2px solid #1a2a40;border-radius:14px;color:var(--t);font-family:'Share Tech Mono',monospace;font-size:18px;outline:none;text-align:center;letter-spacing:6px;transition:border-color .3s;}
 #pwInput:focus{border-color:var(--a);}
-#pwBtn{width:280px;padding:15px;background:linear-gradient(135deg,var(--a),var(--a2));border:none;border-radius:12px;color:#050810;font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;letter-spacing:3px;cursor:pointer;}
-#pwErr{color:var(--bear);font-size:11px;font-family:'Share Tech Mono',monospace;display:none;text-align:center;}
+#pwBtn{width:290px;padding:16px;background:linear-gradient(135deg,var(--a),var(--a2));border:none;border-radius:14px;color:#050810;font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;letter-spacing:3px;cursor:pointer;}
+#pwErr{color:var(--bear);font-size:11px;font-family:'Share Tech Mono',monospace;display:none;}
 
 /* HEADER */
 .hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--b);background:rgba(8,13,26,.98);position:sticky;top:0;z-index:100;}
@@ -48,65 +46,22 @@ body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;min-h
 @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* MAIN */
-.main{flex:1;padding:14px;display:flex;flex-direction:column;gap:12px;max-width:680px;width:100%;margin:0 auto;}
+.main{flex:1;padding:14px;display:flex;flex-direction:column;gap:14px;max-width:680px;width:100%;margin:0 auto;}
 
 /* UPLOAD */
-.upload-zone{border:2px dashed var(--b);border-radius:14px;padding:24px 16px;text-align:center;cursor:pointer;transition:all .3s;}
+.upload-zone{border:2px dashed var(--b);border-radius:14px;padding:26px 16px;text-align:center;cursor:pointer;transition:all .3s;}
 .upload-zone:hover,.upload-zone.over{border-color:var(--a);background:rgba(0,245,196,.04);}
 .upload-zone.has{padding:8px;border-color:var(--a);}
 .upload-zone img{width:100%;max-height:240px;object-fit:contain;border-radius:8px;display:block;}
-.upload-hint{margin-top:8px;font-size:11px;color:var(--a);font-family:'Share Tech Mono',monospace;text-align:center;}
+.upload-hint{margin-top:8px;font-size:11px;color:var(--a);font-family:'Share Tech Mono',monospace;}
 
 /* GO */
-.go{width:100%;padding:17px;background:linear-gradient(135deg,var(--a),var(--a2));border:none;border-radius:12px;color:#050810;font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;letter-spacing:3px;cursor:pointer;transition:all .3s;box-shadow:0 4px 18px rgba(0,245,196,.2);}
-.go:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,245,196,.35);}
+.go{width:100%;padding:18px;background:linear-gradient(135deg,var(--a),var(--a2));border:none;border-radius:14px;color:#050810;font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;letter-spacing:3px;cursor:pointer;transition:all .3s;box-shadow:0 4px 20px rgba(0,245,196,.2);}
+.go:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,245,196,.35);}
 .go:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
 
-/* BIAS BANNER */
-.bias-banner{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-radius:14px;border:1px solid;}
-.bias-banner.bull{background:rgba(0,230,118,.07);border-color:rgba(0,230,118,.4);}
-.bias-banner.bear{background:rgba(255,61,87,.07);border-color:rgba(255,61,87,.4);}
-.bias-banner.neu{background:rgba(255,107,53,.07);border-color:rgba(255,107,53,.4);}
-.bias-left{}
-.bias-instrument{font-size:18px;font-weight:700;letter-spacing:1px;color:var(--t);}
-.bias-tf{font-size:11px;color:var(--t2);font-family:'Share Tech Mono',monospace;margin-top:2px;}
-.bias-right{text-align:right;}
-.bias-label{font-size:22px;font-weight:700;letter-spacing:2px;}
-.bias-label.bull{color:var(--bull);}
-.bias-label.bear{color:var(--bear);}
-.bias-label.neu{color:var(--a3);}
-.bias-conf{font-size:10px;font-family:'Share Tech Mono',monospace;margin-top:3px;}
-.bias-conf.bull{color:var(--bull);}
-.bias-conf.bear{color:var(--bear);}
-.bias-conf.neu{color:var(--a3);}
-
-/* SETUP CARDS */
-.setups{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.setup{border-radius:14px;border:1px solid;overflow:hidden;}
-.setup.long{border-color:rgba(0,230,118,.4);background:rgba(0,230,118,.05);}
-.setup.short{border-color:rgba(255,61,87,.4);background:rgba(255,61,87,.05);}
-.setup-head{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.06);}
-.setup-name{font-size:13px;font-weight:700;letter-spacing:2px;font-family:'Share Tech Mono',monospace;}
-.setup-name.long{color:var(--bull);}
-.setup-name.short{color:var(--bear);}
-.setup-rr{font-size:13px;font-weight:700;font-family:'Share Tech Mono',monospace;color:var(--a);}
-.setup-body{padding:12px 14px;display:flex;flex-direction:column;gap:8px;}
-.srow{display:flex;flex-direction:column;gap:2px;}
-.srow-label{font-size:9px;color:var(--t2);font-family:'Share Tech Mono',monospace;letter-spacing:2px;}
-.srow-val{font-size:16px;font-weight:700;font-family:'Share Tech Mono',monospace;}
-.srow-val.entry{color:var(--a2);}
-.srow-val.sl{color:var(--bear);}
-.srow-val.tp{color:var(--bull);}
-.setup-cond{padding:10px 14px;border-top:1px solid rgba(255,255,255,.06);font-size:11px;color:var(--t2);line-height:1.5;}
-
-/* PRIORITY */
-.priority-box{padding:14px 18px;border-radius:14px;border:1px solid rgba(0,245,196,.3);background:rgba(0,245,196,.05);}
-.priority-label{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--a);font-family:'Share Tech Mono',monospace;margin-bottom:6px;}
-.priority-text{font-size:13px;color:var(--t);line-height:1.6;}
-.priority-text strong{color:var(--a);}
-
 /* LOADING */
-.loading-box{padding:40px 20px;display:flex;flex-direction:column;align-items:center;gap:16px;background:var(--p);border:1px solid var(--b);border-radius:14px;}
+.loading-box{padding:44px 20px;display:flex;flex-direction:column;align-items:center;gap:16px;background:var(--p);border:1px solid var(--b);border-radius:14px;}
 .bars{display:flex;gap:4px;align-items:flex-end;height:44px;}
 .bar{width:5px;background:var(--a);border-radius:3px;}
 .bar:nth-child(1){animation:ba 1s 0s ease-in-out infinite;}
@@ -120,11 +75,52 @@ body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;min-h
 .l-txt{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--a);letter-spacing:3px;}
 .l-step{font-size:10px;color:var(--t2);font-family:'Share Tech Mono',monospace;}
 
+/* RESULT CARD — UN SINGUR SETUP */
+.result-card{border-radius:18px;overflow:hidden;border:2px solid;}
+.result-card.bull{border-color:var(--bull);background:rgba(0,230,118,.06);}
+.result-card.bear{border-color:var(--bear);background:rgba(255,61,87,.06);}
+.result-card.wait{border-color:var(--a3);background:rgba(255,107,53,.06);}
+
+.rc-top{padding:18px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.07);}
+.rc-instrument{font-size:22px;font-weight:700;letter-spacing:1px;}
+.rc-tf{font-size:11px;color:var(--t2);font-family:'Share Tech Mono',monospace;margin-top:3px;}
+.rc-direction{text-align:right;}
+.rc-dir-label{font-size:26px;font-weight:700;letter-spacing:2px;font-family:'Share Tech Mono',monospace;}
+.rc-dir-label.bull{color:var(--bull);}
+.rc-dir-label.bear{color:var(--bear);}
+.rc-dir-label.wait{color:var(--a3);}
+.rc-conf{font-size:11px;font-family:'Share Tech Mono',monospace;margin-top:3px;}
+.rc-conf.bull{color:var(--bull);}
+.rc-conf.bear{color:var(--bear);}
+.rc-conf.wait{color:var(--a3);}
+
+/* WAIT STATE */
+.wait-box{padding:30px 20px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px;}
+.wait-icon{font-size:48px;}
+.wait-title{font-size:18px;font-weight:700;letter-spacing:2px;color:var(--a3);}
+.wait-text{font-size:13px;color:var(--t);line-height:1.7;max-width:320px;}
+
+/* SETUP FIELDS */
+.setup-fields{padding:20px;}
+.sf-row{display:flex;flex-direction:column;gap:3px;margin-bottom:18px;}
+.sf-row:last-child{margin-bottom:0;}
+.sf-label{font-size:10px;color:var(--t2);font-family:'Share Tech Mono',monospace;letter-spacing:2px;}
+.sf-val{font-size:28px;font-weight:700;font-family:'Share Tech Mono',monospace;letter-spacing:1px;}
+.sf-val.entry{color:var(--a2);}
+.sf-val.sl{color:var(--bear);}
+.sf-val.tp{color:var(--bull);}
+.sf-rr{display:inline-block;margin-top:4px;padding:4px 12px;border-radius:20px;font-size:13px;font-weight:700;font-family:'Share Tech Mono',monospace;}
+.sf-rr.bull{background:rgba(0,230,118,.15);color:var(--bull);border:1px solid var(--bull);}
+.sf-rr.bear{background:rgba(255,61,87,.15);color:var(--bear);border:1px solid var(--bear);}
+
+.rc-cond{padding:14px 20px;border-top:1px solid rgba(255,255,255,.07);font-size:12px;color:var(--t2);line-height:1.6;}
+.rc-cond strong{color:var(--a);font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;}
+
 /* CHAT */
 .chat-box{background:var(--p);border:1px solid var(--b);border-radius:14px;overflow:hidden;}
 .chat-hdr{padding:12px 16px;border-bottom:1px solid var(--b);font-size:10px;font-weight:700;letter-spacing:2px;color:var(--a2);font-family:'Share Tech Mono',monospace;}
-.chat-msgs{padding:12px;display:flex;flex-direction:column;gap:9px;max-height:320px;overflow-y:auto;}
-.msg{padding:10px 13px;border-radius:10px;font-size:13px;line-height:1.6;border:1px solid var(--b);}
+.chat-msgs{padding:12px;display:flex;flex-direction:column;gap:9px;max-height:300px;overflow-y:auto;}
+.msg{padding:10px 13px;border-radius:10px;font-size:13px;line-height:1.65;border:1px solid var(--b);}
 .msg.user{background:rgba(0,144,255,.08);border-color:rgba(0,144,255,.3);align-self:flex-end;max-width:88%;}
 .msg.ai{background:rgba(255,255,255,.03);}
 .msg strong{color:var(--a);}
@@ -145,16 +141,16 @@ body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;min-h
 </head>
 <body>
 
-<!-- LOCK SCREEN -->
+<!-- LOCK -->
 <div id="lock">
   <div class="lock-icon">📊</div>
-  <div>
-    <div class="lock-title">NEXUS TRADER AI</div>
-    <div class="lock-sub" style="margin-top:6px">PROFESSIONAL MARKET ANALYST</div>
+  <div style="text-align:center">
+    <div style="font-size:22px;font-weight:700;letter-spacing:3px;color:var(--a);font-family:'Rajdhani',sans-serif">NEXUS TRADER AI</div>
+    <div style="font-size:9px;color:var(--t2);letter-spacing:3px;font-family:'Share Tech Mono',monospace;margin-top:5px">PROFESSIONAL MARKET ANALYST</div>
   </div>
   <input type="password" id="pwInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPw()">
   <button id="pwBtn" onclick="checkPw()">ACCES →</button>
-  <div id="pwErr">⚠ Parola incorecta — incearca din nou</div>
+  <div id="pwErr">⚠ Parola incorecta</div>
 </div>
 
 <!-- HEADER -->
@@ -163,7 +159,7 @@ body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;min-h
     <div class="logo-icon">📊</div>
     <div>
       <div class="logo-t">NEXUS TRADER AI</div>
-      <div class="logo-s">PROFESSIONAL MARKET ANALYST v9.0</div>
+      <div class="logo-s">PROFESSIONAL MARKET ANALYST v10.0</div>
     </div>
   </div>
   <div class="online"><div class="dot"></div>ONLINE</div>
@@ -198,34 +194,29 @@ body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;min-h
   </div>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
-  <!-- UPLOAD -->
   <div class="upload-zone" id="uzone"
     onclick="document.getElementById('fi').click()"
     ondragover="event.preventDefault();this.classList.add('over')"
     ondragleave="this.classList.remove('over')"
     ondrop="event.preventDefault();this.classList.remove('over');loadFile(event.dataTransfer.files[0])">
     <input type="file" id="fi" accept="image/*" style="display:none" onchange="loadFile(this.files[0])">
-    <div style="font-size:38px;margin-bottom:10px">📈</div>
+    <div style="font-size:40px;margin-bottom:10px">📈</div>
     <div style="font-size:15px;font-weight:700;letter-spacing:1px">UPLOAD CHART</div>
     <div style="font-size:11px;color:var(--t2);font-family:'Share Tech Mono',monospace;margin-top:5px">Apasă sau trage imaginea</div>
   </div>
 
-  <!-- GO -->
   <button class="go" id="goBtn" onclick="doAnalysis()">⚡ ANALIZEAZĂ</button>
 
-  <!-- RESULTS -->
-  <div id="results" style="display:none;flex-direction:column;gap:12px;"></div>
+  <div id="results" style="display:none;flex-direction:column;gap:14px;"></div>
 
-  <!-- CHAT -->
   <div class="chat-box" id="chatBox" style="display:none;">
     <div class="chat-hdr">💬 ÎNTREABĂ AI-UL</div>
     <div class="chat-msgs" id="chatOut"></div>
     <div class="quick" id="quickWrap"></div>
     <div class="chat-bar">
-      <input class="chat-input" id="cinput" placeholder="Ex: Mai detaliază entry-ul..." onkeydown="if(event.key==='Enter')sendChat()">
+      <input class="chat-input" id="cinput" placeholder="Orice întrebare despre setup..." onkeydown="if(event.key==='Enter')sendChat()">
       <button class="send-btn" id="sbtn" onclick="sendChat()">➤</button>
     </div>
   </div>
@@ -233,296 +224,239 @@ body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;min-h
 </div>
 
 <script>
-// PASSWORD
 function checkPw(){
-  const pw = document.getElementById('pwInput').value;
-  if(pw === 'superai'){
-    document.getElementById('lock').style.display = 'none';
+  if(document.getElementById('pwInput').value==='superai'){
+    document.getElementById('lock').style.display='none';
   } else {
-    document.getElementById('pwErr').style.display = 'block';
-    document.getElementById('pwInput').value = '';
-    document.getElementById('pwInput').style.borderColor = '#ff3d57';
-    setTimeout(()=>{ document.getElementById('pwInput').style.borderColor='#1a2a40'; }, 1200);
+    document.getElementById('pwErr').style.display='block';
+    document.getElementById('pwInput').value='';
+    document.getElementById('pwInput').style.borderColor='var(--bear)';
+    setTimeout(()=>document.getElementById('pwInput').style.borderColor='#1a2a40',1200);
   }
 }
 
-// STATE
 let b64=null, imgMime='image/jpeg', apiKey='', analysisCtx=[];
 
-// KEY
-const saved = localStorage.getItem('nxkey');
-if(saved){ apiKey=saved; document.getElementById('apikey').value=saved; markSaved(); }
+const saved=localStorage.getItem('nxkey');
+if(saved){apiKey=saved;document.getElementById('apikey').value=saved;markSaved();}
 
 function saveKey(){
-  apiKey = document.getElementById('apikey').value.trim();
-  if(!apiKey) return;
-  localStorage.setItem('nxkey', apiKey);
+  apiKey=document.getElementById('apikey').value.trim();
+  if(!apiKey)return;
+  localStorage.setItem('nxkey',apiKey);
   markSaved();
 }
 function markSaved(){
-  const b = document.getElementById('apibanner');
-  b.style.background = 'rgba(0,230,118,.07)';
-  b.querySelector('span').textContent = '✅ KEY:';
-  document.getElementById('savebtn').textContent = 'OK';
+  document.getElementById('apibanner').style.background='rgba(0,230,118,.07)';
+  document.getElementById('apibanner').querySelector('span').textContent='✅ KEY:';
+  document.getElementById('savebtn').textContent='OK';
 }
 
-// FILE
 function loadFile(f){
-  if(!f || !f.type.startsWith('image/')) return;
-  imgMime = f.type;
-  const r = new FileReader();
-  r.onload = e => {
-    b64 = e.target.result.split(',')[1];
-    const uz = document.getElementById('uzone');
-    uz.className = 'upload-zone has';
-    uz.innerHTML = `<img src="${e.target.result}" alt="chart"><div class="upload-hint">✅ CHART INCARCAT — APASA ANALIZEAZA</div><input type="file" id="fi" accept="image/*" style="display:none" onchange="loadFile(this.files[0])">`;
+  if(!f||!f.type.startsWith('image/'))return;
+  imgMime=f.type;
+  const r=new FileReader();
+  r.onload=e=>{
+    b64=e.target.result.split(',')[1];
+    const uz=document.getElementById('uzone');
+    uz.className='upload-zone has';
+    uz.innerHTML=`<img src="${e.target.result}" alt="chart"><div class="upload-hint">✅ CHART INCARCAT</div><input type="file" id="fi" accept="image/*" style="display:none" onchange="loadFile(this.files[0])">`;
   };
   r.readAsDataURL(f);
 }
 
 function fmt(t){
-  return String(t)
-    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
-    .replace(/\*(.+?)\*/g,'<em>$1</em>')
-    .replace(/\n/g,'<br>');
+  return String(t).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/\n/g,'<br>');
 }
 
-// CLAUDE API
-async function callClaude(messages, system){
-  const res = await fetch('https://api.anthropic.com/v1/messages',{
+async function callClaude(messages,system){
+  const res=await fetch('https://api.anthropic.com/v1/messages',{
     method:'POST',
-    headers:{
-      'Content-Type':'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version':'2023-06-01',
-      'anthropic-dangerous-direct-browser-access':'true'
-    },
-    body: JSON.stringify({ model:'claude-sonnet-4-5', max_tokens:1500, system, messages })
+    headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1000,system,messages})
   });
-  const d = await res.json();
-  if(!res.ok) throw new Error(d?.error?.message || 'HTTP '+res.status);
-  return d.content?.filter(b=>b.type==='text').map(b=>b.text).join('') || '';
+  const d=await res.json();
+  if(!res.ok)throw new Error(d?.error?.message||'HTTP '+res.status);
+  return d.content?.filter(b=>b.type==='text').map(b=>b.text).join('')||'';
 }
 
-// MAIN ANALYSIS
 async function doAnalysis(){
-  if(!b64){ alert('Uploadeaza un chart!'); return; }
-  if(!apiKey){ alert('Salveaza API key-ul Claude!'); return; }
-
-  const btn = document.getElementById('goBtn');
-  btn.disabled = true; btn.textContent = '⏳ ANALIZEZ...';
-
-  const rs = document.getElementById('results');
-  rs.style.display = 'flex';
-  rs.innerHTML = `<div class="loading-box">
-    <div class="bars">${Array(7).fill('<div class="bar"></div>').join('')}</div>
-    <div class="l-txt">ANALIZEZ CHART-UL...</div>
-    <div class="l-step" id="lstep">Scanez structura si confluente...</div>
-  </div>`;
-
-  const steps = [
-    'Detectez instrumentul si timeframe-ul...',
-    'Identific structura: HH/HL, BOS, CHoCH...',
-    'Scanez Order Blocks si Fair Value Gaps...',
-    'Calculez Supply & Demand zones...',
-    'Analizez RSI, EMA, MACD, volume...',
-    'Calculez confluente si probabilitati...',
-    'Construiesc setup-urile optime...',
-    'Validez Risk:Reward si invalidarile...'
-  ];
+  if(!b64){alert('Uploadeaza un chart!');return;}
+  if(!apiKey){alert('Salveaza API key-ul!');return;}
+  const btn=document.getElementById('goBtn');
+  btn.disabled=true;btn.textContent='⏳ ANALIZEZ...';
+  const rs=document.getElementById('results');
+  rs.style.display='flex';
+  rs.innerHTML=`<div class="loading-box"><div class="bars">${Array(7).fill('<div class="bar"></div>').join('')}</div><div class="l-txt">ANALIZEZ CHART-UL...</div><div class="l-step" id="lstep">Detectez instrumentul...</div></div>`;
+  const steps=['Detectez instrumentul si TF...','Identific structura pietei...','Scanez Order Blocks si FVG...','Calculez confluente...','Determin directia cu cea mai mare probabilitate...','Construiesc setup-ul optim...','Validez R:R si conditiile...'];
   let si=0;
-  const iv = setInterval(()=>{ si=(si+1)%steps.length; const el=document.getElementById('lstep'); if(el) el.textContent=steps[si]; }, 1400);
+  const iv=setInterval(()=>{si=(si+1)%steps.length;const el=document.getElementById('lstep');if(el)el.textContent=steps[si];},1400);
 
-  const system = `Esti NEXUS TRADER AI — sistem de analiza tehnica de nivel INSTITUTIONAL, specializat in Smart Money Concepts (ICT/SMC).
+  const system=`Esti NEXUS TRADER AI — sistem de analiza tehnica institutional de inalta precizie.
 
-DETECTEZI AUTOMAT din imagine: perechea/instrumentul, timeframe-ul, indicatorii vizibili, sesiunea de trading.
+REGULA FUNDAMENTALA: Dai DOAR UN SINGUR setup — cel mai sigur, cu cea mai mare probabilitate, 100% aliniat cu bias-ul pietei. NU dai niciodata setup contra-trend. Daca nu e setup clar, spui sa se astepte.
 
-Raspunzi EXCLUSIV in limba romana, CONCIS si PRECIS.
+Detectezi automat din imagine: instrumentul, timeframe-ul, sesiunea.
 
-Raspunsul tau trebuie sa fie STRICT in acest format JSON, fara nimic altceva in afara de JSON:
+Returneaza STRICT acest JSON, fara alt text:
 
 {
   "instrument": "BTCUSD",
   "timeframe": "M15",
   "sesiune": "London",
-  "bias": "BEARISH",
-  "confidenta": 78,
-  "ratiune_bias": "Structura LH/LL confirmata, BOS bearish la 69800, pretul sub EMA50",
-  "setup_prioritar": "SHORT",
-  "setup_long": {
-    "valid": true,
-    "entry": "69200",
-    "sl": "69650",
-    "tp": "68400",
-    "rr": "1:1.8",
-    "conditie": "Bullish engulfing + BOS bullish pe M5 la demand zone",
-    "invalidare": "Close sub 69100"
-  },
-  "setup_short": {
-    "valid": true,
-    "entry": "69800",
-    "sl": "70100",
-    "tp": "68800",
-    "rr": "1:3.3",
-    "conditie": "Retrace la OB bearish 69750-69850, rejection candle confirmat",
-    "invalidare": "Close peste 70150"
-  },
-  "concluzie": "Short prioritar cu confluenta OB + FVG + structura bearish. Astept retrace la 69800 pentru entry.",
-  "nivel_risc": "MEDIU"
+  "directie": "SHORT",
+  "confidenta": 85,
+  "entry": "69800",
+  "sl": "70100",
+  "tp": "68500",
+  "rr": "1:4.3",
+  "conditie_intrare": "Rejection candle la OB bearish 69750-69850 + RSI sub 50",
+  "invalidare": "Candle close peste 70200",
+  "asteapta": false,
+  "motiv_asteapta": "",
+  "ratiune": "Structura LH/LL clara, BOS bearish confirmat, pret in zona OB premium, RSI overbought"
 }
 
-Regulile tale:
-- Fii EXTREM de precis cu nivelurile de pret
-- Calculeaza R:R real bazat pe entry, SL, TP
-- Daca un setup nu e valid, pune valid:false
-- confidenta intre 50-95% bazat pe numarul de confluente
-- nivel_risc: SCAZUT / MEDIU / RIDICAT`;
+REGULI STRICTE:
+- directie = LONG, SHORT sau WAIT
+- Daca directie=WAIT, pune asteapta:true si explica in motiv_asteapta
+- NICIODATA nu da setup LONG cand bias e BEARISH si invers
+- confidenta: 60-95% bazat pe numar de confluente (OB+FVG+BOS+RSI+EMA = confidenta mare)
+- entry, sl, tp = niveluri EXACTE de pret vizibile in chart
+- rr = calculat exact din entry/sl/tp
+- Fii EXTREM de selectiv — mai bine WAIT decat un setup slab`;
 
-  try {
-    const raw = await callClaude([{
-      role:'user',
-      content:[
-        { type:'image', source:{ type:'base64', media_type:imgMime, data:b64 } },
-        { type:'text', text:'Analizeaza acest chart si returneaza DOAR JSON-ul cerut, fara text suplimentar.' }
-      ]
-    }], system);
-
+  try{
+    const raw=await callClaude([{role:'user',content:[
+      {type:'image',source:{type:'base64',media_type:imgMime,data:b64}},
+      {type:'text',text:'Analizeaza chart-ul si returneaza DOAR JSON-ul cerut.'}
+    ]}],system);
     clearInterval(iv);
 
-    // Parse JSON
     let data;
-    try {
-      const clean = raw.replace(/```json|```/g,'').trim();
-      data = JSON.parse(clean);
-    } catch(e) {
-      throw new Error('AI nu a returnat format valid. Incearca din nou.');
+    try{
+      data=JSON.parse(raw.replace(/```json|```/g,'').trim());
+    }catch(e){
+      throw new Error('Format invalid. Incearca din nou.');
     }
 
-    // Save context
-    analysisCtx = [
-      { role:'user', content:[
-        { type:'image', source:{ type:'base64', media_type:imgMime, data:b64 } },
-        { type:'text', text:'Analizeaza acest chart.' }
-      ]},
-      { role:'assistant', content: JSON.stringify(data) }
+    analysisCtx=[
+      {role:'user',content:[{type:'image',source:{type:'base64',media_type:imgMime,data:b64}},{type:'text',text:'Analizeaza.'}]},
+      {role:'assistant',content:JSON.stringify(data)}
     ];
 
-    const bias = data.bias?.toLowerCase().includes('bull') ? 'bull' : data.bias?.toLowerCase().includes('bear') ? 'bear' : 'neu';
-    const biasIcon = bias==='bull'?'▲':bias==='bear'?'▼':'—';
-    const riskColor = data.nivel_risc==='SCAZUT'?'var(--bull)':data.nivel_risc==='RIDICAT'?'var(--bear)':'var(--a3)';
+    const isWait = data.directie==='WAIT' || data.asteapta;
+    const isLong = data.directie==='LONG';
+    const cls = isWait?'wait':isLong?'bull':'bear';
+    const dirIcon = isWait?'⏳':isLong?'▲':'▼';
+    const dirColor = isWait?'var(--a3)':isLong?'var(--bull)':'var(--bear)';
 
-    const renderSetup = (s, type) => {
-      if(!s || !s.valid) return `<div class="setup ${type}"><div class="setup-head"><span class="setup-name ${type}">${type==='long'?'🟢 LONG':'🔴 SHORT'}</span><span style="font-size:11px;color:var(--t2);font-family:monospace">Nu e valid</span></div></div>`;
-      return `
-        <div class="setup ${type}">
-          <div class="setup-head">
-            <span class="setup-name ${type}">${type==='long'?'🟢 LONG':'🔴 SHORT'}</span>
-            <span class="setup-rr">${s.rr || '—'}</span>
+    if(isWait){
+      rs.innerHTML=`
+        <div class="result-card wait">
+          <div class="rc-top">
+            <div>
+              <div class="rc-instrument">${data.instrument||'—'}</div>
+              <div class="rc-tf">${data.timeframe||'—'} · ${data.sesiune||'—'}</div>
+            </div>
+            <div class="rc-direction">
+              <div class="rc-dir-label wait">⏳ ASTEAPTA</div>
+              <div class="rc-conf wait">${data.confidenta||'—'}% CONFIDENTA</div>
+            </div>
           </div>
-          <div class="setup-body">
-            <div class="srow"><div class="srow-label">ENTRY</div><div class="srow-val entry">${s.entry || '—'}</div></div>
-            <div class="srow"><div class="srow-label">STOP LOSS</div><div class="srow-val sl">${s.sl || '—'}</div></div>
-            <div class="srow"><div class="srow-label">TAKE PROFIT</div><div class="srow-val tp">${s.tp || '—'}</div></div>
+          <div class="wait-box">
+            <div class="wait-icon">🚫</div>
+            <div class="wait-title">NU INTRA ACUM</div>
+            <div class="wait-text">${data.motiv_asteapta||data.ratiune||'Conditiile nu sunt favorabile pentru un setup de calitate.'}</div>
           </div>
-          <div class="setup-cond">
-            <span style="color:var(--a);font-family:monospace;font-size:9px;letter-spacing:1px">CONDITIE: </span>${s.conditie || '—'}<br>
-            <span style="color:var(--bear);font-family:monospace;font-size:9px;letter-spacing:1px">INVALIDARE: </span>${s.invalidare || '—'}
+          <div class="rc-cond"><strong>RATIUNE:</strong> ${data.ratiune||'—'}</div>
+        </div>`;
+    } else {
+      rs.innerHTML=`
+        <div class="result-card ${cls}">
+          <div class="rc-top">
+            <div>
+              <div class="rc-instrument" style="color:${dirColor}">${data.instrument||'—'}</div>
+              <div class="rc-tf">${data.timeframe||'—'} · ${data.sesiune||'—'}</div>
+            </div>
+            <div class="rc-direction">
+              <div class="rc-dir-label ${cls}">${dirIcon} ${data.directie||'—'}</div>
+              <div class="rc-conf ${cls}">${data.confidenta||'—'}% CONFIDENTA</div>
+            </div>
+          </div>
+          <div class="setup-fields">
+            <div class="sf-row">
+              <div class="sf-label">ENTRY</div>
+              <div class="sf-val entry">${data.entry||'—'}</div>
+            </div>
+            <div class="sf-row">
+              <div class="sf-label">STOP LOSS</div>
+              <div class="sf-val sl">${data.sl||'—'}</div>
+            </div>
+            <div class="sf-row">
+              <div class="sf-label">TAKE PROFIT</div>
+              <div class="sf-val tp">${data.tp||'—'}</div>
+              <div><span class="sf-rr ${cls}">R:R ${data.rr||'—'}</span></div>
+            </div>
+          </div>
+          <div class="rc-cond">
+            <strong>CONDITIE INTRARE:</strong> ${data.conditie_intrare||'—'}<br><br>
+            <strong style="color:var(--bear)">INVALIDARE:</strong> ${data.invalidare||'—'}<br><br>
+            <strong style="color:var(--t2)">RATIUNE:</strong> ${data.ratiune||'—'}
           </div>
         </div>`;
-    };
-
-    rs.innerHTML = `
-      <!-- BIAS -->
-      <div class="bias-banner ${bias}">
-        <div class="bias-left">
-          <div class="bias-instrument">${data.instrument || '—'}</div>
-          <div class="bias-tf">${data.timeframe || '—'} · ${data.sesiune || '—'}</div>
-          <div style="margin-top:6px;font-size:11px;color:var(--t2);font-family:monospace">RISC: <span style="color:${riskColor};font-weight:700">${data.nivel_risc || '—'}</span></div>
-        </div>
-        <div class="bias-right">
-          <div class="bias-label ${bias}">${biasIcon} ${data.bias || '—'}</div>
-          <div class="bias-conf ${bias}">${data.confidenta || '—'}% CONFIDENTA</div>
-          <div style="margin-top:4px;font-size:10px;color:var(--a);font-family:monospace">PRIORITAR: ${data.setup_prioritar || '—'}</div>
-        </div>
-      </div>
-
-      <!-- SETUPS -->
-      <div class="setups">
-        ${renderSetup(data.setup_long, 'long')}
-        ${renderSetup(data.setup_short, 'short')}
-      </div>
-
-      <!-- PRIORITY -->
-      <div class="priority-box">
-        <div class="priority-label">◈ CONCLUZIE AI</div>
-        <div class="priority-text">${data.concluzie || '—'}</div>
-        <div style="margin-top:8px;font-size:11px;color:var(--t2);">Ratiune bias: <em style="color:var(--t)">${data.ratiune_bias || '—'}</em></div>
-      </div>
-    `;
+    }
 
     // CHAT
-    const cb = document.getElementById('chatBox');
-    cb.style.display = 'block';
-    const co = document.getElementById('chatOut');
-    co.innerHTML = `<div class="msg ai"><div class="mlabel">◈ NEXUS AI</div>
-      Analiza gata! <strong>${data.instrument}</strong> ${data.timeframe} — bias <strong>${data.bias}</strong> cu <strong>${data.confidenta}%</strong> confidenta.<br>
-      Setup prioritar: <strong>${data.setup_prioritar}</strong>. Pune orice întrebare!
+    document.getElementById('chatBox').style.display='block';
+    const co=document.getElementById('chatOut');
+    co.innerHTML=`<div class="msg ai"><div class="mlabel">◈ NEXUS AI</div>
+      <strong>${data.instrument}</strong> ${data.timeframe} — ${isWait?'<strong style="color:var(--a3)">ASTEAPTA, nu intra acum</strong>':'Setup <strong>'+data.directie+'</strong> cu <strong>'+data.confidenta+'%</strong> confidenta.'}<br>
+      Pune orice întrebare!
     </div>`;
 
-    document.getElementById('quickWrap').innerHTML = [
-      'De ce este bias-ul ' + data.bias + '?',
-      'Explica entry-ul pentru ' + data.setup_prioritar,
-      'Ce confluente ai identificat?',
-      'Care e riscul exact in $ pentru 1% cont?',
-      'Ce se intampla daca se invalideaza?',
-      'Cel mai bun moment de intrare?'
-    ].map(q=>`<button class="qbtn" onclick="quickChat('${q}')">${q}</button>`).join('');
+    const quickQs = isWait
+      ? ['Cand pot intra?','Ce conditii trebuie indeplinite?','Care e urmatorul nivel cheie?','Ce urmaresc pe chart acum?']
+      : ['De ce acest entry?','Cum gestionez pozitia?','Ce fac daca atinge SL-ul?','E un R:R bun?','Pot intra cu o pozitie mai mica?'];
 
-  } catch(e) {
+    document.getElementById('quickWrap').innerHTML=quickQs.map(q=>`<button class="qbtn" onclick="quickChat('${q}')">${q}</button>`).join('');
+
+  }catch(e){
     clearInterval(iv);
-    rs.innerHTML = `<div style="padding:20px;background:var(--p);border:1px solid var(--bear);border-radius:14px">
-      <div style="color:var(--bear);font-family:monospace;font-size:12px;font-weight:700;margin-bottom:8px">⚠ EROARE</div>
-      <div style="font-size:12px;color:var(--t2)">${e.message}</div>
-      <button onclick="doAnalysis()" style="margin-top:14px;padding:9px 20px;background:var(--a2);border:none;border-radius:8px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;cursor:pointer">INCEARCA DIN NOU</button>
-    </div>`;
+    rs.innerHTML=`<div style="padding:20px;background:var(--p);border:1px solid var(--bear);border-radius:14px"><div style="color:var(--bear);font-family:monospace;font-size:12px;font-weight:700;margin-bottom:8px">⚠ EROARE</div><div style="font-size:12px;color:var(--t2)">${e.message}</div><button onclick="doAnalysis()" style="margin-top:14px;padding:9px 20px;background:var(--a2);border:none;border-radius:8px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;cursor:pointer">INCEARCA DIN NOU</button></div>`;
   }
-
-  btn.disabled = false; btn.textContent = '⚡ ANALIZA NOUA';
+  btn.disabled=false;btn.textContent='⚡ ANALIZA NOUA';
 }
 
-// CHAT
 async function sendChat(){
-  const inp = document.getElementById('cinput');
-  const m = inp.value.trim(); if(!m) return;
-  inp.value = '';
-  addMsg(m,'user');
-  await doChat(m);
+  const inp=document.getElementById('cinput');
+  const m=inp.value.trim();if(!m)return;
+  inp.value='';addMsg(m,'user');await doChat(m);
 }
-function quickChat(q){ addMsg(q,'user'); doChat(q); }
+function quickChat(q){addMsg(q,'user');doChat(q);}
 function addMsg(t,r){
-  const co = document.getElementById('chatOut');
-  const d = document.createElement('div');
-  d.className = 'msg '+r;
-  d.innerHTML = `<div class="mlabel">${r==='user'?'◉ TU':'◈ NEXUS AI'}</div>${fmt(t)}`;
-  co.appendChild(d); co.scrollTop = co.scrollHeight;
+  const co=document.getElementById('chatOut');
+  const d=document.createElement('div');
+  d.className='msg '+r;
+  d.innerHTML=`<div class="mlabel">${r==='user'?'◉ TU':'◈ NEXUS AI'}</div>${fmt(t)}`;
+  co.appendChild(d);co.scrollTop=co.scrollHeight;
 }
 async function doChat(msg){
-  const sb = document.getElementById('sbtn'); sb.disabled = true;
-  const ld = document.createElement('div');
-  ld.className = 'msg ai';
-  ld.innerHTML = '<div class="mlabel">◈ NEXUS AI</div><span style="color:var(--a);font-family:monospace;font-size:10px">Analizez...</span>';
-  const co = document.getElementById('chatOut');
-  co.appendChild(ld); co.scrollTop = co.scrollHeight;
-  const h = [...analysisCtx, { role:'user', content: msg }];
-  const sys = `Esti NEXUS TRADER AI expert institutional. Raspunzi in romana, concis, direct si profesional. Ai deja analiza completa a chartului. Raspunde la intrebari specific si cu niveluri exacte.`;
-  try {
-    const reply = await callClaude(h, sys);
-    analysisCtx = [...h, { role:'assistant', content: reply }];
-    ld.innerHTML = `<div class="mlabel">◈ NEXUS AI</div>${fmt(reply)}`;
-  } catch(e) {
-    ld.innerHTML = `<div class="mlabel">◈ NEXUS AI</div><span style="color:var(--bear)">Eroare: ${e.message}</span>`;
+  const sb=document.getElementById('sbtn');sb.disabled=true;
+  const ld=document.createElement('div');
+  ld.className='msg ai';
+  ld.innerHTML='<div class="mlabel">◈ NEXUS AI</div><span style="color:var(--a);font-family:monospace;font-size:10px">Analizez...</span>';
+  const co=document.getElementById('chatOut');
+  co.appendChild(ld);co.scrollTop=co.scrollHeight;
+  try{
+    const reply=await callClaude([...analysisCtx,{role:'user',content:msg}],
+      'Esti NEXUS TRADER AI expert. Raspunzi in romana, concis si direct. Ai analiza chartului deja facuta. Raspunde specific la intrebare.');
+    analysisCtx=[...analysisCtx,{role:'user',content:msg},{role:'assistant',content:reply}];
+    ld.innerHTML=`<div class="mlabel">◈ NEXUS AI</div>${fmt(reply)}`;
+  }catch(e){
+    ld.innerHTML=`<div class="mlabel">◈ NEXUS AI</div><span style="color:var(--bear)">Eroare: ${e.message}</span>`;
   }
-  sb.disabled = false; co.scrollTop = co.scrollHeight;
+  sb.disabled=false;co.scrollTop=co.scrollHeight;
 }
 </script>
 </body>
