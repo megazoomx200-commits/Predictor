@@ -45,13 +45,27 @@ body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;min-h
 @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* MAIN */
-.main{flex:1;padding:14px;display:flex;flex-direction:column;gap:12px;max-width:640px;width:100%;margin:0 auto;}
+.main{flex:1;padding:14px;display:flex;flex-direction:column;gap:12px;max-width:680px;width:100%;margin:0 auto;}
 
-/* UPLOAD */
-.upload-zone{border:2px dashed var(--b);border-radius:14px;padding:24px 16px;text-align:center;cursor:pointer;transition:all .3s;}
-.upload-zone:hover,.upload-zone.over{border-color:var(--a);background:rgba(0,245,196,.04);}
-.upload-zone.has{padding:8px;border-color:var(--a);}
-.upload-zone img{width:100%;max-height:230px;object-fit:contain;border-radius:8px;display:block;}
+/* TF UPLOAD GRID */
+.tf-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.tf-slot{border:2px dashed var(--b);border-radius:12px;padding:12px 8px;text-align:center;cursor:pointer;transition:all .3s;position:relative;min-height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.tf-slot:hover,.tf-slot.over{border-color:var(--a);background:rgba(0,245,196,.04);}
+.tf-slot.loaded{padding:6px;border-color:var(--a);background:rgba(0,245,196,.03);}
+.tf-slot img{width:100%;height:80px;object-fit:cover;border-radius:6px;display:block;}
+.tf-badge{position:absolute;top:4px;left:4px;padding:2px 7px;border-radius:6px;font-size:9px;font-weight:700;font-family:'Share Tech Mono',monospace;letter-spacing:1px;}
+.tf-badge.htf{background:rgba(255,107,53,.2);color:#ff6b35;border:1px solid #ff6b35;}
+.tf-badge.mtf{background:rgba(0,144,255,.2);color:#0090ff;border:1px solid #0090ff;}
+.tf-badge.ltf{background:rgba(0,245,196,.2);color:#00f5c4;border:1px solid #00f5c4;}
+.tf-label{font-size:11px;font-weight:600;letter-spacing:1px;margin-top:6px;}
+.tf-label.htf{color:#ff6b35;}
+.tf-label.mtf{color:#0090ff;}
+.tf-label.ltf{color:var(--a);}
+.tf-sub{font-size:9px;color:var(--t2);font-family:'Share Tech Mono',monospace;margin-top:2px;}
+.tf-icon{font-size:22px;margin-bottom:4px;}
+.tf-remove{position:absolute;top:4px;right:4px;width:18px;height:18px;background:rgba(255,61,87,.8);border:none;border-radius:50%;color:#fff;font-size:11px;cursor:pointer;display:none;align-items:center;justify-content:center;line-height:1;}
+.tf-slot.loaded .tf-remove{display:flex;}
+.tf-loaded-label{font-size:9px;color:var(--a);font-family:'Share Tech Mono',monospace;margin-top:4px;text-align:center;}
 
 /* GO */
 .go{width:100%;padding:17px;background:linear-gradient(135deg,var(--a),var(--a2));border:none;border-radius:14px;color:#050810;font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;letter-spacing:3px;cursor:pointer;transition:all .3s;box-shadow:0 4px 20px rgba(0,245,196,.2);}
@@ -71,44 +85,52 @@ body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;min-h
 .bar:nth-child(7){animation:ba 1s .6s ease-in-out infinite;}
 @keyframes ba{0%,100%{height:8px;opacity:.4}50%{height:44px;opacity:1}}
 
-/* SETUP CARD */
+/* RESULT CARD */
 .card{border-radius:18px;border:2px solid;overflow:hidden;}
-.card.long{border-color:var(--bull);background:linear-gradient(180deg,rgba(0,230,118,.08) 0%,rgba(0,230,118,.03) 100%);}
-.card.short{border-color:var(--bear);background:linear-gradient(180deg,rgba(255,61,87,.08) 0%,rgba(255,61,87,.03) 100%);}
+.card.long{border-color:var(--bull);background:linear-gradient(180deg,rgba(0,230,118,.08),rgba(0,230,118,.03));}
+.card.short{border-color:var(--bear);background:linear-gradient(180deg,rgba(255,61,87,.08),rgba(255,61,87,.03));}
 
-/* TOP BAR */
 .card-top{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.07);}
-.ct-left{}
 .ct-pair{font-size:24px;font-weight:700;letter-spacing:1px;}
 .ct-pair.long{color:var(--bull);}
 .ct-pair.short{color:var(--bear);}
-.ct-meta{font-size:11px;color:var(--t2);font-family:'Share Tech Mono',monospace;margin-top:3px;}
-.ct-right{text-align:right;}
-.ct-dir{font-size:28px;font-weight:700;font-family:'Share Tech Mono',monospace;letter-spacing:2px;}
+.ct-meta{font-size:10px;color:var(--t2);font-family:'Share Tech Mono',monospace;margin-top:3px;}
+.ct-dir{font-size:28px;font-weight:700;font-family:'Share Tech Mono',monospace;letter-spacing:2px;text-align:right;}
 .ct-dir.long{color:var(--bull);}
 .ct-dir.short{color:var(--bear);}
-.ct-conf{font-size:12px;font-family:'Share Tech Mono',monospace;margin-top:3px;}
+.ct-conf{font-size:12px;font-family:'Share Tech Mono',monospace;text-align:right;margin-top:3px;}
 .ct-conf.long{color:var(--bull);}
 .ct-conf.short{color:var(--bear);}
 
+/* TF ALIGNMENT ROW */
+.tf-align{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.07);}
+.tfa{padding:10px 12px;background:var(--p);text-align:center;}
+.tfa-tf{font-size:9px;font-family:'Share Tech Mono',monospace;letter-spacing:2px;margin-bottom:4px;}
+.tfa-tf.htf{color:#ff6b35;}
+.tfa-tf.mtf{color:#0090ff;}
+.tfa-tf.ltf{color:var(--a);}
+.tfa-dir{font-size:13px;font-weight:700;font-family:'Share Tech Mono',monospace;}
+.tfa-dir.bull{color:var(--bull);}
+.tfa-dir.bear{color:var(--bear);}
+
 /* LEVELS */
 .levels{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:rgba(255,255,255,.06);}
-.lv{padding:16px 14px;background:var(--p);display:flex;flex-direction:column;gap:5px;}
+.lv{padding:16px 14px;background:var(--p);display:flex;flex-direction:column;gap:4px;}
 .lv-label{font-size:9px;color:var(--t2);font-family:'Share Tech Mono',monospace;letter-spacing:2px;}
-.lv-val{font-size:22px;font-weight:700;font-family:'Share Tech Mono',monospace;letter-spacing:1px;}
+.lv-val{font-size:22px;font-weight:700;font-family:'Share Tech Mono',monospace;}
 .lv-val.entry{color:var(--a2);}
 .lv-val.sl{color:var(--bear);}
 .lv-val.tp{color:var(--bull);}
-.lv-sub{font-size:10px;font-family:'Share Tech Mono',monospace;color:var(--t2);}
+.lv-sub{font-size:10px;color:var(--t2);font-family:'Share Tech Mono',monospace;}
 
-/* RR BAR */
+/* RR */
 .rr-bar{padding:12px 20px;display:flex;align-items:center;gap:12px;border-top:1px solid rgba(255,255,255,.07);}
 .rr-label{font-size:10px;color:var(--t2);font-family:'Share Tech Mono',monospace;letter-spacing:2px;}
 .rr-val{font-size:18px;font-weight:700;font-family:'Share Tech Mono',monospace;}
 .rr-val.long{color:var(--bull);}
 .rr-val.short{color:var(--bear);}
 .rr-track{flex:1;height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;}
-.rr-fill{height:100%;border-radius:3px;transition:width 1s ease;}
+.rr-fill{height:100%;border-radius:3px;}
 .rr-fill.long{background:var(--bull);}
 .rr-fill.short{background:var(--bear);}
 
@@ -116,8 +138,8 @@ body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;min-h
 .conditions{padding:14px 20px;border-top:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;gap:8px;}
 .cond-row{font-size:12px;line-height:1.5;color:var(--t);}
 .cond-row span{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;margin-right:6px;}
-.cond-row span.entry-lbl{color:var(--a2);}
-.cond-row span.sl-lbl{color:var(--bear);}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;}
+.tag{padding:3px 9px;border:1px solid rgba(255,255,255,.1);border-radius:20px;font-size:10px;color:var(--t2);font-family:'Share Tech Mono',monospace;}
 
 /* CHAT */
 .chat-box{background:var(--p);border:1px solid var(--b);border-radius:14px;overflow:hidden;}
@@ -130,7 +152,7 @@ body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;min-h
 .msg em{color:var(--a2);font-style:normal;}
 .mlabel{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:2px;margin-bottom:4px;opacity:.55;}
 .quick{display:flex;flex-wrap:wrap;gap:6px;padding:10px 12px;border-top:1px solid var(--b);}
-.qbtn{padding:6px 12px;border:1px solid var(--b);border-radius:20px;background:transparent;color:var(--t2);font-size:11px;cursor:pointer;font-family:'Rajdhani',sans-serif;font-weight:600;transition:all .2s;}
+.qbtn{padding:6px 12px;border:1px solid var(--b);border-radius:20px;background:transparent;color:var(--t2);font-size:11px;cursor:pointer;font-family:'Rajdhani',sans-serif;font-weight:600;}
 .qbtn:hover{border-color:var(--a);color:var(--a);}
 .chat-bar{padding:10px 12px;display:flex;gap:8px;border-top:1px solid var(--b);}
 .chat-input{flex:1;background:rgba(255,255,255,.05);border:1px solid var(--b);border-radius:8px;padding:10px 13px;color:var(--t);font-family:'Rajdhani',sans-serif;font-size:14px;outline:none;}
@@ -148,7 +170,7 @@ body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;min-h
   <div class="lock-icon">📊</div>
   <div style="text-align:center">
     <div style="font-size:22px;font-weight:700;letter-spacing:3px;color:var(--a);font-family:'Rajdhani',sans-serif">NEXUS TRADER AI</div>
-    <div style="font-size:9px;color:var(--t2);letter-spacing:3px;font-family:'Share Tech Mono',monospace;margin-top:5px">PROFESSIONAL MARKET ANALYST</div>
+    <div style="font-size:9px;color:var(--t2);letter-spacing:3px;font-family:'Share Tech Mono',monospace;margin-top:5px">MULTI-TIMEFRAME ANALYST</div>
   </div>
   <input type="password" id="pwInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPw()">
   <button id="pwBtn" onclick="checkPw()">ACCES →</button>
@@ -161,7 +183,7 @@ body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;min-h
     <div class="logo-icon">📊</div>
     <div>
       <div class="logo-t">NEXUS TRADER AI</div>
-      <div class="logo-s">PROFESSIONAL MARKET ANALYST v11.0</div>
+      <div class="logo-s">MULTI-TIMEFRAME ANALYST v12.0</div>
     </div>
   </div>
   <div style="display:flex;align-items:center;gap:5px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--t2);">
@@ -185,18 +207,49 @@ body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;min-h
 
 <div class="main">
 
-  <div class="upload-zone" id="uzone"
-    onclick="document.getElementById('fi').click()"
-    ondragover="event.preventDefault();this.classList.add('over')"
-    ondragleave="this.classList.remove('over')"
-    ondrop="event.preventDefault();this.classList.remove('over');loadFile(event.dataTransfer.files[0])">
-    <input type="file" id="fi" accept="image/*" style="display:none" onchange="loadFile(this.files[0])">
-    <div style="font-size:38px;margin-bottom:10px">📈</div>
-    <div style="font-size:15px;font-weight:700;letter-spacing:1px">UPLOAD CHART</div>
-    <div style="font-size:11px;color:var(--t2);font-family:'Share Tech Mono',monospace;margin-top:5px">Apasă sau trage imaginea</div>
+  <!-- TF UPLOAD SLOTS -->
+  <div style="font-size:10px;color:var(--t2);font-family:'Share Tech Mono',monospace;letter-spacing:2px;text-align:center;">// INCARCA 1, 2 SAU 3 TIMEFRAME-URI</div>
+  <div class="tf-grid">
+
+    <!-- HTF -->
+    <div class="tf-slot" id="slot0" onclick="triggerFile(0)"
+      ondragover="event.preventDefault();this.classList.add('over')"
+      ondragleave="this.classList.remove('over')"
+      ondrop="event.preventDefault();this.classList.remove('over');handleDrop(event,0)">
+      <input type="file" id="fi0" accept="image/*" style="display:none" onchange="loadSlot(0,this.files[0])">
+      <button class="tf-remove" onclick="event.stopPropagation();clearSlot(0)">×</button>
+      <div class="tf-icon">📊</div>
+      <div class="tf-label htf">HTF</div>
+      <div class="tf-sub">H4 / D1 / W1</div>
+    </div>
+
+    <!-- MTF -->
+    <div class="tf-slot" id="slot1" onclick="triggerFile(1)"
+      ondragover="event.preventDefault();this.classList.add('over')"
+      ondragleave="this.classList.remove('over')"
+      ondrop="event.preventDefault();this.classList.remove('over');handleDrop(event,1)">
+      <input type="file" id="fi1" accept="image/*" style="display:none" onchange="loadSlot(1,this.files[0])">
+      <button class="tf-remove" onclick="event.stopPropagation();clearSlot(1)">×</button>
+      <div class="tf-icon">📈</div>
+      <div class="tf-label mtf">MTF</div>
+      <div class="tf-sub">H1 / M30</div>
+    </div>
+
+    <!-- LTF -->
+    <div class="tf-slot" id="slot2" onclick="triggerFile(2)"
+      ondragover="event.preventDefault();this.classList.add('over')"
+      ondragleave="this.classList.remove('over')"
+      ondrop="event.preventDefault();this.classList.remove('over');handleDrop(event,2)">
+      <input type="file" id="fi2" accept="image/*" style="display:none" onchange="loadSlot(2,this.files[0])">
+      <button class="tf-remove" onclick="event.stopPropagation();clearSlot(2)">×</button>
+      <div class="tf-icon">🎯</div>
+      <div class="tf-label ltf">LTF</div>
+      <div class="tf-sub">M5 / M15</div>
+    </div>
+
   </div>
 
-  <button class="go" id="goBtn" onclick="doAnalysis()">⚡ ANALIZEAZĂ</button>
+  <button class="go" id="goBtn" onclick="doAnalysis()">⚡ ANALIZEAZĂ MULTI-TF</button>
 
   <div id="results" style="display:none;flex-direction:column;gap:12px;"></div>
 
@@ -219,12 +272,17 @@ function checkPw(){
   } else {
     document.getElementById('pwErr').style.display='block';
     document.getElementById('pwInput').value='';
-    document.getElementById('pwInput').style.borderColor='var(--bear)';
+    document.getElementById('pwInput').style.borderColor='#ff3d57';
     setTimeout(()=>document.getElementById('pwInput').style.borderColor='#1a2a40',1200);
   }
 }
 
-let b64=null,imgMime='image/jpeg',apiKey='',analysisCtx=[];
+let slots=[null,null,null]; // {b64, mime, src}
+let apiKey='', analysisCtx=[];
+const tfNames=['HTF','MTF','LTF'];
+const tfColors=['#ff6b35','#0090ff','#00f5c4'];
+const tfHints=['H4 / D1 / W1','H1 / M30','M5 / M15'];
+const tfIcons=['📊','📈','🎯'];
 
 const saved=localStorage.getItem('nxkey');
 if(saved){apiKey=saved;document.getElementById('apikey').value=saved;markSaved();}
@@ -240,17 +298,43 @@ function markSaved(){
   document.getElementById('savebtn').textContent='OK';
 }
 
-function loadFile(f){
+function triggerFile(i){ document.getElementById('fi'+i).click(); }
+function handleDrop(e,i){ loadSlot(i,e.dataTransfer.files[0]); }
+
+function loadSlot(i,f){
   if(!f||!f.type.startsWith('image/'))return;
-  imgMime=f.type;
   const r=new FileReader();
   r.onload=e=>{
-    b64=e.target.result.split(',')[1];
-    const uz=document.getElementById('uzone');
-    uz.className='upload-zone has';
-    uz.innerHTML=`<img src="${e.target.result}" alt="chart"><div style="margin-top:8px;font-size:11px;color:var(--a);font-family:'Share Tech Mono',monospace;text-align:center">✅ CHART INCARCAT</div><input type="file" id="fi" accept="image/*" style="display:none" onchange="loadFile(this.files[0])">`;
+    slots[i]={b64:e.target.result.split(',')[1],mime:f.type,src:e.target.result};
+    renderSlot(i);
   };
   r.readAsDataURL(f);
+}
+
+function renderSlot(i){
+  const s=slots[i];
+  const slot=document.getElementById('slot'+i);
+  slot.className='tf-slot loaded';
+  slot.innerHTML=`
+    <div class="tf-badge ${tfNames[i].toLowerCase()}">${tfNames[i]}</div>
+    <button class="tf-remove" onclick="event.stopPropagation();clearSlot(${i})">×</button>
+    <img src="${s.src}" alt="tf${i}">
+    <div class="tf-loaded-label">${tfHints[i]}</div>
+    <input type="file" id="fi${i}" accept="image/*" style="display:none" onchange="loadSlot(${i},this.files[0])">
+  `;
+}
+
+function clearSlot(i){
+  slots[i]=null;
+  const slot=document.getElementById('slot'+i);
+  slot.className='tf-slot';
+  slot.innerHTML=`
+    <input type="file" id="fi${i}" accept="image/*" style="display:none" onchange="loadSlot(${i},this.files[0])">
+    <button class="tf-remove" onclick="event.stopPropagation();clearSlot(${i})">×</button>
+    <div class="tf-icon">${tfIcons[i]}</div>
+    <div class="tf-label ${tfNames[i].toLowerCase()}">${tfNames[i]}</div>
+    <div class="tf-sub">${tfHints[i]}</div>
+  `;
 }
 
 function fmt(t){
@@ -261,7 +345,7 @@ async function callClaude(messages,system){
   const res=await fetch('https://api.anthropic.com/v1/messages',{
     method:'POST',
     headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-    body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:800,system,messages})
+    body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1000,system,messages})
   });
   const d=await res.json();
   if(!res.ok)throw new Error(d?.error?.message||'HTTP '+res.status);
@@ -269,58 +353,73 @@ async function callClaude(messages,system){
 }
 
 async function doAnalysis(){
-  if(!b64){alert('Uploadeaza un chart!');return;}
+  const loaded=slots.filter(s=>s!==null);
+  if(loaded.length===0){alert('Uploadeaza cel putin un chart!');return;}
   if(!apiKey){alert('Salveaza API key-ul!');return;}
+
   const btn=document.getElementById('goBtn');
-  btn.disabled=true;btn.textContent='⏳ ANALIZEZ...';
+  btn.disabled=true;btn.textContent='⏳ ANALIZEZ MULTI-TF...';
   const rs=document.getElementById('results');
   rs.style.display='flex';
-  rs.innerHTML=`<div class="loading-box"><div class="bars">${Array(7).fill('<div class="bar"></div>').join('')}</div><div style="font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--a);letter-spacing:3px">ANALIZEZ...</div><div id="lstep" style="font-size:10px;color:var(--t2);font-family:'Share Tech Mono',monospace">Detectez instrumentul...</div></div>`;
-  const steps=['Detectez instrumentul si TF...','Identific structura pietei...','Scanez Order Blocks + FVG...','Analizez confluente SMC/ICT...','Calculez niveluri exacte...','Determini directia dominanta...','Calculez Entry / SL / TP precis...'];
+  rs.innerHTML=`<div class="loading-box"><div class="bars">${Array(7).fill('<div class="bar"></div>').join('')}</div><div style="font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--a);letter-spacing:3px">ANALIZEZ ${loaded.length} TIMEFRAME${loaded.length>1?'-URI':''}...</div><div id="lstep" style="font-size:10px;color:var(--t2);font-family:'Share Tech Mono',monospace">Detectez instrumentul...</div></div>`;
+
+  const steps=['Detectez instrumentul si TF-urile...','Analizez HTF — bias macro...','Analizez MTF — structura si OB-uri...','Analizez LTF — entry precis...','Calculez confluente multi-TF...','Determin directia cu probabilitate maxima...','Construiesc setup-ul final...'];
   let si=0;
   const iv=setInterval(()=>{si=(si+1)%steps.length;const el=document.getElementById('lstep');if(el)el.textContent=steps[si];},1300);
 
-  const system=`Esti NEXUS TRADER AI — analist institutional de nivel inalt, specializat in Smart Money Concepts (ICT/SMC).
+  // Build content array with all images
+  const content=[];
+  const loadedSlots=slots.map((s,i)=>({s,i})).filter(x=>x.s!==null);
+
+  loadedSlots.forEach(({s,i})=>{
+    content.push({type:'text',text:`Chart ${tfNames[i]} (${tfHints[i]}):`});
+    content.push({type:'image',source:{type:'base64',media_type:s.mime,data:s.b64}});
+  });
+  content.push({type:'text',text:`Analizeaza aceste ${loadedSlots.length} chart-uri multi-timeframe si returneaza DOAR JSON.`});
+
+  const tfCount=loadedSlots.length;
+  const tfDesc=loadedSlots.map(({i})=>`${tfNames[i]} (${tfHints[i]})`).join(', ');
+
+  const system=`Esti NEXUS TRADER AI — analist institutional expert in analiza Multi-Timeframe (MTF).
+
+Primesti ${tfCount} chart-uri: ${tfDesc}.
+
+METODOLOGIE MULTI-TF (Top-Down):
+1. HTF = defineste bias-ul macro (directia generala)
+2. MTF = confirma structura si identifica zone cheie (OB, S/D)
+3. LTF = entry precis, SL tight, TP la nivelul HTF/MTF
 
 REGULI ABSOLUTE:
-1. Dai INTOTDEAUNA o directie clara: LONG sau SHORT — niciodata neutral/wait
-2. Alege directia cu CEA MAI MARE probabilitate bazata pe toate confluente
-3. Entry, SL, TP sunt NIVELURI EXACTE de pret vizibile pe chart (nu zone vagi)
-4. SL = deasupra/sub ultimul swing high/low sau OB invalid
-5. TP = urmatorul nivel cheie de lichiditate, S/D zona, FVG fill, sau structura
-6. Calculeaza R:R exact: (TP-Entry)/(Entry-SL) pentru LONG sau (Entry-TP)/(SL-Entry) pentru SHORT
+- Dai INTOTDEAUNA LONG sau SHORT — niciodata neutral
+- Setup-ul final TREBUIE sa fie aliniat cu bias-ul HTF
+- Entry din LTF, SL sub/peste structura LTF, TP la nivel MTF/HTF
+- Niveluri EXACTE de pret, nu zone vagi
 
-Detectezi automat din imagine: instrumentul exact, timeframe-ul, indicatorii vizibili.
-
-Returneaza STRICT JSON, fara alt text:
+Returneaza STRICT JSON fara alt text:
 
 {
   "instrument": "XAUUSD",
-  "timeframe": "M5",
   "sesiune": "London",
   "directie": "SHORT",
-  "confidenta": 82,
+  "confidenta": 88,
+  "tf_analysis": {
+    "htf": {"tf": "H4", "bias": "BEARISH", "motiv": "LH/LL structure, pret sub EMA200"},
+    "mtf": {"tf": "H1", "bias": "BEARISH", "motiv": "OB bearish la 2320, BOS confirmat"},
+    "ltf": {"tf": "M15", "bias": "BEARISH", "motiv": "Rejection candle la FVG, RSI 68"}
+  },
   "entry": "2318.50",
-  "sl": "2322.00",
-  "tp": "2308.00",
-  "rr": "3.0",
-  "conditie": "Rejection la OB bearish + RSI divergenta bearish confirmat",
-  "invalidare": "Close peste 2322.50",
-  "confluente": ["BOS bearish M5", "OB bearish la 2318-2320", "FVG necompletat la 2308", "RSI overbought 72", "Sub EMA 50"]
+  "sl": "2321.00",
+  "tp": "2305.00",
+  "rr": "5.4",
+  "conditie": "Rejection la OB M15 2317-2319, confirmare bearish engulfing",
+  "invalidare": "Close peste 2321.50",
+  "confluente": ["HTF bearish H4", "OB bearish H1 la 2320", "FVG M15 necompletat", "RSI M15 overbought 68", "Sub EMA50 toate TF-urile", "BOS bearish M15"]
 }
 
-IMPORTANT pentru niveluri:
-- entry = pretul exact de intrare (limit order sau market la confirmare)
-- sl = maximul/minimul candelei de confirmare + buffer mic
-- tp = urmatorul nivel semnificativ (nu arbitrar)
-- rr = numar zecimal (ex: "2.5" = 1:2.5)
-- confluente = lista cu TOATE confluente identificate (minim 3)`;
+Daca ai doar 1-2 chart-uri, completeaza tf_analysis doar pentru cele disponibile cu tf:null pentru cele lipsa.`;
 
   try{
-    const raw=await callClaude([{role:'user',content:[
-      {type:'image',source:{type:'base64',media_type:imgMime,data:b64}},
-      {type:'text',text:'Analizeaza chart-ul. Returneaza DOAR JSON.'}
-    ]}],system);
+    const raw=await callClaude([{role:'user',content}],system);
     clearInterval(iv);
 
     let d;
@@ -328,7 +427,7 @@ IMPORTANT pentru niveluri:
     catch(e){ throw new Error('Format invalid — incearca din nou'); }
 
     analysisCtx=[
-      {role:'user',content:[{type:'image',source:{type:'base64',media_type:imgMime,data:b64}},{type:'text',text:'Analizeaza.'}]},
+      {role:'user',content},
       {role:'assistant',content:JSON.stringify(d)}
     ];
 
@@ -336,32 +435,39 @@ IMPORTANT pentru niveluri:
     const cls=isLong?'long':'short';
     const dirLabel=isLong?'▲ LONG':'▼ SHORT';
     const dirColor=isLong?'var(--bull)':'var(--bear)';
-
-    // Calculeaza RR fill %
     const rrNum=parseFloat(d.rr)||1;
-    const rrFill=Math.min(Math.round((rrNum/(rrNum+1))*100),90);
-
-    // Calculeaza pips/puncte distanta
+    const rrFill=Math.min(Math.round((rrNum/(rrNum+1))*100),92);
     const entryN=parseFloat(d.entry)||0;
     const slN=parseFloat(d.sl)||0;
     const tpN=parseFloat(d.tp)||0;
     const slDist=Math.abs(entryN-slN).toFixed(2);
     const tpDist=Math.abs(tpN-entryN).toFixed(2);
 
+    // Build TF alignment row
+    const tfa=d.tf_analysis||{};
+    const tfOrder=[['htf','HTF','htf'],['mtf','MTF','mtf'],['ltf','LTF','ltf']];
+    const tfAlignHTML=tfOrder.map(([key,label,cls2])=>{
+      const t=tfa[key];
+      if(!t||!t.tf) return `<div class="tfa"><div class="tfa-tf ${cls2}">${label}</div><div class="tfa-dir" style="color:var(--t2)">—</div></div>`;
+      const isBull=t.bias?.toUpperCase()==='BULLISH';
+      return `<div class="tfa"><div class="tfa-tf ${cls2}">${label} · ${t.tf}</div><div class="tfa-dir ${isBull?'bull':'bear'}">${isBull?'▲ BULL':'▼ BEAR'}</div></div>`;
+    }).join('');
+
     rs.innerHTML=`
       <div class="card ${cls}">
-
-        <!-- TOP -->
         <div class="card-top">
-          <div class="ct-left">
+          <div>
             <div class="ct-pair ${cls}">${d.instrument||'—'}</div>
-            <div class="ct-meta">${d.timeframe||'—'} · ${d.sesiune||'—'}</div>
+            <div class="ct-meta">${d.sesiune||'—'} · ${loadedSlots.length} TF analizate</div>
           </div>
-          <div class="ct-right">
+          <div>
             <div class="ct-dir ${cls}">${dirLabel}</div>
             <div class="ct-conf ${cls}">${d.confidenta||'—'}% CONFIDENTA</div>
           </div>
         </div>
+
+        <!-- TF ALIGNMENT -->
+        <div class="tf-align">${tfAlignHTML}</div>
 
         <!-- LEVELS -->
         <div class="levels">
@@ -382,7 +488,7 @@ IMPORTANT pentru niveluri:
           </div>
         </div>
 
-        <!-- RR BAR -->
+        <!-- RR -->
         <div class="rr-bar">
           <div class="rr-label">RISK:REWARD</div>
           <div class="rr-val ${cls}">1 : ${rrNum}</div>
@@ -391,28 +497,26 @@ IMPORTANT pentru niveluri:
 
         <!-- CONDITIONS -->
         <div class="conditions">
-          <div class="cond-row"><span class="entry-lbl">INTRARE:</span>${d.conditie||'—'}</div>
-          <div class="cond-row"><span class="sl-lbl">INVALIDARE:</span>${d.invalidare||'—'}</div>
-          ${d.confluente&&d.confluente.length?`<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:5px">${d.confluente.map(c=>`<span style="padding:3px 9px;border:1px solid rgba(255,255,255,.12);border-radius:20px;font-size:10px;color:var(--t2);font-family:'Share Tech Mono',monospace">${c}</span>`).join('')}</div>`:''}
+          <div class="cond-row"><span style="color:var(--a2);font-family:'Share Tech Mono',monospace;font-size:9px">INTRARE: </span>${d.conditie||'—'}</div>
+          <div class="cond-row"><span style="color:var(--bear);font-family:'Share Tech Mono',monospace;font-size:9px">INVALIDARE: </span>${d.invalidare||'—'}</div>
+          ${d.confluente?.length?`<div class="tags">${d.confluente.map(c=>`<span class="tag">${c}</span>`).join('')}</div>`:''}
         </div>
-
       </div>`;
 
     // CHAT
     document.getElementById('chatBox').style.display='block';
     document.getElementById('chatOut').innerHTML=`<div class="msg ai"><div class="mlabel">◈ NEXUS AI</div>
-      <strong>${d.instrument}</strong> ${d.timeframe} — <strong style="color:${dirColor}">${dirLabel}</strong> cu <strong>${d.confidenta}%</strong> confidenta.<br>
-      Entry: <strong>${d.entry}</strong> · SL: <strong>${d.sl}</strong> · TP: <strong>${d.tp}</strong> · R:R 1:${rrNum}<br><br>
-      Pune orice întrebare!
+      <strong>${d.instrument}</strong> — <strong style="color:${dirColor}">${dirLabel}</strong> cu <strong>${d.confidenta}%</strong> confidenta pe ${loadedSlots.length} TF-uri.<br>
+      Entry: <strong>${d.entry}</strong> · SL: <strong>${d.sl}</strong> · TP: <strong>${d.tp}</strong> · R:R 1:${rrNum}
     </div>`;
 
     document.getElementById('quickWrap').innerHTML=[
       'De ce acest entry exact?',
-      'Unde pun SL-ul daca piata se misca?',
-      'Pot intra in mai multe transe?',
-      'Ce confirmari astept inainte de intrare?',
-      'Care e riscul in $ pentru 100$ cont?',
-      'Ce se intampla daca SL-ul e atins?'
+      'HTF confirma directia?',
+      'Cum gestionez pozitia spre TP?',
+      'Care e cel mai important nivel?',
+      'Risc in $ pentru cont de 500$?',
+      'Ce se intampla daca SL e atins?'
     ].map(q=>`<button class="qbtn" onclick="quickChat('${q}')">${q}</button>`).join('');
 
   }catch(e){
@@ -447,7 +551,7 @@ async function doChat(msg){
   co.appendChild(ld);co.scrollTop=co.scrollHeight;
   try{
     const reply=await callClaude([...analysisCtx,{role:'user',content:msg}],
-      'Esti NEXUS TRADER AI expert institutional. Raspunzi in romana, concis, direct, cu niveluri exacte. Ai analiza completa a chartului.');
+      'Esti NEXUS TRADER AI expert institutional multi-timeframe. Raspunzi in romana, concis si direct cu niveluri exacte.');
     analysisCtx=[...analysisCtx,{role:'user',content:msg},{role:'assistant',content:reply}];
     ld.innerHTML=`<div class="mlabel">◈ NEXUS AI</div>${fmt(reply)}`;
   }catch(e){
