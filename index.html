@@ -44,107 +44,105 @@ body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;min-h
 .ticker-in{display:inline-block;animation:scroll 35s linear infinite;}
 @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-/* MAIN */
-.main{flex:1;padding:14px;display:flex;flex-direction:column;gap:12px;max-width:680px;width:100%;margin:0 auto;}
+.main{flex:1;padding:14px;display:flex;flex-direction:column;gap:12px;max-width:720px;width:100%;margin:0 auto;}
 
-/* TF UPLOAD GRID */
+/* TF SLOTS */
 .tf-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
-.tf-slot{border:2px dashed var(--b);border-radius:12px;padding:12px 8px;text-align:center;cursor:pointer;transition:all .3s;position:relative;min-height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.tf-slot{border:2px dashed var(--b);border-radius:12px;padding:12px 8px;text-align:center;cursor:pointer;transition:all .3s;position:relative;min-height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
 .tf-slot:hover,.tf-slot.over{border-color:var(--a);background:rgba(0,245,196,.04);}
 .tf-slot.loaded{padding:6px;border-color:var(--a);background:rgba(0,245,196,.03);}
-.tf-slot img{width:100%;height:80px;object-fit:cover;border-radius:6px;display:block;}
-.tf-badge{position:absolute;top:4px;left:4px;padding:2px 7px;border-radius:6px;font-size:9px;font-weight:700;font-family:'Share Tech Mono',monospace;letter-spacing:1px;}
+.tf-slot img{width:100%;height:75px;object-fit:cover;border-radius:6px;}
+.tf-badge{position:absolute;top:4px;left:4px;padding:2px 7px;border-radius:6px;font-size:9px;font-weight:700;font-family:'Share Tech Mono',monospace;}
 .tf-badge.htf{background:rgba(255,107,53,.2);color:#ff6b35;border:1px solid #ff6b35;}
 .tf-badge.mtf{background:rgba(0,144,255,.2);color:#0090ff;border:1px solid #0090ff;}
 .tf-badge.ltf{background:rgba(0,245,196,.2);color:#00f5c4;border:1px solid #00f5c4;}
-.tf-label{font-size:11px;font-weight:600;letter-spacing:1px;margin-top:6px;}
-.tf-label.htf{color:#ff6b35;}
-.tf-label.mtf{color:#0090ff;}
-.tf-label.ltf{color:var(--a);}
-.tf-sub{font-size:9px;color:var(--t2);font-family:'Share Tech Mono',monospace;margin-top:2px;}
-.tf-icon{font-size:22px;margin-bottom:4px;}
-.tf-remove{position:absolute;top:4px;right:4px;width:18px;height:18px;background:rgba(255,61,87,.8);border:none;border-radius:50%;color:#fff;font-size:11px;cursor:pointer;display:none;align-items:center;justify-content:center;line-height:1;}
+.tf-remove{position:absolute;top:4px;right:4px;width:18px;height:18px;background:rgba(255,61,87,.8);border:none;border-radius:50%;color:#fff;font-size:11px;cursor:pointer;display:none;align-items:center;justify-content:center;}
 .tf-slot.loaded .tf-remove{display:flex;}
-.tf-loaded-label{font-size:9px;color:var(--a);font-family:'Share Tech Mono',monospace;margin-top:4px;text-align:center;}
+.tf-name{font-size:11px;font-weight:700;letter-spacing:1px;margin-top:5px;}
+.tf-name.htf{color:#ff6b35;}
+.tf-name.mtf{color:#0090ff;}
+.tf-name.ltf{color:var(--a);}
+.tf-hint{font-size:9px;color:var(--t2);font-family:'Share Tech Mono',monospace;margin-top:2px;}
+
+/* MODEL SELECTOR */
+.model-section{background:var(--p);border:1px solid var(--b);border-radius:14px;overflow:hidden;}
+.model-hdr{padding:10px 16px;border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;}
+.model-hdr-title{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--a2);font-family:'Share Tech Mono',monospace;}
+.select-all-btn{padding:5px 12px;background:rgba(0,245,196,.1);border:1px solid var(--a);border-radius:20px;color:var(--a);font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;}
+.select-all-btn:hover{background:rgba(0,245,196,.2);}
+.model-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px;}
+.model-card{border:2px solid var(--b);border-radius:10px;padding:10px 12px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.model-card:hover{border-color:rgba(255,255,255,.2);}
+.model-card.selected{border-color:var(--a);}
+.model-card.selected::before{content:'✓';position:absolute;top:6px;right:8px;color:var(--a);font-size:14px;font-weight:700;}
+.model-name{font-size:13px;font-weight:700;letter-spacing:1px;margin-bottom:3px;}
+.model-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:9px;font-weight:700;font-family:'Share Tech Mono',monospace;margin-bottom:5px;}
+.model-badge.opus{background:rgba(147,51,234,.2);color:#a855f7;border:1px solid #a855f7;}
+.model-badge.sonnet{background:rgba(0,144,255,.2);color:#0090ff;border:1px solid #0090ff;}
+.model-badge.haiku{background:rgba(0,245,196,.2);color:#00f5c4;border:1px solid #00f5c4;}
+.model-desc{font-size:10px;color:var(--t2);line-height:1.4;}
+.model-speed{font-size:9px;font-family:'Share Tech Mono',monospace;margin-top:4px;}
 
 /* GO */
 .go{width:100%;padding:17px;background:linear-gradient(135deg,var(--a),var(--a2));border:none;border-radius:14px;color:#050810;font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;letter-spacing:3px;cursor:pointer;transition:all .3s;box-shadow:0 4px 20px rgba(0,245,196,.2);}
 .go:hover{transform:translateY(-2px);}
 .go:disabled{opacity:.5;cursor:not-allowed;transform:none;}
 
-/* LOADING */
-.loading-box{padding:44px 20px;display:flex;flex-direction:column;align-items:center;gap:16px;background:var(--p);border:1px solid var(--b);border-radius:14px;}
-.bars{display:flex;gap:4px;align-items:flex-end;height:44px;}
-.bar{width:5px;background:var(--a);border-radius:3px;}
-.bar:nth-child(1){animation:ba 1s 0s ease-in-out infinite;}
-.bar:nth-child(2){animation:ba 1s .1s ease-in-out infinite;}
-.bar:nth-child(3){animation:ba 1s .2s ease-in-out infinite;}
-.bar:nth-child(4){animation:ba 1s .3s ease-in-out infinite;}
-.bar:nth-child(5){animation:ba 1s .4s ease-in-out infinite;}
-.bar:nth-child(6){animation:ba 1s .5s ease-in-out infinite;}
-.bar:nth-child(7){animation:ba 1s .6s ease-in-out infinite;}
-@keyframes ba{0%,100%{height:8px;opacity:.4}50%{height:44px;opacity:1}}
+/* RESULTS GRID - adapts to number of models */
+.results-grid{display:flex;flex-direction:column;gap:12px;}
 
-/* RESULT CARD */
-.card{border-radius:18px;border:2px solid;overflow:hidden;}
-.card.long{border-color:var(--bull);background:linear-gradient(180deg,rgba(0,230,118,.08),rgba(0,230,118,.03));}
-.card.short{border-color:var(--bear);background:linear-gradient(180deg,rgba(255,61,87,.08),rgba(255,61,87,.03));}
+/* MODEL RESULT */
+.model-result{border-radius:14px;overflow:hidden;border:1px solid var(--b);}
+.mr-header{padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--b);}
+.mr-model-name{font-size:11px;font-weight:700;font-family:'Share Tech Mono',monospace;letter-spacing:1px;}
+.mr-status{font-size:10px;font-family:'Share Tech Mono',monospace;}
 
-.card-top{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.07);}
-.ct-pair{font-size:24px;font-weight:700;letter-spacing:1px;}
-.ct-pair.long{color:var(--bull);}
-.ct-pair.short{color:var(--bear);}
-.ct-meta{font-size:10px;color:var(--t2);font-family:'Share Tech Mono',monospace;margin-top:3px;}
-.ct-dir{font-size:28px;font-weight:700;font-family:'Share Tech Mono',monospace;letter-spacing:2px;text-align:right;}
-.ct-dir.long{color:var(--bull);}
-.ct-dir.short{color:var(--bear);}
-.ct-conf{font-size:12px;font-family:'Share Tech Mono',monospace;text-align:right;margin-top:3px;}
-.ct-conf.long{color:var(--bull);}
-.ct-conf.short{color:var(--bear);}
+/* LOADING MINI */
+.mini-bars{display:flex;gap:3px;align-items:flex-end;height:16px;}
+.mini-bar{width:3px;background:var(--a);border-radius:2px;}
+.mini-bar:nth-child(1){animation:mba 1s 0s ease-in-out infinite;}
+.mini-bar:nth-child(2){animation:mba 1s .15s ease-in-out infinite;}
+.mini-bar:nth-child(3){animation:mba 1s .3s ease-in-out infinite;}
+.mini-bar:nth-child(4){animation:mba 1s .45s ease-in-out infinite;}
+@keyframes mba{0%,100%{height:4px;opacity:.4}50%{height:16px;opacity:1}}
 
-/* TF ALIGNMENT ROW */
-.tf-align{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.07);}
-.tfa{padding:10px 12px;background:var(--p);text-align:center;}
-.tfa-tf{font-size:9px;font-family:'Share Tech Mono',monospace;letter-spacing:2px;margin-bottom:4px;}
-.tfa-tf.htf{color:#ff6b35;}
-.tfa-tf.mtf{color:#0090ff;}
-.tfa-tf.ltf{color:var(--a);}
-.tfa-dir{font-size:13px;font-weight:700;font-family:'Share Tech Mono',monospace;}
-.tfa-dir.bull{color:var(--bull);}
-.tfa-dir.bear{color:var(--bear);}
+/* SETUP INSIDE MODEL RESULT */
+.mr-body{padding:14px;}
+.mr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.mr-dir{font-size:20px;font-weight:700;font-family:'Share Tech Mono',monospace;}
+.mr-dir.long{color:var(--bull);}
+.mr-dir.short{color:var(--bear);}
+.mr-conf{font-size:11px;font-family:'Share Tech Mono',monospace;}
+.mr-conf.long{color:var(--bull);}
+.mr-conf.short{color:var(--bear);}
+.mr-levels{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;}
+.mrl{background:rgba(255,255,255,.03);border:1px solid var(--b);border-radius:8px;padding:8px 10px;}
+.mrl-label{font-size:8px;color:var(--t2);font-family:'Share Tech Mono',monospace;letter-spacing:2px;margin-bottom:3px;}
+.mrl-val{font-size:16px;font-weight:700;font-family:'Share Tech Mono',monospace;}
+.mrl-val.entry{color:var(--a2);}
+.mrl-val.sl{color:var(--bear);}
+.mrl-val.tp{color:var(--bull);}
+.mr-rr{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.mr-rr-label{font-size:9px;color:var(--t2);font-family:'Share Tech Mono',monospace;}
+.mr-rr-val{font-size:14px;font-weight:700;font-family:'Share Tech Mono',monospace;}
+.mr-rr-val.long{color:var(--bull);}
+.mr-rr-val.short{color:var(--bear);}
+.mr-cond{font-size:11px;color:var(--t2);line-height:1.5;padding-top:8px;border-top:1px solid var(--b);}
+.mr-cond strong{color:var(--t);font-size:11px;}
+.mr-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
+.mr-tag{padding:2px 7px;border:1px solid rgba(255,255,255,.1);border-radius:20px;font-size:9px;color:var(--t2);font-family:'Share Tech Mono',monospace;}
 
-/* LEVELS */
-.levels{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:rgba(255,255,255,.06);}
-.lv{padding:16px 14px;background:var(--p);display:flex;flex-direction:column;gap:4px;}
-.lv-label{font-size:9px;color:var(--t2);font-family:'Share Tech Mono',monospace;letter-spacing:2px;}
-.lv-val{font-size:22px;font-weight:700;font-family:'Share Tech Mono',monospace;}
-.lv-val.entry{color:var(--a2);}
-.lv-val.sl{color:var(--bear);}
-.lv-val.tp{color:var(--bull);}
-.lv-sub{font-size:10px;color:var(--t2);font-family:'Share Tech Mono',monospace;}
-
-/* RR */
-.rr-bar{padding:12px 20px;display:flex;align-items:center;gap:12px;border-top:1px solid rgba(255,255,255,.07);}
-.rr-label{font-size:10px;color:var(--t2);font-family:'Share Tech Mono',monospace;letter-spacing:2px;}
-.rr-val{font-size:18px;font-weight:700;font-family:'Share Tech Mono',monospace;}
-.rr-val.long{color:var(--bull);}
-.rr-val.short{color:var(--bear);}
-.rr-track{flex:1;height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;}
-.rr-fill{height:100%;border-radius:3px;}
-.rr-fill.long{background:var(--bull);}
-.rr-fill.short{background:var(--bear);}
-
-/* CONDITIONS */
-.conditions{padding:14px 20px;border-top:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;gap:8px;}
-.cond-row{font-size:12px;line-height:1.5;color:var(--t);}
-.cond-row span{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;margin-right:6px;}
-.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;}
-.tag{padding:3px 9px;border:1px solid rgba(255,255,255,.1);border-radius:20px;font-size:10px;color:var(--t2);font-family:'Share Tech Mono',monospace;}
+/* COMPARISON BOX */
+.compare-box{background:var(--p);border:1px solid var(--a);border-radius:14px;overflow:hidden;}
+.compare-hdr{padding:10px 16px;border-bottom:1px solid var(--b);font-size:10px;font-weight:700;letter-spacing:2px;color:var(--a);font-family:'Share Tech Mono',monospace;}
+.compare-body{padding:14px;font-size:13px;line-height:1.8;color:var(--t);}
+.compare-body strong{color:var(--a);}
+.compare-body em{color:var(--a2);font-style:normal;}
 
 /* CHAT */
 .chat-box{background:var(--p);border:1px solid var(--b);border-radius:14px;overflow:hidden;}
 .chat-hdr{padding:11px 16px;border-bottom:1px solid var(--b);font-size:10px;font-weight:700;letter-spacing:2px;color:var(--a2);font-family:'Share Tech Mono',monospace;}
-.chat-msgs{padding:12px;display:flex;flex-direction:column;gap:9px;max-height:280px;overflow-y:auto;}
+.chat-msgs{padding:12px;display:flex;flex-direction:column;gap:9px;max-height:260px;overflow-y:auto;}
 .msg{padding:10px 13px;border-radius:10px;font-size:13px;line-height:1.65;border:1px solid var(--b);}
 .msg.user{background:rgba(0,144,255,.08);border-color:rgba(0,144,255,.3);align-self:flex-end;max-width:88%;}
 .msg.ai{background:rgba(255,255,255,.03);}
@@ -170,7 +168,7 @@ body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;min-h
   <div class="lock-icon">📊</div>
   <div style="text-align:center">
     <div style="font-size:22px;font-weight:700;letter-spacing:3px;color:var(--a);font-family:'Rajdhani',sans-serif">NEXUS TRADER AI</div>
-    <div style="font-size:9px;color:var(--t2);letter-spacing:3px;font-family:'Share Tech Mono',monospace;margin-top:5px">MULTI-TIMEFRAME ANALYST</div>
+    <div style="font-size:9px;color:var(--t2);letter-spacing:3px;font-family:'Share Tech Mono',monospace;margin-top:5px">MULTI-MODEL ANALYST</div>
   </div>
   <input type="password" id="pwInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPw()">
   <button id="pwBtn" onclick="checkPw()">ACCES →</button>
@@ -183,7 +181,7 @@ body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;min-h
     <div class="logo-icon">📊</div>
     <div>
       <div class="logo-t">NEXUS TRADER AI</div>
-      <div class="logo-s">MULTI-TIMEFRAME ANALYST v12.0</div>
+      <div class="logo-s">MULTI-MODEL · MULTI-TF · v13.0</div>
     </div>
   </div>
   <div style="display:flex;align-items:center;gap:5px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--t2);">
@@ -207,58 +205,78 @@ body{background:var(--bg);color:var(--t);font-family:'Rajdhani',sans-serif;min-h
 
 <div class="main">
 
-  <!-- TF UPLOAD SLOTS -->
-  <div style="font-size:10px;color:var(--t2);font-family:'Share Tech Mono',monospace;letter-spacing:2px;text-align:center;">// INCARCA 1, 2 SAU 3 TIMEFRAME-URI</div>
+  <!-- TF UPLOAD -->
+  <div style="font-size:10px;color:var(--t2);font-family:'Share Tech Mono',monospace;letter-spacing:2px;text-align:center;">// TIMEFRAME-URI (1-3 chart-uri)</div>
   <div class="tf-grid">
-
-    <!-- HTF -->
-    <div class="tf-slot" id="slot0" onclick="triggerFile(0)"
-      ondragover="event.preventDefault();this.classList.add('over')"
-      ondragleave="this.classList.remove('over')"
-      ondrop="event.preventDefault();this.classList.remove('over');handleDrop(event,0)">
+    <div class="tf-slot" id="slot0" onclick="triggerFile(0)" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="event.preventDefault();this.classList.remove('over');handleDrop(event,0)">
       <input type="file" id="fi0" accept="image/*" style="display:none" onchange="loadSlot(0,this.files[0])">
       <button class="tf-remove" onclick="event.stopPropagation();clearSlot(0)">×</button>
-      <div class="tf-icon">📊</div>
-      <div class="tf-label htf">HTF</div>
-      <div class="tf-sub">H4 / D1 / W1</div>
+      <div style="font-size:20px;margin-bottom:4px">📊</div>
+      <div class="tf-name htf">HTF</div><div class="tf-hint">H4 / D1 / W1</div>
     </div>
-
-    <!-- MTF -->
-    <div class="tf-slot" id="slot1" onclick="triggerFile(1)"
-      ondragover="event.preventDefault();this.classList.add('over')"
-      ondragleave="this.classList.remove('over')"
-      ondrop="event.preventDefault();this.classList.remove('over');handleDrop(event,1)">
+    <div class="tf-slot" id="slot1" onclick="triggerFile(1)" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="event.preventDefault();this.classList.remove('over');handleDrop(event,1)">
       <input type="file" id="fi1" accept="image/*" style="display:none" onchange="loadSlot(1,this.files[0])">
       <button class="tf-remove" onclick="event.stopPropagation();clearSlot(1)">×</button>
-      <div class="tf-icon">📈</div>
-      <div class="tf-label mtf">MTF</div>
-      <div class="tf-sub">H1 / M30</div>
+      <div style="font-size:20px;margin-bottom:4px">📈</div>
+      <div class="tf-name mtf">MTF</div><div class="tf-hint">H1 / M30</div>
     </div>
-
-    <!-- LTF -->
-    <div class="tf-slot" id="slot2" onclick="triggerFile(2)"
-      ondragover="event.preventDefault();this.classList.add('over')"
-      ondragleave="this.classList.remove('over')"
-      ondrop="event.preventDefault();this.classList.remove('over');handleDrop(event,2)">
+    <div class="tf-slot" id="slot2" onclick="triggerFile(2)" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="event.preventDefault();this.classList.remove('over');handleDrop(event,2)">
       <input type="file" id="fi2" accept="image/*" style="display:none" onchange="loadSlot(2,this.files[0])">
       <button class="tf-remove" onclick="event.stopPropagation();clearSlot(2)">×</button>
-      <div class="tf-icon">🎯</div>
-      <div class="tf-label ltf">LTF</div>
-      <div class="tf-sub">M5 / M15</div>
+      <div style="font-size:20px;margin-bottom:4px">🎯</div>
+      <div class="tf-name ltf">LTF</div><div class="tf-hint">M5 / M15</div>
     </div>
-
   </div>
 
-  <button class="go" id="goBtn" onclick="doAnalysis()">⚡ ANALIZEAZĂ MULTI-TF</button>
+  <!-- MODEL SELECTOR -->
+  <div class="model-section">
+    <div class="model-hdr">
+      <div class="model-hdr-title">🤖 SELECTEAZA MODELE AI</div>
+      <button class="select-all-btn" onclick="selectAll()">TOATE ODATA</button>
+    </div>
+    <div class="model-grid">
 
-  <div id="results" style="display:none;flex-direction:column;gap:12px;"></div>
+      <div class="model-card" id="m-opus" onclick="toggleModel('claude-opus-4-5','m-opus')">
+        <div class="model-badge opus">OPUS</div>
+        <div class="model-name">Claude Opus</div>
+        <div class="model-desc">Cel mai avansat. Analiza institutionala profunda, rationament complex.</div>
+        <div class="model-speed" style="color:#a855f7">⚡⚡⚡ Premium · Mai lent</div>
+      </div>
+
+      <div class="model-card selected" id="m-sonnet" onclick="toggleModel('claude-sonnet-4-5','m-sonnet')">
+        <div class="model-badge sonnet">SONNET</div>
+        <div class="model-name">Claude Sonnet</div>
+        <div class="model-desc">Balanta perfecta. Rapid si precis pentru trading in timp real.</div>
+        <div class="model-speed" style="color:#0090ff">⚡⚡ Recomandat · Rapid</div>
+      </div>
+
+      <div class="model-card" id="m-haiku" onclick="toggleModel('claude-haiku-4-5-20251001','m-haiku')">
+        <div class="model-badge haiku">HAIKU</div>
+        <div class="model-name">Claude Haiku</div>
+        <div class="model-desc">Ultra rapid. Ideal pentru scalping si decizii instantanee.</div>
+        <div class="model-speed" style="color:#00f5c4">⚡ Ultra rapid · Economic</div>
+      </div>
+
+      <div class="model-card" id="m-sonnet3" onclick="toggleModel('claude-sonnet-4-6','m-sonnet3')">
+        <div class="model-badge" style="background:rgba(255,107,53,.2);color:#ff6b35;border:1px solid #ff6b35">NEW</div>
+        <div class="model-name">Sonnet 4.6</div>
+        <div class="model-desc">Cea mai noua versiune. Analiza vizuala imbunatatita pentru charts.</div>
+        <div class="model-speed" style="color:#ff6b35">⚡⚡ Nou · Vizual avansat</div>
+      </div>
+
+    </div>
+  </div>
+
+  <button class="go" id="goBtn" onclick="doAnalysis()">⚡ ANALIZEAZĂ</button>
+
+  <div id="results" style="display:none;flex-direction:column;gap:14px;"></div>
 
   <div class="chat-box" id="chatBox" style="display:none;">
     <div class="chat-hdr">💬 ÎNTREABĂ AI-UL</div>
     <div class="chat-msgs" id="chatOut"></div>
     <div class="quick" id="quickWrap"></div>
     <div class="chat-bar">
-      <input class="chat-input" id="cinput" placeholder="Orice întrebare despre setup..." onkeydown="if(event.key==='Enter')sendChat()">
+      <input class="chat-input" id="cinput" placeholder="Compara modelele sau intreaba despre setup..." onkeydown="if(event.key==='Enter')sendChat()">
       <button class="send-btn" id="sbtn" onclick="sendChat()">➤</button>
     </div>
   </div>
@@ -277,12 +295,11 @@ function checkPw(){
   }
 }
 
-let slots=[null,null,null]; // {b64, mime, src}
-let apiKey='', analysisCtx=[];
-const tfNames=['HTF','MTF','LTF'];
-const tfColors=['#ff6b35','#0090ff','#00f5c4'];
-const tfHints=['H4 / D1 / W1','H1 / M30','M5 / M15'];
-const tfIcons=['📊','📈','🎯'];
+let slots=[null,null,null];
+let apiKey='';
+let selectedModels=new Set(['claude-sonnet-4-5']);
+let allResults={};
+let analysisCtx=[];
 
 const saved=localStorage.getItem('nxkey');
 if(saved){apiKey=saved;document.getElementById('apikey').value=saved;markSaved();}
@@ -298,235 +315,277 @@ function markSaved(){
   document.getElementById('savebtn').textContent='OK';
 }
 
-function triggerFile(i){ document.getElementById('fi'+i).click(); }
-function handleDrop(e,i){ loadSlot(i,e.dataTransfer.files[0]); }
+// MODEL SELECTION
+function toggleModel(modelId, cardId){
+  const card=document.getElementById(cardId);
+  if(selectedModels.has(modelId)){
+    if(selectedModels.size===1){return;} // keep at least one
+    selectedModels.delete(modelId);
+    card.classList.remove('selected');
+  } else {
+    selectedModels.add(modelId);
+    card.classList.add('selected');
+  }
+  updateGoBtn();
+}
+
+function selectAll(){
+  const all=['claude-opus-4-5','claude-sonnet-4-5','claude-haiku-4-5-20251001','claude-sonnet-4-6'];
+  const cardIds=['m-opus','m-sonnet','m-haiku','m-sonnet3'];
+  all.forEach((m,i)=>{
+    selectedModels.add(m);
+    document.getElementById(cardIds[i]).classList.add('selected');
+  });
+  updateGoBtn();
+}
+
+function updateGoBtn(){
+  const n=selectedModels.size;
+  document.getElementById('goBtn').textContent=`⚡ ANALIZEAZĂ CU ${n} MODEL${n>1?'E':''}`;
+}
+
+// TF SLOTS
+const tfNames=['HTF','MTF','LTF'];
+const tfHints=['H4/D1/W1','H1/M30','M5/M15'];
+const tfIcons=['📊','📈','🎯'];
+const tfCls=['htf','mtf','ltf'];
+
+function triggerFile(i){document.getElementById('fi'+i).click();}
+function handleDrop(e,i){loadSlot(i,e.dataTransfer.files[0]);}
 
 function loadSlot(i,f){
   if(!f||!f.type.startsWith('image/'))return;
   const r=new FileReader();
   r.onload=e=>{
     slots[i]={b64:e.target.result.split(',')[1],mime:f.type,src:e.target.result};
-    renderSlot(i);
+    const sl=document.getElementById('slot'+i);
+    sl.className='tf-slot loaded';
+    sl.innerHTML=`<div class="tf-badge ${tfCls[i]}">${tfNames[i]}</div><button class="tf-remove" onclick="event.stopPropagation();clearSlot(${i})">×</button><img src="${e.target.result}" alt=""><div class="tf-hint" style="margin-top:4px;color:var(--a)">${tfHints[i]}</div><input type="file" id="fi${i}" accept="image/*" style="display:none" onchange="loadSlot(${i},this.files[0])">`;
   };
   r.readAsDataURL(f);
 }
 
-function renderSlot(i){
-  const s=slots[i];
-  const slot=document.getElementById('slot'+i);
-  slot.className='tf-slot loaded';
-  slot.innerHTML=`
-    <div class="tf-badge ${tfNames[i].toLowerCase()}">${tfNames[i]}</div>
-    <button class="tf-remove" onclick="event.stopPropagation();clearSlot(${i})">×</button>
-    <img src="${s.src}" alt="tf${i}">
-    <div class="tf-loaded-label">${tfHints[i]}</div>
-    <input type="file" id="fi${i}" accept="image/*" style="display:none" onchange="loadSlot(${i},this.files[0])">
-  `;
-}
-
 function clearSlot(i){
   slots[i]=null;
-  const slot=document.getElementById('slot'+i);
-  slot.className='tf-slot';
-  slot.innerHTML=`
-    <input type="file" id="fi${i}" accept="image/*" style="display:none" onchange="loadSlot(${i},this.files[0])">
-    <button class="tf-remove" onclick="event.stopPropagation();clearSlot(${i})">×</button>
-    <div class="tf-icon">${tfIcons[i]}</div>
-    <div class="tf-label ${tfNames[i].toLowerCase()}">${tfNames[i]}</div>
-    <div class="tf-sub">${tfHints[i]}</div>
-  `;
+  const sl=document.getElementById('slot'+i);
+  sl.className='tf-slot';
+  sl.innerHTML=`<input type="file" id="fi${i}" accept="image/*" style="display:none" onchange="loadSlot(${i},this.files[0])"><button class="tf-remove" onclick="event.stopPropagation();clearSlot(${i})">×</button><div style="font-size:20px;margin-bottom:4px">${tfIcons[i]}</div><div class="tf-name ${tfCls[i]}">${tfNames[i]}</div><div class="tf-hint">${tfHints[i]}</div>`;
 }
 
 function fmt(t){
   return String(t).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/\n/g,'<br>');
 }
 
-async function callClaude(messages,system){
+const MODEL_LABELS={
+  'claude-opus-4-5':'Claude Opus',
+  'claude-sonnet-4-5':'Claude Sonnet',
+  'claude-haiku-4-5-20251001':'Claude Haiku',
+  'claude-sonnet-4-6':'Sonnet 4.6'
+};
+const MODEL_COLORS={
+  'claude-opus-4-5':'#a855f7',
+  'claude-sonnet-4-5':'#0090ff',
+  'claude-haiku-4-5-20251001':'#00f5c4',
+  'claude-sonnet-4-6':'#ff6b35'
+};
+
+async function callModel(model, content){
+  const system=`Esti NEXUS TRADER AI — analist institutional expert in SMC/ICT si analiza Multi-Timeframe.
+
+REGULI ABSOLUTE:
+- Dai INTOTDEAUNA LONG sau SHORT — niciodata neutral
+- Entry, SL, TP = niveluri EXACTE de pret
+- Setup aliniat cu bias HTF
+
+Returneaza STRICT JSON fara alt text:
+{
+  "instrument": "XAUUSD",
+  "directie": "SHORT",
+  "confidenta": 85,
+  "entry": "2318.50",
+  "sl": "2322.00",
+  "tp": "2305.00",
+  "rr": "4.2",
+  "conditie": "Rejection la OB bearish + confirmare bearish engulfing",
+  "invalidare": "Close peste 2322.50",
+  "predictie": "Pretul va testa 2305 in urmatoarele 2-4 ore, cu posibil bounce la 2310 inainte",
+  "confluente": ["BOS bearish H4", "OB bearish H1", "RSI divergenta bearish M15", "Sub EMA50"]
+}`;
+
   const res=await fetch('https://api.anthropic.com/v1/messages',{
     method:'POST',
     headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-    body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1000,system,messages})
+    body:JSON.stringify({model,max_tokens:800,system,messages:[{role:'user',content}]})
   });
   const d=await res.json();
   if(!res.ok)throw new Error(d?.error?.message||'HTTP '+res.status);
-  return d.content?.filter(b=>b.type==='text').map(b=>b.text).join('')||'';
+  const txt=d.content?.filter(b=>b.type==='text').map(b=>b.text).join('')||'';
+  return JSON.parse(txt.replace(/```json|```/g,'').trim());
 }
 
 async function doAnalysis(){
   const loaded=slots.filter(s=>s!==null);
   if(loaded.length===0){alert('Uploadeaza cel putin un chart!');return;}
   if(!apiKey){alert('Salveaza API key-ul!');return;}
+  if(selectedModels.size===0){alert('Selecteaza cel putin un model!');return;}
 
   const btn=document.getElementById('goBtn');
-  btn.disabled=true;btn.textContent='⏳ ANALIZEZ MULTI-TF...';
+  btn.disabled=true;
+  const models=[...selectedModels];
+  const n=models.length;
+  btn.textContent=`⏳ ANALIZEZ CU ${n} MODEL${n>1?'E':''}...`;
+
   const rs=document.getElementById('results');
   rs.style.display='flex';
-  rs.innerHTML=`<div class="loading-box"><div class="bars">${Array(7).fill('<div class="bar"></div>').join('')}</div><div style="font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--a);letter-spacing:3px">ANALIZEZ ${loaded.length} TIMEFRAME${loaded.length>1?'-URI':''}...</div><div id="lstep" style="font-size:10px;color:var(--t2);font-family:'Share Tech Mono',monospace">Detectez instrumentul...</div></div>`;
+  allResults={};
 
-  const steps=['Detectez instrumentul si TF-urile...','Analizez HTF — bias macro...','Analizez MTF — structura si OB-uri...','Analizez LTF — entry precis...','Calculez confluente multi-TF...','Determin directia cu probabilitate maxima...','Construiesc setup-ul final...'];
-  let si=0;
-  const iv=setInterval(()=>{si=(si+1)%steps.length;const el=document.getElementById('lstep');if(el)el.textContent=steps[si];},1300);
-
-  // Build content array with all images
+  // Build content
   const content=[];
   const loadedSlots=slots.map((s,i)=>({s,i})).filter(x=>x.s!==null);
-
   loadedSlots.forEach(({s,i})=>{
     content.push({type:'text',text:`Chart ${tfNames[i]} (${tfHints[i]}):`});
     content.push({type:'image',source:{type:'base64',media_type:s.mime,data:s.b64}});
   });
-  content.push({type:'text',text:`Analizeaza aceste ${loadedSlots.length} chart-uri multi-timeframe si returneaza DOAR JSON.`});
+  content.push({type:'text',text:'Analizeaza si returneaza DOAR JSON.'});
 
-  const tfCount=loadedSlots.length;
-  const tfDesc=loadedSlots.map(({i})=>`${tfNames[i]} (${tfHints[i]})`).join(', ');
+  // Create placeholder cards
+  rs.innerHTML=`<div style="font-size:10px;color:var(--t2);font-family:'Share Tech Mono',monospace;letter-spacing:2px;text-align:center">// REZULTATE MODELE AI</div><div class="results-grid" id="modelsGrid"></div>${n>1?'<div class="compare-box" id="compareBox" style="display:none"><div class="compare-hdr">⚖️ COMPARATIE & PREDICTII</div><div class="compare-body" id="compareBody"></div></div>':''}`;
 
-  const system=`Esti NEXUS TRADER AI — analist institutional expert in analiza Multi-Timeframe (MTF).
-
-Primesti ${tfCount} chart-uri: ${tfDesc}.
-
-METODOLOGIE MULTI-TF (Top-Down):
-1. HTF = defineste bias-ul macro (directia generala)
-2. MTF = confirma structura si identifica zone cheie (OB, S/D)
-3. LTF = entry precis, SL tight, TP la nivelul HTF/MTF
-
-REGULI ABSOLUTE:
-- Dai INTOTDEAUNA LONG sau SHORT — niciodata neutral
-- Setup-ul final TREBUIE sa fie aliniat cu bias-ul HTF
-- Entry din LTF, SL sub/peste structura LTF, TP la nivel MTF/HTF
-- Niveluri EXACTE de pret, nu zone vagi
-
-Returneaza STRICT JSON fara alt text:
-
-{
-  "instrument": "XAUUSD",
-  "sesiune": "London",
-  "directie": "SHORT",
-  "confidenta": 88,
-  "tf_analysis": {
-    "htf": {"tf": "H4", "bias": "BEARISH", "motiv": "LH/LL structure, pret sub EMA200"},
-    "mtf": {"tf": "H1", "bias": "BEARISH", "motiv": "OB bearish la 2320, BOS confirmat"},
-    "ltf": {"tf": "M15", "bias": "BEARISH", "motiv": "Rejection candle la FVG, RSI 68"}
-  },
-  "entry": "2318.50",
-  "sl": "2321.00",
-  "tp": "2305.00",
-  "rr": "5.4",
-  "conditie": "Rejection la OB M15 2317-2319, confirmare bearish engulfing",
-  "invalidare": "Close peste 2321.50",
-  "confluente": ["HTF bearish H4", "OB bearish H1 la 2320", "FVG M15 necompletat", "RSI M15 overbought 68", "Sub EMA50 toate TF-urile", "BOS bearish M15"]
-}
-
-Daca ai doar 1-2 chart-uri, completeaza tf_analysis doar pentru cele disponibile cu tf:null pentru cele lipsa.`;
-
-  try{
-    const raw=await callClaude([{role:'user',content}],system);
-    clearInterval(iv);
-
-    let d;
-    try{ d=JSON.parse(raw.replace(/```json|```/g,'').trim()); }
-    catch(e){ throw new Error('Format invalid — incearca din nou'); }
-
-    analysisCtx=[
-      {role:'user',content},
-      {role:'assistant',content:JSON.stringify(d)}
-    ];
-
-    const isLong=d.directie?.toUpperCase()==='LONG';
-    const cls=isLong?'long':'short';
-    const dirLabel=isLong?'▲ LONG':'▼ SHORT';
-    const dirColor=isLong?'var(--bull)':'var(--bear)';
-    const rrNum=parseFloat(d.rr)||1;
-    const rrFill=Math.min(Math.round((rrNum/(rrNum+1))*100),92);
-    const entryN=parseFloat(d.entry)||0;
-    const slN=parseFloat(d.sl)||0;
-    const tpN=parseFloat(d.tp)||0;
-    const slDist=Math.abs(entryN-slN).toFixed(2);
-    const tpDist=Math.abs(tpN-entryN).toFixed(2);
-
-    // Build TF alignment row
-    const tfa=d.tf_analysis||{};
-    const tfOrder=[['htf','HTF','htf'],['mtf','MTF','mtf'],['ltf','LTF','ltf']];
-    const tfAlignHTML=tfOrder.map(([key,label,cls2])=>{
-      const t=tfa[key];
-      if(!t||!t.tf) return `<div class="tfa"><div class="tfa-tf ${cls2}">${label}</div><div class="tfa-dir" style="color:var(--t2)">—</div></div>`;
-      const isBull=t.bias?.toUpperCase()==='BULLISH';
-      return `<div class="tfa"><div class="tfa-tf ${cls2}">${label} · ${t.tf}</div><div class="tfa-dir ${isBull?'bull':'bear'}">${isBull?'▲ BULL':'▼ BEAR'}</div></div>`;
-    }).join('');
-
-    rs.innerHTML=`
-      <div class="card ${cls}">
-        <div class="card-top">
-          <div>
-            <div class="ct-pair ${cls}">${d.instrument||'—'}</div>
-            <div class="ct-meta">${d.sesiune||'—'} · ${loadedSlots.length} TF analizate</div>
-          </div>
-          <div>
-            <div class="ct-dir ${cls}">${dirLabel}</div>
-            <div class="ct-conf ${cls}">${d.confidenta||'—'}% CONFIDENTA</div>
+  const grid=document.getElementById('modelsGrid');
+  models.forEach(m=>{
+    const color=MODEL_COLORS[m];
+    const label=MODEL_LABELS[m];
+    grid.innerHTML+=`
+      <div class="model-result" id="res-${m.replace(/\./g,'-')}" style="border-color:${color}20">
+        <div class="mr-header" style="background:${color}08">
+          <div class="mr-model-name" style="color:${color}">🤖 ${label}</div>
+          <div class="mr-status" style="color:${color}">
+            <div class="mini-bars"><div class="mini-bar" style="background:${color}"></div><div class="mini-bar" style="background:${color}"></div><div class="mini-bar" style="background:${color}"></div><div class="mini-bar" style="background:${color}"></div></div>
           </div>
         </div>
-
-        <!-- TF ALIGNMENT -->
-        <div class="tf-align">${tfAlignHTML}</div>
-
-        <!-- LEVELS -->
-        <div class="levels">
-          <div class="lv">
-            <div class="lv-label">ENTRY</div>
-            <div class="lv-val entry">${d.entry||'—'}</div>
-            <div class="lv-sub">LIMIT / MARKET</div>
-          </div>
-          <div class="lv">
-            <div class="lv-label">STOP LOSS</div>
-            <div class="lv-val sl">${d.sl||'—'}</div>
-            <div class="lv-sub">-${slDist} pts</div>
-          </div>
-          <div class="lv">
-            <div class="lv-label">TAKE PROFIT</div>
-            <div class="lv-val tp">${d.tp||'—'}</div>
-            <div class="lv-sub">+${tpDist} pts</div>
-          </div>
-        </div>
-
-        <!-- RR -->
-        <div class="rr-bar">
-          <div class="rr-label">RISK:REWARD</div>
-          <div class="rr-val ${cls}">1 : ${rrNum}</div>
-          <div class="rr-track"><div class="rr-fill ${cls}" style="width:${rrFill}%"></div></div>
-        </div>
-
-        <!-- CONDITIONS -->
-        <div class="conditions">
-          <div class="cond-row"><span style="color:var(--a2);font-family:'Share Tech Mono',monospace;font-size:9px">INTRARE: </span>${d.conditie||'—'}</div>
-          <div class="cond-row"><span style="color:var(--bear);font-family:'Share Tech Mono',monospace;font-size:9px">INVALIDARE: </span>${d.invalidare||'—'}</div>
-          ${d.confluente?.length?`<div class="tags">${d.confluente.map(c=>`<span class="tag">${c}</span>`).join('')}</div>`:''}
+        <div class="mr-body" id="body-${m.replace(/\./g,'-')}">
+          <div style="text-align:center;padding:20px;color:var(--t2);font-family:'Share Tech Mono',monospace;font-size:10px">ANALIZEZ...</div>
         </div>
       </div>`;
+  });
 
-    // CHAT
-    document.getElementById('chatBox').style.display='block';
-    document.getElementById('chatOut').innerHTML=`<div class="msg ai"><div class="mlabel">◈ NEXUS AI</div>
-      <strong>${d.instrument}</strong> — <strong style="color:${dirColor}">${dirLabel}</strong> cu <strong>${d.confidenta}%</strong> confidenta pe ${loadedSlots.length} TF-uri.<br>
-      Entry: <strong>${d.entry}</strong> · SL: <strong>${d.sl}</strong> · TP: <strong>${d.tp}</strong> · R:R 1:${rrNum}
-    </div>`;
+  // Run all models in parallel
+  const promises=models.map(async m=>{
+    try{
+      const data=await callModel(m,content);
+      allResults[m]=data;
+      renderModelResult(m,data);
+    }catch(e){
+      renderModelError(m,e.message);
+    }
+  });
 
-    document.getElementById('quickWrap').innerHTML=[
-      'De ce acest entry exact?',
-      'HTF confirma directia?',
-      'Cum gestionez pozitia spre TP?',
-      'Care e cel mai important nivel?',
-      'Risc in $ pentru cont de 500$?',
-      'Ce se intampla daca SL e atins?'
-    ].map(q=>`<button class="qbtn" onclick="quickChat('${q}')">${q}</button>`).join('');
+  await Promise.all(promises);
 
-  }catch(e){
-    clearInterval(iv);
-    rs.innerHTML=`<div style="padding:20px;background:var(--p);border:1px solid var(--bear);border-radius:14px;text-align:center">
-      <div style="color:var(--bear);font-family:monospace;font-size:12px;font-weight:700;margin-bottom:8px">⚠ ${e.message}</div>
-      <button onclick="doAnalysis()" style="padding:10px 24px;background:var(--a2);border:none;border-radius:9px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;cursor:pointer">INCEARCA DIN NOU</button>
-    </div>`;
+  // Generate comparison if multiple models
+  if(n>1 && Object.keys(allResults).length>1){
+    await generateComparison(allResults, content);
   }
-  btn.disabled=false;btn.textContent='⚡ ANALIZA NOUA';
+
+  // Setup chat context
+  analysisCtx=[
+    {role:'user',content},
+    {role:'assistant',content:JSON.stringify(allResults)}
+  ];
+
+  // Chat
+  document.getElementById('chatBox').style.display='block';
+  const co=document.getElementById('chatOut');
+  const dirs=[...new Set(Object.values(allResults).map(d=>d.directie))];
+  const consensus=dirs.length===1?`CONSENS: ${dirs[0]}`:`SPLIT: ${dirs.join(' vs ')}`;
+  co.innerHTML=`<div class="msg ai"><div class="mlabel">◈ NEXUS AI</div>
+    Am rulat <strong>${n} modele</strong> simultan.<br>
+    <strong>${consensus}</strong><br>
+    ${Object.entries(allResults).map(([m,d])=>`${MODEL_LABELS[m]}: <strong style="color:${d.directie==='LONG'?'var(--bull)':'var(--bear)'}">${d.directie}</strong> ${d.entry} · SL ${d.sl} · TP ${d.tp}`).join('<br>')}
+  </div>`;
+
+  document.getElementById('quickWrap').innerHTML=[
+    'Care model e mai de incredere?',
+    'De ce difera predictiile?',
+    'Care entry e cel mai sigur?',
+    'Cum combin semnalele?',
+    'Care are cel mai bun R:R?',
+    'Consensus-ul ce zice?'
+  ].map(q=>`<button class="qbtn" onclick="quickChat('${q}')">${q}</button>`).join('');
+
+  btn.disabled=false;btn.textContent=`⚡ ANALIZA NOUA`;
+}
+
+function renderModelResult(m, d){
+  const color=MODEL_COLORS[m];
+  const isLong=d.directie?.toUpperCase()==='LONG';
+  const cls=isLong?'long':'short';
+  const dirLabel=isLong?'▲ LONG':'▼ SHORT';
+  const dirColor=isLong?'var(--bull)':'var(--bear)';
+  const rrNum=parseFloat(d.rr)||1;
+  const bodyId='body-'+m.replace(/\./g,'-');
+  const resId='res-'+m.replace(/\./g,'-');
+
+  document.getElementById(resId).style.borderColor=isLong?'rgba(0,230,118,.3)':'rgba(255,61,87,.3)';
+  document.getElementById(resId).querySelector('.mr-header').style.background=isLong?'rgba(0,230,118,.06)':'rgba(255,61,87,.06)';
+  document.getElementById(resId).querySelector('.mr-status').innerHTML=`<span style="color:${dirColor};font-family:'Share Tech Mono',monospace;font-size:11px;font-weight:700">${dirLabel}</span>`;
+
+  document.getElementById(bodyId).innerHTML=`
+    <div class="mr-top">
+      <div>
+        <div class="mr-dir ${cls}">${dirLabel}</div>
+        <div style="font-size:11px;color:var(--t2);font-family:'Share Tech Mono',monospace">${d.instrument||'—'}</div>
+      </div>
+      <div style="text-align:right">
+        <div class="mr-conf ${cls}">${d.confidenta||'—'}% CONF</div>
+        <div style="font-size:10px;color:var(--t2);font-family:'Share Tech Mono',monospace;margin-top:2px">R:R 1:${rrNum}</div>
+      </div>
+    </div>
+    <div class="mr-levels">
+      <div class="mrl"><div class="mrl-label">ENTRY</div><div class="mrl-val entry">${d.entry||'—'}</div></div>
+      <div class="mrl"><div class="mrl-label">STOP LOSS</div><div class="mrl-val sl">${d.sl||'—'}</div></div>
+      <div class="mrl"><div class="mrl-label">TAKE PROFIT</div><div class="mrl-val tp">${d.tp||'—'}</div></div>
+    </div>
+    <div class="mr-cond">
+      <strong>Intrare:</strong> ${d.conditie||'—'}<br>
+      <strong>Invalidare:</strong> ${d.invalidare||'—'}<br>
+      ${d.predictie?`<strong>Predictie:</strong> ${d.predictie}`:''}
+    </div>
+    ${d.confluente?.length?`<div class="mr-tags">${d.confluente.map(c=>`<span class="mr-tag">${c}</span>`).join('')}</div>`:''}
+  `;
+}
+
+function renderModelError(m,msg){
+  const bodyId='body-'+m.replace(/\./g,'-');
+  document.getElementById(bodyId).innerHTML=`<div style="padding:16px;text-align:center;color:var(--bear);font-size:12px">⚠ ${msg}<br><button onclick="retryModel('${m}')" style="margin-top:8px;padding:6px 14px;background:var(--a2);border:none;border-radius:7px;color:#fff;font-size:11px;font-family:'Rajdhani',sans-serif;font-weight:700;cursor:pointer">RETRY</button></div>`;
+}
+
+async function generateComparison(results, content){
+  const cb=document.getElementById('compareBox');
+  if(!cb)return;
+  cb.style.display='block';
+  document.getElementById('compareBody').innerHTML='<div style="color:var(--t2);font-family:monospace;font-size:10px">Generez comparatia si predictiile...</div>';
+
+  const summary=Object.entries(results).map(([m,d])=>
+    `${MODEL_LABELS[m]}: ${d.directie} | Entry:${d.entry} SL:${d.sl} TP:${d.tp} R:R:${d.rr} Conf:${d.confidenta}% | Predictie: ${d.predictie||'—'}`
+  ).join('\n');
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-5',max_tokens:600,
+        system:'Esti NEXUS TRADER AI. Compari analizele mai multor modele AI pentru acelasi chart. Raspunzi in romana, concis, profesional.',
+        messages:[{role:'user',content:`Compara aceste analize ale mai multor modele Claude pentru acelasi chart:\n\n${summary}\n\nFa o comparatie clara:\n1. CONSENS sau DIVERGENTA (explica de ce difera daca difera)\n2. CEL MAI DE INCREDERE setup (care model si de ce)\n3. PREDICTIE FINALA (ce crezi ca se va intampla pe baza majoritatii)\n4. RECOMANDARE (cum ar trebui sa actioneze traderul)`}]
+      })
+    });
+    const d=await res.json();
+    const txt=d.content?.filter(b=>b.type==='text').map(b=>b.text).join('')||'';
+    document.getElementById('compareBody').innerHTML=fmt(txt);
+  }catch(e){
+    document.getElementById('compareBody').innerHTML=`<span style="color:var(--bear)">Eroare comparatie: ${e.message}</span>`;
+  }
 }
 
 async function sendChat(){
@@ -550,8 +609,13 @@ async function doChat(msg){
   const co=document.getElementById('chatOut');
   co.appendChild(ld);co.scrollTop=co.scrollHeight;
   try{
-    const reply=await callClaude([...analysisCtx,{role:'user',content:msg}],
-      'Esti NEXUS TRADER AI expert institutional multi-timeframe. Raspunzi in romana, concis si direct cu niveluri exacte.');
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:500,system:'Esti NEXUS TRADER AI expert. Raspunzi in romana, concis si direct. Ai rezultatele complete ale tuturor modelelor AI.',messages:[...analysisCtx,{role:'user',content:msg}]})
+    });
+    const d=await res.json();
+    const reply=d.content?.filter(b=>b.type==='text').map(b=>b.text).join('')||'';
     analysisCtx=[...analysisCtx,{role:'user',content:msg},{role:'assistant',content:reply}];
     ld.innerHTML=`<div class="mlabel">◈ NEXUS AI</div>${fmt(reply)}`;
   }catch(e){
